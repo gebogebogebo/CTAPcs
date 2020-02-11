@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B36895E8-FB06-4CA3-A30A-FE2A17BCFB61}</ProjectGuid>
+    <ProjectGuid>{D93281F9-CD40-4A9E-9E62-E07DE13047C7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FIDO2.CTAP.BLE</RootNamespace>
-    <AssemblyName>FIDO2.CTAP.BLE</AssemblyName>
+    <RootNamespace>FIDO2.CTAP.HID</RootNamespace>
+    <AssemblyName>FIDO2.CTAP.HID</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -23,7 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>none</DebugType>
+    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -95,18 +95,15 @@
     <Compile Include="..\..\..\FIDO2\DerConverter.cs">
       <Link>FIDO2\DerConverter.cs</Link>
     </Compile>
-    <Compile Include="BLEAuthenticatorConnector.cs" />
-    <Compile Include="BLEAuthenticatorScanner.cs" />
-    <Compile Include="BLEResponsePacket.cs" />
     <Compile Include="Common.cs" />
-    <Compile Include="CTAPBLEReceiver.cs" />
-    <Compile Include="CTAPBLESender.cs" />
-    <Compile Include="FidoDeviceInformation.cs" />
+    <Compile Include="CTAPHID.cs" />
+    <Compile Include="CTAPHIDSender.cs" />
+    <Compile Include="HIDAuthenticatorConnector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Windows.SDK.Contracts">
-      <Version>10.0.18362.2005</Version>
+    <PackageReference Include="hidlibrary">
+      <Version>3.3.24</Version>
     </PackageReference>
     <PackageReference Include="PeterO.Cbor">
       <Version>4.1.0</Version>

@@ -10,6 +10,13 @@ namespace g.FIDO2.CTAP
     public class CTAPResponseClientPIN : CTAPResponse
     {
         public CTAPResponseClientPIN() : base() { }
+        public CTAPResponseClientPIN(CTAPResponse obj) : base(obj) { }
+
+        public override void Parse(byte[] byteresponse)
+        {
+            var cbor = this.decodeFromBytes(byteresponse);
+            if (cbor == null) return;
+        }
     }
 
     public class CTAPResponseClientPIN2_getRetries : CTAPResponseClientPIN
@@ -42,8 +49,10 @@ namespace g.FIDO2.CTAP
     {
         public byte[] PinToken { get; private set; }
 
-        private byte[] PinTokenEnc;
+        private byte[] pinTokenEnc;
         private byte[] sharedSecret;
+
+        public CTAPResponseClientPIN2_getPINToken(CTAPResponse obj) : base(obj) { }
 
         public CTAPResponseClientPIN2_getPINToken(byte[] sharedSecret) : base()
         {
@@ -55,14 +64,14 @@ namespace g.FIDO2.CTAP
             var cbor = this.decodeFromBytes(byteresponse);
             if (cbor == null) return;
             var obj = getObj(cbor, 0x02);
-            PinTokenEnc = obj?.GetByteString();
+            pinTokenEnc = obj?.GetByteString();
 
             computePinToken();
         }
 
         private void computePinToken()
         {
-            PinToken = AES256CBC.Decrypt(sharedSecret, PinTokenEnc);
+            PinToken = AES256CBC.Decrypt(sharedSecret, pinTokenEnc);
         }
     }
 

@@ -11,7 +11,7 @@ namespace g.FIDO2.CTAP.BLE
     /// <summary>
     /// Communication class with BLE authenticator
     /// </summary>
-    public class BLEAuthenticatorConnector
+    public class BLEAuthenticatorConnector:AuthenticatorConnector
     {
         public int PacketSizeByte { set; get; } = 0;
 
@@ -139,117 +139,6 @@ namespace g.FIDO2.CTAP.BLE
             return true;
         }
 
-        /// <summary>
-        /// CTAP-Command GetInfo
-        /// </summary>
-        public async Task<CTAPResponseGetInfo> GetInfoAsync()
-        {
-            var ret = await sendCommandandResponseAsync(new CTAPCommandGetInfo(), new CTAPResponseGetInfo());
-            return (CTAPResponseGetInfo)ret;
-        }
-
-        /// <summary>
-        /// CTAP-Command ClientPIN - getRetries
-        /// </summary>
-        public async Task<CTAPResponseClientPIN2_getRetries> ClientPINgetRetriesAsync()
-        {
-            var ret = await sendCommandandResponseAsync(new CTAPCommandClientPIN_getRetries(), new CTAPResponseClientPIN2_getRetries());
-            return (CTAPResponseClientPIN2_getRetries)ret;
-        }
-
-        /// <summary>
-        /// CTAP-Command ClientPIN - getKeyAgreement
-        /// </summary>
-        public async Task<CTAPResponseClientPIN2_getKeyAgreement> ClientPINgetKeyAgreementAsync()
-        {
-            var ret = await sendCommandandResponseAsync(new CTAPCommandClientPIN_getKeyAgreement(), new CTAPResponseClientPIN2_getKeyAgreement());
-            return (CTAPResponseClientPIN2_getKeyAgreement)ret;
-        }
-
-        /// <summary>
-        /// CTAP-Command ClientPIN - getPINToken use PIN string
-        /// </summary>
-        public async Task<CTAPResponseClientPIN2_getPINToken> ClientPINgetPINTokenAsync(string pin)
-        {
-            var ret = (CTAPResponseClientPIN2_getKeyAgreement)await sendCommandandResponseAsync(new CTAPCommandClientPIN_getKeyAgreement(), new CTAPResponseClientPIN2_getKeyAgreement());
-
-            COSE_Key myKeyAgreement;
-            var sharedSecret = CTAPCommandClientPIN.CreateSharedSecret(ret.KeyAgreement, out myKeyAgreement);
-
-            var pinHashEnc = CTAPCommandClientPIN.CreatePinHashEnc(pin, sharedSecret);
-
-            return await ClientPINgetPINTokenAsync(myKeyAgreement, pinHashEnc, sharedSecret);
-        }
-
-        /// <summary>
-        /// CTAP-Command ClientPIN - getPINToken
-        /// </summary>
-        public async Task<CTAPResponseClientPIN2_getPINToken> ClientPINgetPINTokenAsync(COSE_Key keyAgreement,byte[] pinHashEnc,byte[] sharedSecret)
-        {
-            var ret = await sendCommandandResponseAsync(new CTAPCommandClientPIN_getPINToken(keyAgreement, pinHashEnc), new CTAPResponseClientPIN2_getPINToken(sharedSecret));
-            return (CTAPResponseClientPIN2_getPINToken)ret;
-        }
-
-        /// <summary>
-        /// CTAP-Command GetAssertion use pinAuth
-        /// </summary>
-        public async Task<CTAPResponseGetAssertion> GetAssertionAsync(CTAPCommandGetAssertionParam param,byte[] pinAuth=null)
-        {
-            var ret = await sendCommandandResponseAsync(new CTAPCommandGetAssertion(param, pinAuth), new CTAPResponseGetAssertion());
-            return (CTAPResponseGetAssertion)ret;
-        }
-
-        /// <summary>
-        /// CTAP-Command GetAssertion use PIN string
-        /// </summary>
-        public async Task<CTAPResponseGetAssertion> GetAssertionAsync(CTAPCommandGetAssertionParam param, string pin)
-        {
-            var token = await ClientPINgetPINTokenAsync(pin);
-            if(token.Status != 0) {
-                return new CTAPResponseGetAssertion(token);
-            }
-
-            var pinAuth = CTAPCommandClientPIN.CreatePinAuth(param.ClientDataHash, token.PinToken);
-
-            var ret = await sendCommandandResponseAsync(new CTAPCommandGetAssertion(param, pinAuth), new CTAPResponseGetAssertion());
-            return (CTAPResponseGetAssertion)ret;
-        }
-
-        /// <summary>
-        /// CTAP-Command GetNextAssertion use pinAuth
-        /// </summary>
-        public async Task<CTAPResponseGetAssertion> GetNextAssertionAsync()
-        {
-            var ret = await sendCommandandResponseAsync(new CTAPCommandGetNextAssertion(), new CTAPResponseGetAssertion());
-            return (CTAPResponseGetAssertion)ret;
-        }
-
-        /// <summary>
-        /// CTAP-Command MakeCredential use pinAuth
-        /// </summary>
-        public async Task<CTAPResponseMakeCredential> MakeCredentialAsync(CTAPCommandMakeCredentialParam param, byte[] pinAuth = null)
-        {
-            var ret = await sendCommandandResponseAsync(new CTAPCommandMakeCredential(param, pinAuth), new CTAPResponseMakeCredential());
-            return (CTAPResponseMakeCredential)ret;
-        }
-
-        /// <summary>
-        /// CTAP-Command MakeCredential use PIN string
-        /// </summary>
-        public async Task<CTAPResponseMakeCredential> MakeCredentialAsync(CTAPCommandMakeCredentialParam param, string pin)
-        {
-            var token = await ClientPINgetPINTokenAsync(pin);
-            if (token.Status != 0) {
-                return new CTAPResponseMakeCredential(token);
-            }
-
-            var pinAuth = CTAPCommandClientPIN.CreatePinAuth(param.ClientDataHash, token.PinToken);
-
-            var ret = await sendCommandandResponseAsync(new CTAPCommandMakeCredential(param, pinAuth), new CTAPResponseMakeCredential());
-            return (CTAPResponseMakeCredential)ret;
-        }
-
-
         // private member
         private BluetoothLEDevice bleDevice;
         private GattDeviceService service_Fido;
@@ -258,7 +147,7 @@ namespace g.FIDO2.CTAP.BLE
         private CTAPBLEReceiver receiver;
         private bool checkDeviceInformation = false;
 
-        private async Task<CTAPResponse> sendCommandandResponseAsync(CTAPCommand cmd, CTAPResponse res)
+        internal override async Task<CTAPResponse> sendCommandandResponseAsync(CTAPCommand cmd, CTAPResponse res)
         {
             try {
                 // 送信コマンドを作成(byte[])
