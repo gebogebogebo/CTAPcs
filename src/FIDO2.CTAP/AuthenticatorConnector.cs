@@ -8,14 +8,33 @@ namespace g.FIDO2.CTAP
 {
     public abstract class AuthenticatorConnector
     {
+        public enum DeviceStatus
+        {
+            Ok = 0,
+            NotConnedted = 1,
+            Timeout = 2,
+            Unknown = 999,
+        };
+
+        public class ResponseBase
+        {
+            public DeviceStatus DeviceStatus { get; private set; }
+            public ResponseBase(DeviceStatus devst) { this.DeviceStatus = devst; }
+        }
+
+        public class ResponseGetInfo: ResponseBase
+        {
+            public CTAPResponseGetInfo CTAPResponse { get; private set; }
+            public ResponseGetInfo(DeviceStatus devst, CTAPResponse ctapres) : base(devst) { this.CTAPResponse = (CTAPResponseGetInfo)ctapres; }
+        }
 
         /// <summary>
         /// CTAP-Command GetInfo
         /// </summary>
-        public async Task<CTAPResponseGetInfo> GetInfoAsync()
+        public async Task<ResponseGetInfo> GetInfoAsync()
         {
             var ret = await sendCommandandResponseAsync(new CTAPCommandGetInfo(), new CTAPResponseGetInfo());
-            return (CTAPResponseGetInfo)ret;
+            return new ResponseGetInfo(DeviceStatus.Unknown, ret);
         }
 
         /// <summary>
@@ -175,6 +194,9 @@ namespace g.FIDO2.CTAP
         }
 
         internal abstract Task<CTAPResponse> sendCommandandResponseAsync(CTAPCommand cmd, CTAPResponse res);
+
+        // PEND こっちに変更予定
+        //internal abstract Task<(AuthenticatorConnector.DeviceStatus devSt, CTAPResponse ctapRes)> sendCommandandResponseAsync(CTAPCommand cmd, CTAPResponse res);
 
     }
 }

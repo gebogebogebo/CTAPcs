@@ -40,6 +40,16 @@ namespace HIDTest01
             addLog("");
         }
 
+        private void LogResponse(g.FIDO2.CTAP.AuthenticatorConnector.DeviceStatus devSt,g.FIDO2.CTAP.CTAPResponse res)
+        {
+            addLog($"- DeviceStatus = {devSt.ToString()}");
+            addLog($"- CTAP Status = 0x{res.Status.ToString("X")}");
+            addLog($"- CTAP StatusMsg = {res.StatusMsg}");
+            addLog($"- CTAP SendPayloadJson = {res.SendPayloadJson}");
+            addLog($"- CTAP ResponseDataJson = {res.ResponsePayloadJson}");
+            addLog("");
+        }
+
         HIDAuthenticatorConnector con;
 
         public MainWindow()
@@ -52,7 +62,7 @@ namespace HIDTest01
         {
             addLog("<GetInfo>");
             var res = await con.GetInfoAsync();
-            LogResponse(res);
+            LogResponse(res.DeviceStatus,res.CTAPResponse);
         }
 
         private async void ButtonClientPINgetRetries_Click(object sender, RoutedEventArgs e)

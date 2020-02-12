@@ -52,7 +52,9 @@ namespace g.FIDO2.CTAP.HID
                 var response = await sender.SendCommandandResponseAsync(hidParams, payload, 10000);
 
                 // 応答をパース
-                res.Parse(response);
+                if (response.ctapRes != null) {
+                    res.Parse(response.ctapRes);
+                }
                 res.SendPayloadJson = cmd.PayloadJson;
 
                 return res;
@@ -61,6 +63,31 @@ namespace g.FIDO2.CTAP.HID
                 return null;
             }
         }
+
+        /*
+        internal override async Task<(AuthenticatorConnector.DeviceStatus devSt,CTAPResponse ctapRes)> sendCommandandResponseAsync(CTAPCommand cmd, CTAPResponse res)
+        {
+            try {
+                // 送信コマンドを作成(byte[])
+                var payload = cmd.CreatePayload();
+
+                // 送信して、応答受信(byte[])
+                var sender = new CTAPHIDSender();
+                var response = await sender.SendCommandandResponseAsync(hidParams, payload, 10000);
+
+                // 応答をパース
+                if( response.ctapRes != null) {
+                    res.Parse(response.ctapRes);
+                }
+                res.SendPayloadJson = cmd.PayloadJson;
+
+                return (response.devSt,res);
+            } catch (Exception ex) {
+                Logger.Log($"Exception...{ex.Message})");
+                return (AuthenticatorConnector.DeviceStatus.Unknown,null);
+            }
+        }
+        */
 
     }
 }
