@@ -40,7 +40,7 @@ namespace HIDTest01
             addLog("");
         }
 
-        private void LogResponse(g.FIDO2.CTAP.AuthenticatorConnector.DeviceStatus devSt,g.FIDO2.CTAP.CTAPResponse res)
+        private void LogResponse(g.FIDO2.CTAP.DeviceStatus devSt,g.FIDO2.CTAP.CTAPResponse res)
         {
             addLog($"- DeviceStatus = {devSt.ToString()}");
             addLog($"- CTAP Status = 0x{res.Status.ToString("X")}");
@@ -70,10 +70,10 @@ namespace HIDTest01
             {
                 addLog("<ClientPIN getRetries>");
                 var res = await con.ClientPINgetRetriesAsync();
-                LogResponse(res);
+                LogResponse(res.CTAPResponse);
 
-                if (res != null) {
-                    addLog($"- RetryCount = {res.RetryCount}\r\n");
+                if (res?.CTAPResponse != null) {
+                    addLog($"- RetryCount = {res.CTAPResponse.RetryCount}\r\n");
                 }
             }
 
@@ -144,7 +144,7 @@ namespace HIDTest01
         private async void ButtonClientPINsetPIN_Click(object sender, RoutedEventArgs e)
         {
             var res = await con.ClientPINsetPINAsync("1234");
-            LogResponse(res);
+            LogResponse(res.DeviceStatus,res.CTAPResponse);
         }
 
         private void ButtonIsConnected_Click(object sender, RoutedEventArgs e)

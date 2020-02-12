@@ -10,23 +10,23 @@ namespace g.FIDO2.CTAP.HID
     {
         public CTAPHIDSender() { }
 
-        public async Task<(AuthenticatorConnector.DeviceStatus devSt, byte[] ctapRes)> SendCommandandResponseAsync(List<HidParam> hidParams,byte[] payload, int timeoutms)
+        public async Task<(DeviceStatus devSt, byte[] ctapRes)> SendCommandandResponseAsync(List<HidParam> hidParams,byte[] payload, int timeoutms)
         {
             if (CTAPHID.find(hidParams) == null) {
                 Logger.Err("Connect Error");
-                return (AuthenticatorConnector.DeviceStatus.NotConnedted, null);
+                return (DeviceStatus.NotConnedted, null);
             }
 
             var res = await CTAPHID.SendCommandandResponse(hidParams,payload, timeoutms);
             if (res == null) {
                 Logger.Err("Response Error");
-                return (AuthenticatorConnector.DeviceStatus.Unknown,null);
+                return (DeviceStatus.Unknown,null);
             }
             if (res.isTimeout) {
                 Logger.Err("Wait Response Timeout");
-                return (AuthenticatorConnector.DeviceStatus.Timeout,null);
+                return (DeviceStatus.Timeout,null);
             }
-            return (AuthenticatorConnector.DeviceStatus.Ok,res.responseData);
+            return (DeviceStatus.Ok,res.responseData);
         }
 
     }

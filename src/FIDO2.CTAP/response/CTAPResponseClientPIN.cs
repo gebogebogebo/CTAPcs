@@ -19,7 +19,7 @@ namespace g.FIDO2.CTAP
         }
     }
 
-    public class CTAPResponseClientPIN2_getRetries : CTAPResponseClientPIN
+    public class CTAPResponseClientPIN_getRetries : CTAPResponseClientPIN
     {
         public int RetryCount { get; private set; }
 
@@ -45,16 +45,16 @@ namespace g.FIDO2.CTAP
         }
     }
 
-    public class CTAPResponseClientPIN2_getPINToken : CTAPResponseClientPIN
+    public class CTAPResponseClientPIN_getPINToken : CTAPResponseClientPIN
     {
         public byte[] PinToken { get; private set; }
 
         private byte[] pinTokenEnc;
         private byte[] sharedSecret;
 
-        public CTAPResponseClientPIN2_getPINToken(CTAPResponse obj) : base(obj) { }
+        public CTAPResponseClientPIN_getPINToken(CTAPResponse obj) : base(obj) { }
 
-        public CTAPResponseClientPIN2_getPINToken(byte[] sharedSecret) : base()
+        public CTAPResponseClientPIN_getPINToken(byte[] sharedSecret) : base()
         {
             this.sharedSecret = sharedSecret.ToArray();
         }

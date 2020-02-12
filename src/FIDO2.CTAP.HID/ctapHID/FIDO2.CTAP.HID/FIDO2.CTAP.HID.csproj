@@ -89,6 +89,9 @@
     <Compile Include="..\..\..\FIDO2.CTAP\response\CTAPResponseMakeCredential.cs">
       <Link>FIDO2.CTAP\response\CTAPResponseMakeCredential.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\FIDO2.CTAP\response\Response.cs">
+      <Link>FIDO2.CTAP\response\Response.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\FIDO2\Common.cs">
       <Link>FIDO2\Common.cs</Link>
     </Compile>

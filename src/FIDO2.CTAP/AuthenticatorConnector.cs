@@ -8,26 +8,6 @@ namespace g.FIDO2.CTAP
 {
     public abstract class AuthenticatorConnector
     {
-        public enum DeviceStatus
-        {
-            Ok = 0,
-            NotConnedted = 1,
-            Timeout = 2,
-            Unknown = 999,
-        };
-
-        public class ResponseBase
-        {
-            public DeviceStatus DeviceStatus { get; private set; }
-            public ResponseBase(DeviceStatus devst) { this.DeviceStatus = devst; }
-        }
-
-        public class ResponseGetInfo: ResponseBase
-        {
-            public CTAPResponseGetInfo CTAPResponse { get; private set; }
-            public ResponseGetInfo(DeviceStatus devst, CTAPResponse ctapres) : base(devst) { this.CTAPResponse = (CTAPResponseGetInfo)ctapres; }
-        }
-
         /// <summary>
         /// CTAP-Command GetInfo
         /// </summary>
@@ -40,33 +20,33 @@ namespace g.FIDO2.CTAP
         /// <summary>
         /// CTAP-Command ClientPIN - getRetries
         /// </summary>
-        public async Task<CTAPResponseClientPIN2_getRetries> ClientPINgetRetriesAsync()
+        public async Task<ResponseClientPIN_getRetries> ClientPINgetRetriesAsync()
         {
-            var ret = await sendCommandandResponseAsync(new CTAPCommandClientPIN_getRetries(), new CTAPResponseClientPIN2_getRetries());
-            return (CTAPResponseClientPIN2_getRetries)ret;
+            var ret = await sendCommandandResponseAsync(new CTAPCommandClientPIN_getRetries(), new CTAPResponseClientPIN_getRetries());
+            return new ResponseClientPIN_getRetries(DeviceStatus.Unknown, ret);
         }
 
         /// <summary>
         /// CTAP-Command ClientPIN - getKeyAgreement
         /// </summary>
-        public async Task<CTAPResponseClientPIN2_getKeyAgreement> ClientPINgetKeyAgreementAsync()
+        public async Task<ResponseClientPIN2_getKeyAgreement> ClientPINgetKeyAgreementAsync()
         {
             var ret = await sendCommandandResponseAsync(new CTAPCommandClientPIN_getKeyAgreement(), new CTAPResponseClientPIN2_getKeyAgreement());
-            return (CTAPResponseClientPIN2_getKeyAgreement)ret;
+            return new ResponseClientPIN2_getKeyAgreement(DeviceStatus.Unknown,ret);
         }
 
         /// <summary>
         /// CTAP-Command ClientPIN - getPINToken use PIN string
         /// </summary>
-        public async Task<CTAPResponseClientPIN2_getPINToken> ClientPINgetPINTokenAsync(string pin)
+        public async Task<CTAPResponseClientPIN_getPINToken> ClientPINgetPINTokenAsync(string pin)
         {
-            var ret = (CTAPResponseClientPIN2_getKeyAgreement)await sendCommandandResponseAsync(new CTAPCommandClientPIN_getKeyAgreement(), new CTAPResponseClientPIN2_getKeyAgreement());
-            if (ret.Status != 0) {
-                return new CTAPResponseClientPIN2_getPINToken(ret);
+            var ret = await ClientPINgetKeyAgreementAsync();
+            if (ret.CTAPResponse==null || ret.CTAPResponse.Status != 0) {
+                return new CTAPResponseClientPIN_getPINToken(ret.CTAPResponse);
             }
 
             COSE_Key myKeyAgreement;
-            var sharedSecret = CTAPCommandClientPIN.CreateSharedSecret(ret.KeyAgreement, out myKeyAgreement);
+            var sharedSecret = CTAPCommandClientPIN.CreateSharedSecret(ret.CTAPResponse.KeyAgreement, out myKeyAgreement);
 
             var pinHashEnc = CTAPCommandClientPIN.CreatePinHashEnc(pin, sharedSecret);
 
@@ -76,24 +56,24 @@ namespace g.FIDO2.CTAP
         /// <summary>
         /// CTAP-Command ClientPIN - getPINToken
         /// </summary>
-        public async Task<CTAPResponseClientPIN2_getPINToken> ClientPINgetPINTokenAsync(COSE_Key keyAgreement, byte[] pinHashEnc, byte[] sharedSecret)
+        public async Task<CTAPResponseClientPIN_getPINToken> ClientPINgetPINTokenAsync(COSE_Key keyAgreement, byte[] pinHashEnc, byte[] sharedSecret)
         {
-            var ret = await sendCommandandResponseAsync(new CTAPCommandClientPIN_getPINToken(keyAgreement, pinHashEnc), new CTAPResponseClientPIN2_getPINToken(sharedSecret));
-            return (CTAPResponseClientPIN2_getPINToken)ret;
+            var ret = await sendCommandandResponseAsync(new CTAPCommandClientPIN_getPINToken(keyAgreement, pinHashEnc), new CTAPResponseClientPIN_getPINToken(sharedSecret));
+            return (CTAPResponseClientPIN_getPINToken)ret;
         }
 
         /// <summary>
         /// CTAP-Command ClientPIN - setPIN
         /// </summary>
-        public async Task<CTAPResponseClientPIN> ClientPINsetPINAsync(string newpin)
+        public async Task<ResponseClientPIN> ClientPINsetPINAsync(string newpin)
         {
-            var ret = (CTAPResponseClientPIN2_getKeyAgreement)await sendCommandandResponseAsync(new CTAPCommandClientPIN_getKeyAgreement(), new CTAPResponseClientPIN2_getKeyAgreement());
-            if (ret.Status != 0) {
-                return new CTAPResponseClientPIN2_getPINToken(ret);
+            var ret = await ClientPINgetKeyAgreementAsync();
+            if (ret.CTAPResponse == null || ret.CTAPResponse.Status != 0) {
+                return new ResponseClientPIN(ret.DeviceStatus,ret.CTAPResponse);
             }
 
             COSE_Key myKeyAgreement;
-            var sharedSecret = CTAPCommandClientPIN.CreateSharedSecret(ret.KeyAgreement, out myKeyAgreement);
+            var sharedSecret = CTAPCommandClientPIN.CreateSharedSecret(ret.CTAPResponse.KeyAgreement, out myKeyAgreement);
 
             // pinAuth = LEFT(HMAC-SHA-256(sharedSecret, newPinEnc), 16)
             var pinAuth = CTAPCommandClientPIN.CreatePinAuthforSetPin(sharedSecret, newpin);
@@ -102,7 +82,7 @@ namespace g.FIDO2.CTAP
             byte[] newPinEnc = CTAPCommandClientPIN.CreateNewPinEnc(sharedSecret, newpin);
 
             var ret2 = await sendCommandandResponseAsync(new CTAPCommandClientPIN_setPIN(myKeyAgreement, pinAuth, newPinEnc), new CTAPResponseClientPIN());
-            return (CTAPResponseClientPIN)ret2;
+            return new ResponseClientPIN(DeviceStatus.Unknown,ret2);
         }
 
         /// <summary>
@@ -110,13 +90,13 @@ namespace g.FIDO2.CTAP
         /// </summary>
         public async Task<CTAPResponseClientPIN> ClientPINchangePINAsync(string newpin, string currentpin)
         {
-            var ret = (CTAPResponseClientPIN2_getKeyAgreement)await sendCommandandResponseAsync(new CTAPCommandClientPIN_getKeyAgreement(), new CTAPResponseClientPIN2_getKeyAgreement());
-            if (ret.Status != 0) {
-                return new CTAPResponseClientPIN2_getPINToken(ret);
+            var ret = await ClientPINgetKeyAgreementAsync();
+            if (ret.CTAPResponse == null || ret.CTAPResponse.Status != 0) {
+                return new CTAPResponseClientPIN(ret.CTAPResponse);
             }
 
             COSE_Key myKeyAgreement;
-            var sharedSecret = CTAPCommandClientPIN.CreateSharedSecret(ret.KeyAgreement, out myKeyAgreement);
+            var sharedSecret = CTAPCommandClientPIN.CreateSharedSecret(ret.CTAPResponse.KeyAgreement, out myKeyAgreement);
 
             // pinAuth:
             //  LEFT(HMAC-SHA-256(sharedSecret, newPinEnc || pinHashEnc), 16).
