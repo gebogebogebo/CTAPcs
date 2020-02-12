@@ -29,6 +29,15 @@ namespace g.FIDO2.CTAP.HID
             this.hidParams = hidParams;
         }
 
+        public bool IsConnected()
+        {
+            if (CTAPHID.find(this.hidParams)!=null) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
         // private
         List<HidParam> hidParams;
 

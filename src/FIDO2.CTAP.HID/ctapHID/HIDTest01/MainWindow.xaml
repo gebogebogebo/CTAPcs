@@ -14,6 +14,7 @@
         <Button x:Name="ButtonMakeCredential" Content="MakeCredential" HorizontalAlignment="Left" Margin="302,10,0,0" VerticalAlignment="Top" Width="102" Height="28" Click="ButtonMakeCredential_Click" />
         <Button x:Name="ButtonClientPINchangePIN" Content="changePIN" HorizontalAlignment="Left" Margin="409,10,0,0" VerticalAlignment="Top" Width="104" Height="28" Click="ButtonClientPINchangePIN_Click"/>
         <Button x:Name="ButtonClientPINsetPIN" Content="setPIN" HorizontalAlignment="Left" Margin="518,10,0,0" VerticalAlignment="Top" Width="106" Height="28" Click="ButtonClientPINsetPIN_Click"/>
+        <Button x:Name="ButtonIsConnected" Content="IsConnected" HorizontalAlignment="Left" Margin="629,10,0,0" VerticalAlignment="Top" Width="114" Height="28" Click="ButtonIsConnected_Click"/>
 
     </Grid>
 </Window>

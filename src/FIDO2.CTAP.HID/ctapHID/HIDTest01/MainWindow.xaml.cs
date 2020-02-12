@@ -136,5 +136,12 @@ namespace HIDTest01
             var res = await con.ClientPINsetPINAsync("1234");
             LogResponse(res);
         }
+
+        private void ButtonIsConnected_Click(object sender, RoutedEventArgs e)
+        {
+            addLog("<IsConnected>");
+            var res = con.IsConnected();
+            addLog($"- Connected = {res}\r\n");
+        }
     }
 }
