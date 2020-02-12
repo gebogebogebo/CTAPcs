@@ -80,7 +80,7 @@ namespace HIDTest01
             {
                 addLog("<ClientPIN getPINToken>");
                 var res2 = await con.ClientPINgetPINTokenAsync("1234");
-                LogResponse(res2);
+                LogResponse(res2.DeviceStatus,res2.CTAPResponse);
             }
         }
 
@@ -98,15 +98,14 @@ namespace HIDTest01
             param.Option_uv = false;
 
             var res = await con.GetAssertionAsync(param, "1234");
-            LogResponse(res);
+            LogResponse(res.DeviceStatus,res.CTAPResponse);
 
-            if (res?.Assertion?.NumberOfCredentials > 0) {
-                for (int intIc = 0; intIc < res.Assertion.NumberOfCredentials - 1; intIc++) {
+            if (res?.CTAPResponse?.Assertion?.NumberOfCredentials > 0) {
+                for (int intIc = 0; intIc < res.CTAPResponse.Assertion.NumberOfCredentials - 1; intIc++) {
                     var next = await con.GetNextAssertionAsync();
-                    LogResponse(next);
+                    LogResponse(next.CTAPResponse);
                 }
             }
-
         }
 
         private async void ButtonMakeCredential_Click(object sender, RoutedEventArgs e)
@@ -126,10 +125,10 @@ namespace HIDTest01
             string pin = "1234";
 
             var res = await con.MakeCredentialAsync(param, pin);
-            LogResponse(res);
+            LogResponse(res.DeviceStatus,res.CTAPResponse);
 
-            if (res?.Attestation != null) {
-                var creid = g.FIDO2.Common.BytesToHexString(res.Attestation.CredentialId);
+            if (res?.CTAPResponse?.Attestation != null) {
+                var creid = g.FIDO2.Common.BytesToHexString(res.CTAPResponse.Attestation.CredentialId);
                 addLog($"- CredentialID = {creid}\r\n");
             }
 
@@ -138,7 +137,7 @@ namespace HIDTest01
         private async void ButtonClientPINchangePIN_Click(object sender, RoutedEventArgs e)
         {
             var res = await con.ClientPINchangePINAsync("1234","9999");
-            LogResponse(res);
+            LogResponse(res.DeviceStatus,res.CTAPResponse);
         }
 
         private async void ButtonClientPINsetPIN_Click(object sender, RoutedEventArgs e)

@@ -38,10 +38,29 @@ namespace g.FIDO2.CTAP
         public ResponseClientPIN_getRetries(DeviceStatus devst, CTAPResponse ctapres) : base(devst) { this.CTAPResponse = ctapres as CTAPResponseClientPIN_getRetries; }
     }
 
-    public class ResponseClientPIN2_getKeyAgreement : ResponseBase
+    public class ResponseClientPIN_getKeyAgreement : ResponseBase
     {
         public CTAPResponseClientPIN2_getKeyAgreement CTAPResponse { get; private set; }
-        public ResponseClientPIN2_getKeyAgreement(DeviceStatus devst, CTAPResponse ctapres) : base(devst) { this.CTAPResponse = ctapres as CTAPResponseClientPIN2_getKeyAgreement; }
+        public ResponseClientPIN_getKeyAgreement(DeviceStatus devst, CTAPResponse ctapres) : base(devst) { this.CTAPResponse = ctapres as CTAPResponseClientPIN2_getKeyAgreement; }
+    }
+
+    public class ResponseClientPIN_getPINToken : ResponseBase
+    {
+        public CTAPResponseClientPIN_getPINToken CTAPResponse { get; private set; }
+        public ResponseClientPIN_getPINToken(DeviceStatus devst, CTAPResponse ctapres) : base(devst) { this.CTAPResponse = ctapres as CTAPResponseClientPIN_getPINToken; }
+    }
+
+    public class ResponseGetAssertion : ResponseBase
+    {
+        public CTAPResponseGetAssertion CTAPResponse { get; private set; }
+        public ResponseGetAssertion(DeviceStatus devst, CTAPResponse ctapres) : base(devst) { this.CTAPResponse = ctapres as CTAPResponseGetAssertion; }
+    }
+
+    public class ResponseMakeCredential : ResponseBase
+    {
+        public CTAPResponseMakeCredential CTAPResponse { get; private set; }
+        public ResponseMakeCredential(DeviceStatus devst, CTAPResponse ctapres) : base(devst) { this.CTAPResponse = ctapres as CTAPResponseMakeCredential; }
     }
 
 }
+
