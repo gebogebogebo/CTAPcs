@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.902
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIDO2.CTAP.NFC", "FIDO2.CTAP.NFC\FIDO2.CTAP.NFC.csproj", "{5926A1D9-68C0-42AC-AAF3-48BB5D5DCF7E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NFCTest01", "NFCTest01\NFCTest01.csproj", "{1A2C16CB-3082-439B-8E7D-83B09C2C17ED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5926A1D9-68C0-42AC-AAF3-48BB5D5DCF7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5926A1D9-68C0-42AC-AAF3-48BB5D5DCF7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5926A1D9-68C0-42AC-AAF3-48BB5D5DCF7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5926A1D9-68C0-42AC-AAF3-48BB5D5DCF7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A2C16CB-3082-439B-8E7D-83B09C2C17ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A2C16CB-3082-439B-8E7D-83B09C2C17ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A2C16CB-3082-439B-8E7D-83B09C2C17ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A2C16CB-3082-439B-8E7D-83B09C2C17ED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {88537964-291E-4FE4-8E41-7348C441D470}
+	EndGlobalSection
+EndGlobal
