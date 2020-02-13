@@ -35,12 +35,13 @@ namespace Test01
             }));
         }
 
-        private void LogResponse(g.FIDO2.CTAP.CTAPResponse res)
+        private void LogResponse(g.FIDO2.CTAP.DeviceStatus devSt, g.FIDO2.CTAP.CTAPResponse res)
         {
-            addLog($"- Status = 0x{res.Status.ToString("X")}");
-            addLog($"- StatusMsg = {res.StatusMsg}");
-            addLog($"- SendPayloadJson = {res.SendPayloadJson}");
-            addLog($"- ResponseDataJson = {res.ResponsePayloadJson}");
+            addLog($"- DeviceStatus = {devSt.ToString()}");
+            addLog($"- CTAP Status = 0x{res?.Status.ToString("X")}");
+            addLog($"- CTAP StatusMsg = {res?.StatusMsg}");
+            addLog($"- CTAP SendPayloadJson = {res?.SendPayloadJson}");
+            addLog($"- CTAP ResponseDataJson = {res?.ResponsePayloadJson}");
             addLog("");
         }
 
@@ -114,7 +115,7 @@ namespace Test01
         {
             addLog("<GetInfo>");
             var res = await con.GetInfoAsync();
-            LogResponse(res);
+            LogResponse(res.DeviceStatus, res.CTAPResponse);
         }
 
         private async void ButtonClientPINgetRetries_Click(object sender, RoutedEventArgs e)
@@ -122,13 +123,13 @@ namespace Test01
             {
                 addLog("<ClientPIN getRetries>");
                 var res = await con.ClientPINgetRetriesAsync();
-                LogResponse(res);
+                LogResponse(res.DeviceStatus, res.CTAPResponse);
             }
 
             {
                 addLog("<ClientPIN getPINToken>");
-                var res2 = await con.ClientPINgetPINTokenAsync("1234");
-                LogResponse(res2);
+                var res = await con.ClientPINgetPINTokenAsync("1234");
+                LogResponse(res.DeviceStatus, res.CTAPResponse);
             }
         }
 
@@ -148,12 +149,12 @@ namespace Test01
 
             //var res = await con.GetAssertion(param);
             var res = await con.GetAssertionAsync(param, "1234");
-            LogResponse(res);
+            LogResponse(res.DeviceStatus, res.CTAPResponse);
 
-            if (res?.Assertion?.NumberOfCredentials > 0) {
-                for (int intIc = 0; intIc < res.Assertion.NumberOfCredentials - 1; intIc++) {
+            if (res?.CTAPResponse?.Assertion?.NumberOfCredentials > 0) {
+                for (int intIc = 0; intIc < res.CTAPResponse.Assertion.NumberOfCredentials - 1; intIc++) {
                     var next = await con.GetNextAssertionAsync();
-                    LogResponse(next);
+                    LogResponse(next.DeviceStatus,next.CTAPResponse);
                 }
             }
         }
@@ -175,10 +176,10 @@ namespace Test01
             string pin = "1234";
 
             var res = await con.MakeCredentialAsync(param, pin);
-            LogResponse(res);
+            LogResponse(res.DeviceStatus, res.CTAPResponse);
 
-            if (res?.Attestation != null) {
-                var creid = g.FIDO2.Common.BytesToHexString(res.Attestation.CredentialId);
+            if (res?.CTAPResponse?.Attestation != null) {
+                var creid = g.FIDO2.Common.BytesToHexString(res.CTAPResponse.Attestation.CredentialId);
                 addLog($"- CredentialID = {creid}");
             }
 

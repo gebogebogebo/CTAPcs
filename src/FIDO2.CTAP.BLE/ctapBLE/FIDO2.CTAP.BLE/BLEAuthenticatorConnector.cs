@@ -147,7 +147,7 @@ namespace g.FIDO2.CTAP.BLE
         private CTAPBLEReceiver receiver;
         private bool checkDeviceInformation = false;
 
-        internal override async Task<CTAPResponse> sendCommandandResponseAsync(CTAPCommand cmd, CTAPResponse res)
+        internal override async Task<(DeviceStatus devSt, CTAPResponse ctapRes)> sendCommandandResponseAsync(CTAPCommand cmd, CTAPResponse res)
         {
             try {
                 // 送信コマンドを作成(byte[])
@@ -158,13 +158,13 @@ namespace g.FIDO2.CTAP.BLE
                 var response = await sender.SendCommandandResponseAsync(characteristic_Send, payload, 10000);
 
                 // 応答をパース
-                res.Parse(response);
+                res.Parse(response.ctapRes);
                 res.SendPayloadJson = cmd.PayloadJson;
 
-                return res;
+                return (response.devSt,res);
             } catch (Exception ex) {
                 Logger.Log($"Exception...{ex.Message})");
-                return null;
+                return (DeviceStatus.Unknown, null);
             }
         }
 

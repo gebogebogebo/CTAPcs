@@ -21,7 +21,7 @@ namespace g.FIDO2.CTAP.BLE
             receiver = r;
         }
 
-        public async Task<byte[]> SendCommandandResponseAsync(GattCharacteristic ch, byte[] payload, int timeoutms)
+        public async Task<(DeviceStatus devSt, byte[] ctapRes)> SendCommandandResponseAsync(GattCharacteristic ch, byte[] payload, int timeoutms)
         {
             byte[] byteresponse = null;
             receiver.ClearBuffer();
@@ -82,7 +82,7 @@ namespace g.FIDO2.CTAP.BLE
                 if (!receiver.IsReceived) {
                     // timeout
                     Logger.Err("Wait Response Timeout");
-                    return null;
+                    return (DeviceStatus.Timeout, null);
                 }
 
                 // 応答受信
@@ -91,10 +91,10 @@ namespace g.FIDO2.CTAP.BLE
 
             if (byteresponse == null) {
                 Logger.Err("Response Error");
-                return null;
+                return (DeviceStatus.Unknown , null);
             }
 
-            return (byteresponse);
+            return (DeviceStatus.Ok, byteresponse);
         }
 
         public static async Task<bool> sendCommand(GattCharacteristic Characteristic_Send,byte[] command)
