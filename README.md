@@ -2,7 +2,7 @@
 C# FIDO2.CTAP library
 
 ## Description
-- Implements CTAP BLE
+- Implements FIDO2 CTAP (HID,NFC,BLE)
 - [Client to Authenticator Protocol (CTAP)](https://fidoalliance.org/specs/fido-v2.0-ps-20190130/fido-client-to-authenticator-protocol-v2.0-ps-20190130.html)
 
 - for Windows
