@@ -1,5 +1,5 @@
 # CTAPcs
-C# FIDO2.CTAP library
+C# .net FIDO2 CTAP library
 
 ## Description
 - Implements FIDO2 CTAP (HID,NFC,BLE)
