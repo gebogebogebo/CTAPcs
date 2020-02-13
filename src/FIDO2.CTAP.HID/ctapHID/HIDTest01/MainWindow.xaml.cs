@@ -31,22 +31,13 @@ namespace HIDTest01
             }));
         }
 
-        private void LogResponse(g.FIDO2.CTAP.CTAPResponse res)
-        {
-            addLog($"- Status = 0x{res.Status.ToString("X")}");
-            addLog($"- StatusMsg = {res.StatusMsg}");
-            addLog($"- SendPayloadJson = {res.SendPayloadJson}");
-            addLog($"- ResponseDataJson = {res.ResponsePayloadJson}");
-            addLog("");
-        }
-
         private void LogResponse(g.FIDO2.CTAP.DeviceStatus devSt,g.FIDO2.CTAP.CTAPResponse res)
         {
             addLog($"- DeviceStatus = {devSt.ToString()}");
-            addLog($"- CTAP Status = 0x{res.Status.ToString("X")}");
-            addLog($"- CTAP StatusMsg = {res.StatusMsg}");
-            addLog($"- CTAP SendPayloadJson = {res.SendPayloadJson}");
-            addLog($"- CTAP ResponseDataJson = {res.ResponsePayloadJson}");
+            addLog($"- CTAP Status = 0x{res?.Status.ToString("X")}");
+            addLog($"- CTAP StatusMsg = {res?.StatusMsg}");
+            addLog($"- CTAP SendPayloadJson = {res?.SendPayloadJson}");
+            addLog($"- CTAP ResponseDataJson = {res?.ResponsePayloadJson}");
             addLog("");
         }
 
@@ -70,7 +61,7 @@ namespace HIDTest01
             {
                 addLog("<ClientPIN getRetries>");
                 var res = await con.ClientPINgetRetriesAsync();
-                LogResponse(res.CTAPResponse);
+                LogResponse(res.DeviceStatus,res.CTAPResponse);
 
                 if (res?.CTAPResponse != null) {
                     addLog($"- RetryCount = {res.CTAPResponse.RetryCount}\r\n");
@@ -103,7 +94,7 @@ namespace HIDTest01
             if (res?.CTAPResponse?.Assertion?.NumberOfCredentials > 0) {
                 for (int intIc = 0; intIc < res.CTAPResponse.Assertion.NumberOfCredentials - 1; intIc++) {
                     var next = await con.GetNextAssertionAsync();
-                    LogResponse(next.CTAPResponse);
+                    LogResponse(res.DeviceStatus, next.CTAPResponse);
                 }
             }
         }

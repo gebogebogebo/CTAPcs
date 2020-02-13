@@ -39,33 +39,20 @@ namespace g.FIDO2.CTAP
             Y = Common.HexStringToBytes(y);
         }
 
-        /*
-        private void parse(CBORObject cbor)
-        {
-            foreach (var key in cbor.Keys) {
-                var keyVal = key.AsByte();
-                if (keyVal == 0x01) {
-                    parseCOSEkey(cbor[key]);
-                }
-            }
-
-        }
-        */
-
-        private void parseCOSEkey(CBORObject cbor)
+        internal void parseCOSEkey(CBORObject cbor)
         {
             var attestationStatement = cbor.ToJSONString();
-            Logger.Log("keyAgreement:" + attestationStatement);
+            Logger.Log("COSE key:" + attestationStatement);
 
             foreach (var key in cbor.Keys) {
-                var keyVal = key.AsInt16();
+                var keyVal = key.ToObject<Int16>();
 
                 if( keyVal == 1) {
-                    Kty = cbor[key].AsInt16();
+                    Kty = cbor[key].ToObject<Int16>();
                 } else if( keyVal == 3) {
-                    Alg = cbor[key].AsInt16();
+                    Alg = cbor[key].ToObject<Int16>();
                 } else if (keyVal == -1) {
-                    Crv = cbor[key].AsInt16();
+                    Crv = cbor[key].ToObject<Int16>();
                 } else if (keyVal == -2) {
                     X = cbor[key].GetByteString();
                 } else if (keyVal == -3) {

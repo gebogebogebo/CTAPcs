@@ -37,14 +37,14 @@ namespace g.FIDO2.CTAP
         public CTAPResponseGetAssertion(CTAPResponse obj) : base(obj) { }
         public CTAPResponseGetAssertion() : base() { }
 
-        public override void Parse(byte[] byteresponse)
+        internal override void Parse(byte[] byteresponse)
         {
             this.Assertion = new Assertion();
 
             var cbor = this.decodeFromBytes(byteresponse);
             if( cbor != null) {
                 foreach (var key in cbor.Keys) {
-                    var keyVal = key.AsByte();
+                    var keyVal = key.ToObject<byte>();
                     if (keyVal == 0x01) {
                         // 0x01:credential
                         parseCredential(cbor[key]);
@@ -57,7 +57,7 @@ namespace g.FIDO2.CTAP
                         parsePublicKeyCredentialUserEntity(cbor[key]);
                     } else if (keyVal == 0x05) {
                         // 0x05:numberOfCredentials
-                        Assertion.NumberOfCredentials = cbor[key].AsUInt16();
+                        Assertion.NumberOfCredentials = cbor[key].ToObject<UInt16>();
                     }
                 }
             }

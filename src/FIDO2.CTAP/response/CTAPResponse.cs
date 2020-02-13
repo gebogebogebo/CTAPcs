@@ -52,12 +52,12 @@ namespace g.FIDO2.CTAP
             return cbor;
         }
 
-        public virtual void Parse(byte[] byteresponse) { }
+        internal virtual void Parse(byte[] byteresponse) { }
 
         protected CBORObject getObj(CBORObject cbor, byte findKey)
         {
             foreach (var key in cbor.Keys) {
-                var keyVal = key.AsByte();
+                var keyVal = key.ToObject<byte>();
                 if (keyVal == findKey) {
                     return cbor[key];
                 }

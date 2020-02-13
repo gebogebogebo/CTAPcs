@@ -29,11 +29,11 @@ namespace g.FIDO2.CTAP
 
         public CTAPResponseGetInfo() : base() { }
 
-        public override void Parse(byte[] byteresponse)
+        internal override void Parse(byte[] byteresponse)
         {
             var cbor = this.decodeFromBytes(byteresponse);
             foreach (var key in cbor.Keys) {
-                var keyVal = key.AsByte();
+                var keyVal = key.ToObject<byte>();
                 if (keyVal == 0x01) {
                     Versions = getKeyValueAsStringArray(cbor[key]);
                 } else if (keyVal == 0x02) {
@@ -47,7 +47,7 @@ namespace g.FIDO2.CTAP
                     Option_clientPin = getKeyValueAsOptionFlag(cbor[key], "clientPin");
                     Option_uv = getKeyValueAsOptionFlag(cbor[key], "uv");
                 } else if (keyVal == 0x05) {
-                    MaxMsgSize = cbor[key].AsInt16();
+                    MaxMsgSize = cbor[key].ToObject<Int16>();
                 } else if (keyVal == 0x06) {
                     PinProtocols = getKeyValueAsIntArray(cbor[key]);
                 }

@@ -11,6 +11,8 @@ namespace g.FIDO2.CTAP.HID
     /// </summary>
     public class HIDAuthenticatorConnector:AuthenticatorConnector
     {
+        public int ReceiveResponseTimeoutmillisecond = 5000;
+
         /// <summary>
         /// constructor
         /// </summary>
@@ -39,9 +41,9 @@ namespace g.FIDO2.CTAP.HID
         }
 
         // private
-        List<HidParam> hidParams;
+        private List<HidParam> hidParams;
 
-        internal override async Task<CTAPResponse> sendCommandandResponseAsync(CTAPCommand cmd, CTAPResponse res)
+        internal override async Task<(DeviceStatus devSt, CTAPResponse ctapRes)> sendCommandandResponseAsync(CTAPCommand cmd, CTAPResponse res)
         {
             try {
                 // 送信コマンドを作成(byte[])
@@ -49,7 +51,7 @@ namespace g.FIDO2.CTAP.HID
 
                 // 送信して、応答受信(byte[])
                 var sender = new CTAPHIDSender();
-                var response = await sender.SendCommandandResponseAsync(hidParams, payload, 10000);
+                var response = await sender.SendCommandandResponseAsync(hidParams, payload, ReceiveResponseTimeoutmillisecond);
 
                 // 応答をパース
                 if (response.ctapRes != null) {
@@ -57,37 +59,12 @@ namespace g.FIDO2.CTAP.HID
                 }
                 res.SendPayloadJson = cmd.PayloadJson;
 
-                return res;
-            } catch (Exception ex) {
-                Logger.Log($"Exception...{ex.Message})");
-                return null;
-            }
-        }
-
-        /*
-        internal override async Task<(AuthenticatorConnector.DeviceStatus devSt,CTAPResponse ctapRes)> sendCommandandResponseAsync(CTAPCommand cmd, CTAPResponse res)
-        {
-            try {
-                // 送信コマンドを作成(byte[])
-                var payload = cmd.CreatePayload();
-
-                // 送信して、応答受信(byte[])
-                var sender = new CTAPHIDSender();
-                var response = await sender.SendCommandandResponseAsync(hidParams, payload, 10000);
-
-                // 応答をパース
-                if( response.ctapRes != null) {
-                    res.Parse(response.ctapRes);
-                }
-                res.SendPayloadJson = cmd.PayloadJson;
-
                 return (response.devSt,res);
             } catch (Exception ex) {
                 Logger.Log($"Exception...{ex.Message})");
-                return (AuthenticatorConnector.DeviceStatus.Unknown,null);
+                return (DeviceStatus.Unknown,null);
             }
         }
-        */
 
     }
 }

@@ -34,14 +34,14 @@ namespace g.FIDO2.CTAP
         public CTAPResponseMakeCredential(CTAPResponse obj) : base(obj) { }
         public CTAPResponseMakeCredential() : base() { }
 
-        public override void Parse(byte[] byteresponse)
+        internal override void Parse(byte[] byteresponse)
         {
             this.Attestation = new Attestation();
 
             var cbor = this.decodeFromBytes(byteresponse);
 
             foreach (var key in cbor.Keys) {
-                var keyVal = key.AsByte();
+                var keyVal = key.ToObject<byte>();
                 if (keyVal == 0x01) {
                     // fmt
                     Attestation.Fmt = cbor[key].AsString();
@@ -111,7 +111,7 @@ namespace g.FIDO2.CTAP
             foreach (var key in attestationStatementCbor.Keys) {
                 var keyVal = key.AsString();
                 if (keyVal == "alg") {
-                    Attestation.AttStmtAlg = attestationStatementCbor[key].AsInt16();
+                    Attestation.AttStmtAlg = attestationStatementCbor[key].ToObject<Int16>();
                 } else if (keyVal == "sig") {
                     Attestation.AttStmtSig = attestationStatementCbor[key].GetByteString();
                 } else if (keyVal == "x5c") {
