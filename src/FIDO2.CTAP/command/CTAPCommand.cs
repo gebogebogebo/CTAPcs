@@ -15,6 +15,7 @@ namespace g.FIDO2.CTAP
             authenticatorGetAssertion = 0x02,
             authenticatorGetInfo = 0x04,
             authenticatorClientPIN = 0x06,
+            authenticatorReset = 0x07,
             authenticatorGetNextAssertion = 0x08,
         };
 

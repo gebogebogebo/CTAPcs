@@ -65,6 +65,9 @@
     <Compile Include="..\..\..\FIDO2.CTAP\command\CTAPCommandMakeCredential.cs">
       <Link>FIDO2.CTAP\command\CTAPCommandMakeCredential.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\FIDO2.CTAP\command\CTAPCommandReset.cs">
+      <Link>FIDO2.CTAP\command\CTAPCommandReset.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\FIDO2.CTAP\command\ECDH.cs">
       <Link>FIDO2.CTAP\command\ECDH.cs</Link>
     </Compile>

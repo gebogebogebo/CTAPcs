@@ -173,6 +173,15 @@ namespace g.FIDO2.CTAP
             return new ResponseMakeCredential(ret.devSt, ret.ctapRes);
         }
 
+        /// <summary>
+        /// CTAP-Command Reset
+        /// </summary>
+        public async Task<ResponseReset> ResetAsync()
+        {
+            var ret = await sendCommandandResponseAsync(new CTAPCommandReset(), new CTAPResponse());
+            return new ResponseReset(ret.devSt, ret.ctapRes);
+        }
+
         internal abstract Task<(DeviceStatus devSt, CTAPResponse ctapRes)> sendCommandandResponseAsync(CTAPCommand cmd, CTAPResponse res);
     }
 }

@@ -143,5 +143,12 @@ namespace HIDTest01
             var res = con.IsConnected();
             addLog($"- Connected = {res}\r\n");
         }
+
+        private async void ButtonReset_Click(object sender, RoutedEventArgs e)
+        {
+            addLog("<Reset>");
+            var res = await con.ResetAsync();
+            LogResponse(res.DeviceStatus, res.CTAPResponse);
+        }
     }
 }
