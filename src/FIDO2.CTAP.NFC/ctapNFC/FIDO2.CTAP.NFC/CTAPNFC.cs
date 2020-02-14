@@ -40,7 +40,7 @@ namespace g.FIDO2.CTAP.NFC
 
         public static async Task<byte[]> SendCommandandResponse(List<string> targetReaders, byte[] send)
         {
-            return await Task.Run(async () => {
+            return await Task.Run(() => {
                 byte[] res = null;
                 var apdures = sendCommandandResponse(targetReaders, send);
                 if (apdures != null && apdures.IsSuccess == true) {

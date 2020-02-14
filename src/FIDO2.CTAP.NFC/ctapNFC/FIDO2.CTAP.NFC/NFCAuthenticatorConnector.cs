@@ -22,6 +22,12 @@ namespace g.FIDO2.CTAP.NFC
             this.targetReaders = NfcParam.GetDefalutReaders();
         }
 
+        public bool IsConnected()
+        {
+            var chk = CTAPNFC.CheckAP(targetReaders);
+            return !string.IsNullOrEmpty(chk);
+        }
+
         private List<string> targetReaders;
 
         internal override async Task<(DeviceStatus devSt, CTAPResponse ctapRes)> sendCommandandResponseAsync(CTAPCommand cmd, CTAPResponse res)

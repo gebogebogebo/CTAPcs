@@ -39,6 +39,7 @@ namespace g.FIDO2.CTAP
             this.Attestation = new Attestation();
 
             var cbor = this.decodeFromBytes(byteresponse);
+            if (cbor == null) return;
 
             foreach (var key in cbor.Keys) {
                 var keyVal = key.ToObject<byte>();

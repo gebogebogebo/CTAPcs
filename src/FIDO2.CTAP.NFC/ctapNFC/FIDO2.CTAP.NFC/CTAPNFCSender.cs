@@ -12,12 +12,11 @@ namespace g.FIDO2.CTAP.NFC
 
         public async Task<(DeviceStatus devSt, byte[] ctapRes)> SendCommandandResponseAsync(List<string> targetReaders, byte[] payload, int timeoutms)
         {
-            /*
-            if (CTAPHID.find(hidParams) == null) {
+            var chk = CTAPNFC.CheckAP(targetReaders);
+            if (string.IsNullOrEmpty(chk)) {
                 Logger.Err("Connect Error");
                 return (DeviceStatus.NotConnedted, null);
             }
-            */
 
             var res = await CTAPNFC.SendCommandandResponse(targetReaders, payload);
             if (res == null) {

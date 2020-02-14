@@ -42,23 +42,23 @@ namespace g.FIDO2.CTAP
             this.Assertion = new Assertion();
 
             var cbor = this.decodeFromBytes(byteresponse);
-            if( cbor != null) {
-                foreach (var key in cbor.Keys) {
-                    var keyVal = key.ToObject<byte>();
-                    if (keyVal == 0x01) {
-                        // 0x01:credential
-                        parseCredential(cbor[key]);
-                    } else if (keyVal == 0x02) {
-                        parseAuthData(cbor[key].GetByteString());
-                    } else if (keyVal == 0x03) {
-                        // 0x03:signature
-                        Assertion.Signature = cbor[key].GetByteString();
-                    } else if (keyVal == 0x04) {
-                        parsePublicKeyCredentialUserEntity(cbor[key]);
-                    } else if (keyVal == 0x05) {
-                        // 0x05:numberOfCredentials
-                        Assertion.NumberOfCredentials = cbor[key].ToObject<UInt16>();
-                    }
+            if (cbor == null) return;
+
+            foreach (var key in cbor.Keys) {
+                var keyVal = key.ToObject<byte>();
+                if (keyVal == 0x01) {
+                    // 0x01:credential
+                    parseCredential(cbor[key]);
+                } else if (keyVal == 0x02) {
+                    parseAuthData(cbor[key].GetByteString());
+                } else if (keyVal == 0x03) {
+                    // 0x03:signature
+                    Assertion.Signature = cbor[key].GetByteString();
+                } else if (keyVal == 0x04) {
+                    parsePublicKeyCredentialUserEntity(cbor[key]);
+                } else if (keyVal == 0x05) {
+                    // 0x05:numberOfCredentials
+                    Assertion.NumberOfCredentials = cbor[key].ToObject<UInt16>();
                 }
             }
         }

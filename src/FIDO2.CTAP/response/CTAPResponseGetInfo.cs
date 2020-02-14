@@ -32,6 +32,8 @@ namespace g.FIDO2.CTAP
         internal override void Parse(byte[] byteresponse)
         {
             var cbor = this.decodeFromBytes(byteresponse);
+            if (cbor == null) return;
+
             foreach (var key in cbor.Keys) {
                 var keyVal = key.ToObject<byte>();
                 if (keyVal == 0x01) {
