@@ -95,9 +95,6 @@
     <Compile Include="..\..\..\FIDO2.CTAP\response\Response.cs">
       <Link>FIDO2.CTAP\response\Response.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\FIDO2\Assertion.cs">
-      <Link>FIDO2\Assertion.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\FIDO2\Common.cs">
       <Link>FIDO2\Common.cs</Link>
     </Compile>
@@ -124,6 +121,12 @@
     <PackageReference Include="System.ValueTuple">
       <Version>4.5.0</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\FIDO2.Util\util\FIDO2.Credential\FIDO2.Credential.csproj">
+      <Project>{2b88f146-6f9a-450d-95d7-55aaba5afc36}</Project>
+      <Name>FIDO2.Credential</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

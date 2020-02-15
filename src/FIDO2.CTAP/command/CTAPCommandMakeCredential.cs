@@ -9,14 +9,20 @@ namespace g.FIDO2.CTAP
 {
     public class CTAPCommandMakeCredentialParam
     {
-        public string RpId { get; set; }
+        public string RpId { get; private set; }
         public string RpName { get; set; }
         public byte[] UserId { get; set; }
         public string UserName { get; set; }
         public string UserDisplayName { get; set; }
         public bool Option_rk { get; set; }
         public bool Option_uv { get; set; }
-        public byte[] ClientDataHash { get; set; }
+        public byte[] ClientDataHash { get; private set; }
+
+        public CTAPCommandMakeCredentialParam(string rpid, byte[] challenge)
+        {
+            this.RpId = rpid;
+            this.ClientDataHash = Common.CreateClientDataHash(challenge);
+        }
     }
 
     internal class CTAPCommandMakeCredential : CTAPCommand
