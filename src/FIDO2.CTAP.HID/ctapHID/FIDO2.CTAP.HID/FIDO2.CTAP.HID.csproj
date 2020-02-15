@@ -123,7 +123,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\FIDO2.Util\util\FIDO2.Credential\FIDO2.Credential.csproj">
+    <ProjectReference Include="..\..\..\FIDO2.Credential\FIDO2.Credential.csproj">
       <Project>{2b88f146-6f9a-450d-95d7-55aaba5afc36}</Project>
       <Name>FIDO2.Credential</Name>
     </ProjectReference>

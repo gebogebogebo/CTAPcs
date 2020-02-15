@@ -86,12 +86,12 @@ namespace NFCTest01
         {
             addLog("<getAssertion>");
 
-            var param = new g.FIDO2.CTAP.CTAPCommandGetAssertionParam();
-            param.RpId = "test.com";
+            var rpid = "test.com";
+            var challenge = Encoding.ASCII.GetBytes("this is challenge");
+            var creid = Common.HexStringToBytes("4096E0A8CC913B60041C03C3979442599C55B63675D6B1924CA493A6538EBC67940B234ABF1AED171ABDCD442774A1AE369DFFDCF81160B4C150F685DE8C9AFE");
 
-            param.ClientDataHash = Common.CreateClientDataHash("this is challenge");
+            var param = new g.FIDO2.CTAP.CTAPCommandGetAssertionParam(rpid,challenge,creid);
 
-            param.AllowList_CredentialId = Common.HexStringToBytes("4096E0A8CC913B60041C03C3979442599C55B63675D6B1924CA493A6538EBC67940B234ABF1AED171ABDCD442774A1AE369DFFDCF81160B4C150F685DE8C9AFE");
             param.Option_up = true;
             param.Option_uv = false;
 
@@ -111,15 +111,16 @@ namespace NFCTest01
         {
             addLog("<makeCredential>");
 
-            var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam();
-            param.RpId = "test.com";
+            var rpid = "test.com";
+            var challenge = Encoding.ASCII.GetBytes("this is challenge");
+
+            var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid, challenge);
             param.RpName = "test name";
             param.UserId = new byte[] { 0x01, 0x02, 0x03, 0x04 };
             param.UserName = "testUserName";
             param.UserDisplayName = "testUserDisplayName";
             param.Option_rk = false;
             param.Option_uv = false;
-            param.ClientDataHash = Common.CreateClientDataHash("this is challenge");
 
             string pin = "1234";
 

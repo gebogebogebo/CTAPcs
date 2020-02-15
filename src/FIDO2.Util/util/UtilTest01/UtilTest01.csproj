@@ -99,14 +99,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\FIDO2.Credential\FIDO2.Credential.csproj">
+      <Project>{2b88f146-6f9a-450d-95d7-55aaba5afc36}</Project>
+      <Name>FIDO2.Credential</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\FIDO2.CTAP.HID\ctapHID\FIDO2.CTAP.HID\FIDO2.CTAP.HID.csproj">
       <Project>{d93281f9-cd40-4a9e-9e62-e07de13047c7}</Project>
       <Name>FIDO2.CTAP.HID</Name>
       <Aliases>global</Aliases>
-    </ProjectReference>
-    <ProjectReference Include="..\FIDO2.Credential\FIDO2.Credential.csproj">
-      <Project>{2b88f146-6f9a-450d-95d7-55aaba5afc36}</Project>
-      <Name>FIDO2.Credential</Name>
     </ProjectReference>
     <ProjectReference Include="..\FIDO2.Util\FIDO2.Util.csproj">
       <Project>{5a0883ba-5a0c-4032-ae12-847fa56d6665}</Project>

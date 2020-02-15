@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UtilTest01", "UtilTest01\Ut
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIDO2.CTAP.HID", "..\..\FIDO2.CTAP.HID\ctapHID\FIDO2.CTAP.HID\FIDO2.CTAP.HID.csproj", "{D93281F9-CD40-4A9E-9E62-E07DE13047C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIDO2.Credential", "FIDO2.Credential\FIDO2.Credential.csproj", "{2B88F146-6F9A-450D-95D7-55AABA5AFC36}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIDO2.Credential", "..\..\FIDO2.Credential\FIDO2.Credential.csproj", "{2B88F146-6F9A-450D-95D7-55AABA5AFC36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

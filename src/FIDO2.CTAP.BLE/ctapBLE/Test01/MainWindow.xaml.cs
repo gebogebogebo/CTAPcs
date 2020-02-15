@@ -137,13 +137,12 @@ namespace Test01
         {
             addLog("<getAssertion>");
 
-            var param = new g.FIDO2.CTAP.CTAPCommandGetAssertionParam();
-            param.RpId = "BLEtest.com";
+            var rpid = "BLEtest.com";
+            var challenge = Encoding.ASCII.GetBytes("this is challenge");
+            var creid = Common.HexStringToBytes("1A9862CFD3AF8FA152622D3612B3AAE5ACD59FC3EB65A3F71390EBFA56E79C64CAB890AF184E341EBB616D0E9220BA25800F1A16974E08258744FA2C7B6EABD8F467E285A3CA20899E41C67111880CF455AAEE68DC0D9DCEF87FEED076635BEB");
 
-            param.ClientDataHash = Common.CreateClientDataHash("this is challenge");
+            var param = new g.FIDO2.CTAP.CTAPCommandGetAssertionParam(rpid,challenge,creid);
 
-            //param.AllowList_CredentialId = Common.HexStringToBytes("D2A464B2FDFB219245ED5C1E81FCEC8452915B3DB13BE0D608691F51909A2136331CE8663803E23A6B7B895F38B98B70A8165578391C571B45EF15EEF7282D36617CAA36931CBE6DF69A8166F18EB1ED0634B3D0055C186C794AF355464FE8A6");
-            param.AllowList_CredentialId = Common.HexStringToBytes("1A9862CFD3AF8FA152622D3612B3AAE5ACD59FC3EB65A3F71390EBFA56E79C64CAB890AF184E341EBB616D0E9220BA25800F1A16974E08258744FA2C7B6EABD8F467E285A3CA20899E41C67111880CF455AAEE68DC0D9DCEF87FEED076635BEB");
             param.Option_up = true;
             param.Option_uv = false;
 
@@ -163,15 +162,16 @@ namespace Test01
         {
             addLog("<makeCredential>");
 
-            var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam();
-            param.RpId = "BLEtest.com";
+            var rpid = "BLEtest.com";
+            var challenge = Encoding.ASCII.GetBytes("this is challenge");
+
+            var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid,challenge);
             param.RpName = "BLEtest name";
             param.UserId = new byte[0];
             param.UserName = "testUserName";
             param.UserDisplayName = "testUserDisplayName";
             param.Option_rk = false;
             param.Option_uv = false;
-            param.ClientDataHash = g.FIDO2.CTAP.BLE.Common.CreateClientDataHash("this is challenge");
 
             string pin = "1234";
 

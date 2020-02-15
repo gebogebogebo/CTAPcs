@@ -99,6 +99,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\FIDO2.Credential\FIDO2.Credential.csproj">
+      <Project>{2b88f146-6f9a-450d-95d7-55aaba5afc36}</Project>
+      <Name>FIDO2.Credential</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FIDO2.CTAP.BLE\FIDO2.CTAP.BLE.csproj">
       <Project>{b36895e8-fb06-4ca3-a30a-fe2a17bcfb61}</Project>
       <Name>FIDO2.CTAP.BLE</Name>

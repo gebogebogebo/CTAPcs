@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIDO2.CTAP.BLE", "FIDO2.CTA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test01", "Test01\Test01.csproj", "{B976750A-30F6-42AD-AC91-185A74883045}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIDO2.Credential", "..\..\FIDO2.Credential\FIDO2.Credential.csproj", "{2B88F146-6F9A-450D-95D7-55AABA5AFC36}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{B976750A-30F6-42AD-AC91-185A74883045}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B976750A-30F6-42AD-AC91-185A74883045}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B976750A-30F6-42AD-AC91-185A74883045}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B88F146-6F9A-450D-95D7-55AABA5AFC36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B88F146-6F9A-450D-95D7-55AABA5AFC36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B88F146-6F9A-450D-95D7-55AABA5AFC36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B88F146-6F9A-450D-95D7-55AABA5AFC36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
