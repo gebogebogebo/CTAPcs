@@ -22,5 +22,11 @@ namespace g.FIDO2.CTAP
             return (cdh);
         }
 
+        static public bool IsAdministrator()
+        {
+            var identity = System.Security.Principal.WindowsIdentity.GetCurrent();
+            var principal = new System.Security.Principal.WindowsPrincipal(identity);
+            return principal.IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator);
+        }
     }
 }

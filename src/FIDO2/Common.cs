@@ -111,30 +111,5 @@ namespace g.FIDO2
         }
 
     }
-
-    internal static class Logger
-    {
-        internal static void SetEnable(bool enable)
-        {
-            //LoggingServices.Enabled = enable;
-        }
-
-        internal static void Err(string msg)
-        {
-            Console.WriteLine(msg);
-        }
-        internal static void Err(Exception ex, string msg = "")
-        {
-            Logger.Err($"Exception...{ex.Message}),message={msg}");
-        }
-
-        internal static void Log(string msg)
-        {
-            Console.WriteLine(msg);
-        }
-
-    }
-
-
 }
 

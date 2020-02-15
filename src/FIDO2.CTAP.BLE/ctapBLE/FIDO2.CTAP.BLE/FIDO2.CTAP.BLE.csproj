@@ -65,6 +65,9 @@
     <Compile Include="..\..\..\FIDO2.CTAP\command\CTAPCommandMakeCredential.cs">
       <Link>FIDO2.CTAP\command\CTAPCommandMakeCredential.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\FIDO2.CTAP\command\CTAPCommandReset.cs">
+      <Link>FIDO2.CTAP\command\CTAPCommandReset.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\FIDO2.CTAP\command\ECDH.cs">
       <Link>FIDO2.CTAP\command\ECDH.cs</Link>
     </Compile>
@@ -92,11 +95,17 @@
     <Compile Include="..\..\..\FIDO2.CTAP\response\Response.cs">
       <Link>FIDO2.CTAP\Response.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\FIDO2\Assertion.cs">
+      <Link>FIDO2\Assertion.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\FIDO2\Common.cs">
       <Link>FIDO2\Common.cs</Link>
     </Compile>
     <Compile Include="..\..\..\FIDO2\DerConverter.cs">
       <Link>FIDO2\DerConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\FIDO2\Logger.cs">
+      <Link>FIDO2\Logger.cs</Link>
     </Compile>
     <Compile Include="BLEAuthenticatorConnector.cs" />
     <Compile Include="BLEAuthenticatorScanner.cs" />
