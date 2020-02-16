@@ -14,7 +14,7 @@ namespace g.FIDO2.CTAP
         public CTAPResponseMakeCredential(CTAPResponse obj) : base(obj) { }
         public CTAPResponseMakeCredential() : base() { }
 
-        internal override void Parse(byte[] byteresponse)
+        public override void Parse(byte[] byteresponse)
         {
             this.Attestation = new Attestation();
 

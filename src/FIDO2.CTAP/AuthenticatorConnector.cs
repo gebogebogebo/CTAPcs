@@ -182,6 +182,6 @@ namespace g.FIDO2.CTAP
             return new ResponseReset(ret.devSt, ret.ctapRes);
         }
 
-        internal abstract Task<(DeviceStatus devSt, CTAPResponse ctapRes)> sendCommandandResponseAsync(CTAPCommand cmd, CTAPResponse res);
+        public abstract Task<(DeviceStatus devSt, CTAPResponse ctapRes)> sendCommandandResponseAsync(CTAPCommand cmd, CTAPResponse res);
     }
 }

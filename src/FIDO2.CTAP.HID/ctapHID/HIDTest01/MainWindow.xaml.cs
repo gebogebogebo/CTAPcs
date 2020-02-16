@@ -79,12 +79,13 @@ namespace HIDTest01
         {
             addLog("<getAssertion>");
 
-            var param = new g.FIDO2.CTAP.CTAPCommandGetAssertionParam();
-            param.RpId = "test.com";
+            var rpid = "test.com";
+            var challenge = System.Text.Encoding.ASCII.GetBytes("this is challenge");
+            var creid = g.FIDO2.Common.HexStringToBytes("8F3045BE18CC2076E4EC8E5D9BCDEB7977B4217AE7B0503F0F5DBCF965CE172B28BFF3EE169E9F17D305E4D4C1FF0F7662A909D7ECA6AE63702AC9FFFBBAC229E907A29D29EE57E59949B075408A4C97780A04354407E73CAC72B31888E3DD09");
 
-            param.ClientDataHash = Common.CreateClientDataHash("this is challenge");
+            var param = new g.FIDO2.CTAP.CTAPCommandGetAssertionParam(rpid, challenge,null);
 
-            param.AllowList_CredentialId = Common.HexStringToBytes("8F3045BE18CC2076E4EC8E5D9BCDEB7977B4217AE7B0503F0F5DBCF965CE172B28BFF3EE169E9F17D305E4D4C1FF0F7662A909D7ECA6AE63702AC9FFFBBAC229E907A29D29EE57E59949B075408A4C97780A04354407E73CAC72B31888E3DD09");
+
             param.Option_up = true;
             param.Option_uv = false;
 
@@ -103,15 +104,16 @@ namespace HIDTest01
         {
             addLog("<makeCredential>");
 
-            var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam();
-            param.RpId = "test.com";
+            var rpid = "test.com";
+            var challenge = System.Text.Encoding.ASCII.GetBytes("this is challenge");
+
+            var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid,challenge);
             param.RpName = "test name";
             param.UserId = new byte[0];
             param.UserName = "testUserName";
             param.UserDisplayName = "testUserDisplayName";
             param.Option_rk = false;
             param.Option_uv = false;
-            param.ClientDataHash = Common.CreateClientDataHash("this is challenge");
 
             string pin = "1234";
 

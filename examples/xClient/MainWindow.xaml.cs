@@ -1,6 +1,4 @@
-﻿extern alias ctapHIDlib;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using ctapHIDlib.g.FIDO2.CTAP.HID;
+using g.FIDO2.CTAP.HID;
 using g.FIDO2.CTAP.BLE;
 
 namespace xClient
@@ -39,7 +37,7 @@ namespace xClient
             }));
         }
 
-        private void LogResponse(ctapHIDlib.g.FIDO2.CTAP.DeviceStatus devSt, ctapHIDlib.g.FIDO2.CTAP.CTAPResponse res)
+        private void LogResponse(g.FIDO2.CTAP.DeviceStatus devSt, g.FIDO2.CTAP.CTAPResponse res)
         {
             addLog($"- DeviceStatus = {devSt.ToString()}");
             addLog($"- CTAP Status = 0x{res?.Status.ToString("X")}");
@@ -64,7 +62,7 @@ namespace xClient
 
             // server
             var rpid = this.TextRPID.Text;
-            var challenge = ctapHIDlib.g.FIDO2.CTAP.HID.Common.HexStringToBytes(this.TextChallenge.Text);
+            var challenge = g.FIDO2.Common.HexStringToBytes(this.TextChallenge.Text);
             var pin = this.TextPIN.Text;
 
             // client
@@ -72,7 +70,7 @@ namespace xClient
             {
                 var con = new HIDAuthenticatorConnector();
 
-                var param = new ctapHIDlib.g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid, challenge);
+                var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid, challenge);
                 param.RpName = "test name";
                 param.UserId = new byte[0];
                 param.UserName = "testUserName";
@@ -92,7 +90,7 @@ namespace xClient
                 var att_b = g.FIDO2.Serializer.Serialize(att);
 
                 addLog("Attestation ---");
-                addLog(ctapHIDlib.g.FIDO2.CTAP.HID.Common.BytesToHexString(att_b));
+                addLog(g.FIDO2.Common.BytesToHexString(att_b));
                 addLog("--- Attestation");
 
             }
@@ -107,11 +105,11 @@ namespace xClient
         {
             // server
             var rpid = this.TextRPID.Text;
-            var challenge = ctapHIDlib.g.FIDO2.CTAP.HID.Common.HexStringToBytes(this.TextChallenge.Text);
+            var challenge = g.FIDO2.Common.HexStringToBytes(this.TextChallenge.Text);
             var pin = this.TextPIN.Text;
 
             var con = new BLEAuthenticatorConnector();
-            var param = new ctapHIDlib.g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid, challenge);
+            var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid, challenge);
             //var res = await con.MakeCredentialAsync(param, pin);
 
         }

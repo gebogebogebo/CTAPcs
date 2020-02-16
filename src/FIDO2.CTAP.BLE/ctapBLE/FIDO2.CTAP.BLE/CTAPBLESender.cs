@@ -46,7 +46,7 @@ namespace g.FIDO2.CTAP.BLE
                 frames.Add(sendData.Take(this.packetSizeByte).ToArray());
 
                 // Frame 1
-                var chunked = Common.Chunk(sendData.Skip(this.packetSizeByte).ToArray(), this.packetSizeByte-1);
+                var chunked = g.FIDO2.Common.Chunk(sendData.Skip(this.packetSizeByte).ToArray(), this.packetSizeByte-1);
                 foreach(var one in chunked.Select((value, index) => new { value, index })) {
                     var tmp = new List<byte>();
                     // Packet sequence

@@ -12,7 +12,7 @@ namespace g.FIDO2.CTAP
         public CTAPResponseClientPIN() : base() { }
         public CTAPResponseClientPIN(CTAPResponse obj) : base(obj) { }
 
-        internal override void Parse(byte[] byteresponse)
+        public override void Parse(byte[] byteresponse)
         {
             var cbor = this.decodeFromBytes(byteresponse);
             if (cbor == null) return;
@@ -23,7 +23,7 @@ namespace g.FIDO2.CTAP
     {
         public int RetryCount { get; private set; }
 
-        internal override void Parse(byte[] byteresponse)
+        public override void Parse(byte[] byteresponse)
         {
             var cbor = this.decodeFromBytes(byteresponse);
             if (cbor == null) return;
@@ -36,7 +36,7 @@ namespace g.FIDO2.CTAP
     {
         public COSE_Key KeyAgreement { get; private set; }
 
-        internal override void Parse(byte[] byteresponse)
+        public override void Parse(byte[] byteresponse)
         {
             var cbor = this.decodeFromBytes(byteresponse);
             if (cbor == null) return;
@@ -59,7 +59,7 @@ namespace g.FIDO2.CTAP
             this.sharedSecret = sharedSecret.ToArray();
         }
 
-        internal override void Parse(byte[] byteresponse)
+        public override void Parse(byte[] byteresponse)
         {
             var cbor = this.decodeFromBytes(byteresponse);
             if (cbor == null) return;

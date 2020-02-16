@@ -6,9 +6,6 @@ using System.Threading.Tasks;
 
 namespace g.FIDO2.CTAP.NFC
 {
-    public class Common : g.FIDO2.CTAP.Common
-    {
-    }
 
     public class NfcParam
     {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace g.FIDO2.CTAP.BLE
 {
-    public class Common : g.FIDO2.CTAP.Common
+    public class Common
     {
         // Service 
         public static readonly string Gatt_Service_FIDO_UUID = "0000fffd-0000-1000-8000-00805f9b34fb";

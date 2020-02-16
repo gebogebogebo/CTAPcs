@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIDO2.CTAP.HID", "FIDO2.CTA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HIDTest01", "HIDTest01\HIDTest01.csproj", "{02592394-F6B4-4428-8B72-D143C39A0475}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIDO2.CTAP", "..\..\FIDO2.CTAP\FIDO2.CTAP.csproj", "{C9972585-D4D3-4C4D-A34A-F2552BCEBA9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIDO2.Credential", "..\..\FIDO2.Credential\FIDO2.Credential.csproj", "{2B88F146-6F9A-450D-95D7-55AABA5AFC36}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{02592394-F6B4-4428-8B72-D143C39A0475}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02592394-F6B4-4428-8B72-D143C39A0475}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02592394-F6B4-4428-8B72-D143C39A0475}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9972585-D4D3-4C4D-A34A-F2552BCEBA9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9972585-D4D3-4C4D-A34A-F2552BCEBA9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9972585-D4D3-4C4D-A34A-F2552BCEBA9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9972585-D4D3-4C4D-A34A-F2552BCEBA9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B88F146-6F9A-450D-95D7-55AABA5AFC36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B88F146-6F9A-450D-95D7-55AABA5AFC36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B88F146-6F9A-450D-95D7-55AABA5AFC36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B88F146-6F9A-450D-95D7-55AABA5AFC36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

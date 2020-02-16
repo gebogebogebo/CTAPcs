@@ -29,7 +29,7 @@ namespace g.FIDO2.CTAP
 
         public CTAPResponseGetInfo() : base() { }
 
-        internal override void Parse(byte[] byteresponse)
+        public override void Parse(byte[] byteresponse)
         {
             var cbor = this.decodeFromBytes(byteresponse);
             if (cbor == null) return;

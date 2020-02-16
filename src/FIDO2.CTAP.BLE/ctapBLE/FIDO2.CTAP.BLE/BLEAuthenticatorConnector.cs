@@ -69,7 +69,7 @@ namespace g.FIDO2.CTAP.BLE
                         // FIDO Control Point Length(Read-2byte)
                         var readVal = await readCharacteristicValue(service_Fido, Common.Gatt_Characteristic_FIDO_Control_Point_Length_GUID);
                         if( readVal != null) {
-                            this.PacketSizeByte = Common.ToUInt16(readVal, 0, true);
+                            this.PacketSizeByte = g.FIDO2.Common.ToUInt16(readVal, 0, true);
                         }
                     }
 
@@ -147,7 +147,7 @@ namespace g.FIDO2.CTAP.BLE
         private CTAPBLEReceiver receiver;
         private bool checkDeviceInformation = false;
 
-        internal override async Task<(DeviceStatus devSt, CTAPResponse ctapRes)> sendCommandandResponseAsync(CTAPCommand cmd, CTAPResponse res)
+        public override async Task<(DeviceStatus devSt, CTAPResponse ctapRes)> sendCommandandResponseAsync(CTAPCommand cmd, CTAPResponse res)
         {
             try {
                 // 送信コマンドを作成(byte[])

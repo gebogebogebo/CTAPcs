@@ -41,63 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\FIDO2.CTAP\AuthenticatorConnector.cs">
-      <Link>FIDO2.CTAP\AuthenticatorConnector.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\FIDO2.CTAP\command\AES256CBC.cs">
-      <Link>FIDO2.CTAP\command\AES256CBC.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\FIDO2.CTAP\command\CTAPCommand.cs">
-      <Link>FIDO2.CTAP\command\CTAPCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\FIDO2.CTAP\command\CTAPCommandClientPIN.cs">
-      <Link>FIDO2.CTAP\command\CTAPCommandClientPIN.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\FIDO2.CTAP\command\CTAPCommandGetAssertion.cs">
-      <Link>FIDO2.CTAP\command\CTAPCommandGetAssertion.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\FIDO2.CTAP\command\CTAPCommandGetInfo.cs">
-      <Link>FIDO2.CTAP\command\CTAPCommandGetInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\FIDO2.CTAP\command\CTAPCommandGetNextAssertion.cs">
-      <Link>FIDO2.CTAP\command\CTAPCommandGetNextAssertion.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\FIDO2.CTAP\command\CTAPCommandMakeCredential.cs">
-      <Link>FIDO2.CTAP\command\CTAPCommandMakeCredential.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\FIDO2.CTAP\command\CTAPCommandReset.cs">
-      <Link>FIDO2.CTAP\command\CTAPCommandReset.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\FIDO2.CTAP\command\ECDH.cs">
-      <Link>FIDO2.CTAP\command\ECDH.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\FIDO2.CTAP\Common.cs">
-      <Link>FIDO2.CTAP\Common.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\FIDO2.CTAP\response\COSE_Key.cs">
-      <Link>FIDO2.CTAP\response\COSE_Key.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\FIDO2.CTAP\response\CTAPResponse.cs">
-      <Link>FIDO2.CTAP\response\CTAPResponse.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\FIDO2.CTAP\response\CTAPResponseClientPIN.cs">
-      <Link>FIDO2.CTAP\response\CTAPResponseClientPIN.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\FIDO2.CTAP\response\CTAPResponseGetAssertion.cs">
-      <Link>FIDO2.CTAP\response\CTAPResponseGetAssertion.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\FIDO2.CTAP\response\CTAPResponseGetInfo.cs">
-      <Link>FIDO2.CTAP\response\CTAPResponseGetInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\FIDO2.CTAP\response\CTAPResponseMakeCredential.cs">
-      <Link>FIDO2.CTAP\response\CTAPResponseMakeCredential.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\FIDO2.CTAP\response\Response.cs">
-      <Link>FIDO2.CTAP\response\Response.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\FIDO2\Common.cs">
-      <Link>FIDO2\Common.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\FIDO2\DerConverter.cs">
       <Link>FIDO2\DerConverter.cs</Link>
     </Compile>
@@ -128,6 +71,10 @@
     <ProjectReference Include="..\..\..\FIDO2.Credential\FIDO2.Credential.csproj">
       <Project>{2b88f146-6f9a-450d-95d7-55aaba5afc36}</Project>
       <Name>FIDO2.Credential</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\FIDO2.CTAP\FIDO2.CTAP.csproj">
+      <Project>{c9972585-d4d3-4c4d-a34a-f2552bceba9e}</Project>
+      <Name>FIDO2.CTAP</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

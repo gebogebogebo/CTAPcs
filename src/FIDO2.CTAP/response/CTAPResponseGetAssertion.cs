@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PeterO.Cbor;
+using g.FIDO2;
 
 namespace g.FIDO2.CTAP
 {
@@ -14,7 +15,7 @@ namespace g.FIDO2.CTAP
         public CTAPResponseGetAssertion(CTAPResponse obj) : base(obj) { }
         public CTAPResponseGetAssertion() : base() { }
 
-        internal override void Parse(byte[] byteresponse)
+        public override void Parse(byte[] byteresponse)
         {
             this.Assertion = new Assertion();
 

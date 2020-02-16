@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5A0883BA-5A0C-4032-AE12-847FA56D6665}</ProjectGuid>
+    <ProjectGuid>{C9972585-D4D3-4C4D-A34A-F2552BCEBA9E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FIDO2.Util</RootNamespace>
-    <AssemblyName>FIDO2.Util</AssemblyName>
+    <RootNamespace>FIDO2.CTAP</RootNamespace>
+    <AssemblyName>FIDO2.CTAP</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -30,11 +30,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup />
   <ItemGroup>
-    <Reference Include="BouncyCastle.Crypto">
-      <HintPath>..\..\..\Dependencies\BouncyCastle.Crypto.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,24 +41,41 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\FIDO2\DerConverter.cs">
+    <Compile Include="..\FIDO2\DerConverter.cs">
       <Link>FIDO2\DerConverter.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\FIDO2\Logger.cs">
+    <Compile Include="..\FIDO2\Logger.cs">
       <Link>FIDO2\Logger.cs</Link>
     </Compile>
-    <Compile Include="CryptoBC.cs" />
-    <Compile Include="DecodedAuthData.cs" />
+    <Compile Include="AuthenticatorConnector.cs" />
+    <Compile Include="command\AES256CBC.cs" />
+    <Compile Include="command\CTAPCommand.cs" />
+    <Compile Include="command\CTAPCommandClientPIN.cs" />
+    <Compile Include="command\CTAPCommandGetAssertion.cs" />
+    <Compile Include="command\CTAPCommandGetInfo.cs" />
+    <Compile Include="command\CTAPCommandGetNextAssertion.cs" />
+    <Compile Include="command\CTAPCommandMakeCredential.cs" />
+    <Compile Include="command\CTAPCommandReset.cs" />
+    <Compile Include="command\ECDH.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Verifier.cs" />
+    <Compile Include="response\COSE_Key.cs" />
+    <Compile Include="response\CTAPResponse.cs" />
+    <Compile Include="response\CTAPResponseClientPIN.cs" />
+    <Compile Include="response\CTAPResponseGetAssertion.cs" />
+    <Compile Include="response\CTAPResponseGetInfo.cs" />
+    <Compile Include="response\CTAPResponseMakeCredential.cs" />
+    <Compile Include="response\Response.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="PeterO.Cbor">
       <Version>4.1.0</Version>
     </PackageReference>
+    <PackageReference Include="System.ValueTuple">
+      <Version>4.5.0</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\FIDO2.Credential\FIDO2.Credential.csproj">
+    <ProjectReference Include="..\FIDO2.Credential\FIDO2.Credential.csproj">
       <Project>{2b88f146-6f9a-450d-95d7-55aaba5afc36}</Project>
       <Name>FIDO2.Credential</Name>
     </ProjectReference>

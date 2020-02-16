@@ -12,8 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using g.FIDO2.Util;
 using System.Windows.Threading;
+using g.FIDO2;
+using g.FIDO2.Util;
 
 namespace xServer
 {

@@ -7,7 +7,7 @@ using PeterO.Cbor;
 
 namespace g.FIDO2.CTAP
 {
-    internal class CTAPCommand
+    public class CTAPCommand
     {
         public enum CTAPCommandType
         {

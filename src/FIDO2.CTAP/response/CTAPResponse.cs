@@ -54,7 +54,7 @@ namespace g.FIDO2.CTAP
             return cbor;
         }
 
-        internal virtual void Parse(byte[] byteresponse) { }
+        public virtual void Parse(byte[] byteresponse) { }
 
         protected CBORObject getObj(CBORObject cbor, byte findKey)
         {
