@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D7786320-24A0-4234-B59F-26E33EE49B40}</ProjectGuid>
+    <ProjectGuid>{1A2C16CB-3082-439B-8E7D-83B09C2C17ED}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>xClient</RootNamespace>
-    <AssemblyName>xClient</AssemblyName>
+    <RootNamespace>NFCTest01</RootNamespace>
+    <AssemblyName>NFCTest01</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -27,7 +27,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>none</DebugType>
+    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -101,25 +101,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\g.FIDO2.Credential\g.FIDO2.Credential.csproj">
+    <ProjectReference Include="..\..\..\FIDO2.Credential\FIDO2.Credential.csproj">
       <Project>{2b88f146-6f9a-450d-95d7-55aaba5afc36}</Project>
-      <Name>g.FIDO2.Credential</Name>
+      <Name>FIDO2.Credential</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\g.FIDO2.CTAP.BLE\ctapBLE\g.FIDO2.CTAP.BLE\g.FIDO2.CTAP.BLE.csproj">
-      <Project>{b36895e8-fb06-4ca3-a30a-fe2a17bcfb61}</Project>
-      <Name>g.FIDO2.CTAP.BLE</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\g.FIDO2.CTAP.HID\ctapHID\g.FIDO2.CTAP.HID\g.FIDO2.CTAP.HID.csproj">
-      <Project>{d93281f9-cd40-4a9e-9e62-e07de13047c7}</Project>
-      <Name>g.FIDO2.CTAP.HID</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\g.FIDO2.CTAP.NFC\ctapNFC\g.FIDO2.CTAP.NFC\g.FIDO2.CTAP.NFC.csproj">
+    <ProjectReference Include="..\FIDO2.CTAP.NFC\FIDO2.CTAP.NFC.csproj">
       <Project>{5926a1d9-68c0-42ac-aaf3-48bb5d5dcf7e}</Project>
-      <Name>g.FIDO2.CTAP.NFC</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\g.FIDO2.CTAP\g.FIDO2.CTAP.csproj">
-      <Project>{c9972585-d4d3-4c4d-a34a-f2552bceba9e}</Project>
-      <Name>g.FIDO2.CTAP</Name>
+      <Name>FIDO2.CTAP.NFC</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

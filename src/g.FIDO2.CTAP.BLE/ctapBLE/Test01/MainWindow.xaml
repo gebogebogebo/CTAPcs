@@ -1,0 +1,21 @@
+﻿<Window x:Class="Test01.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Test01"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="900">
+    <Grid>
+        <TextBox x:Name="textLog" Margin="10,50,10,10" TextWrapping="Wrap" Text="" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" FontFamily="MS Gothic"/>
+        <Button x:Name="ButtonStartScan" Content="StartScan" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="86" Height="28" Click="ButtonStartScan_Click" />
+        <Button x:Name="ButtonStopScan" Content="StopScan" HorizontalAlignment="Left" Margin="101,10,0,0" VerticalAlignment="Top" Width="75" Height="28" Click="ButtonStopScan_Click" />
+        <Button x:Name="ButtonConnect" Content="Connect" HorizontalAlignment="Left" Margin="181,10,0,0" VerticalAlignment="Top" Width="93" Height="28" Click="ButtonConnect_Click" />
+        <Button x:Name="ButtonDiscon" Content="Discon" HorizontalAlignment="Left" Margin="279,10,0,0" VerticalAlignment="Top" Width="89" Height="28" Click="ButtonDiscon_Click" />
+        <Button x:Name="ButtonGetInfo" Content="GetInfo" HorizontalAlignment="Left" Margin="373,10,0,0" VerticalAlignment="Top" Width="83" Height="28" Click="ButtonGetInfo_Click" />
+        <Button x:Name="ButtonClientPINgetRetries" Content="ClientPINgetRetries" HorizontalAlignment="Left" Margin="461,10,0,0" VerticalAlignment="Top" Width="119" Height="28" Click="ButtonClientPINgetRetries_Click" />
+        <Button x:Name="ButtonGetAssertion" Content="GetAssertion" HorizontalAlignment="Left" Margin="585,10,0,0" VerticalAlignment="Top" Width="75" Height="28" Click="ButtonGetAssertion_Click" />
+        <Button x:Name="ButtonMakeCredential" Content="MakeCredential" HorizontalAlignment="Left" Margin="665,10,0,0" VerticalAlignment="Top" Width="102" Height="28" Click="ButtonMakeCredential_Click" />
+
+    </Grid>
+</Window>
