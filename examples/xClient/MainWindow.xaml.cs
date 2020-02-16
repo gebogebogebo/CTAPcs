@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using ctapHIDlib.g.FIDO2.CTAP.HID;
+using g.FIDO2.CTAP.BLE;
 
 namespace xClient
 {
@@ -48,13 +49,22 @@ namespace xClient
             addLog("");
         }
 
+
+        private async void ButtonInfoHID_Click(object sender, RoutedEventArgs e)
+        {
+            addLog("Info HID");
+            var con = new HIDAuthenticatorConnector();
+            var res = await con.GetInfoAsync();
+            LogResponse(res.DeviceStatus, res.CTAPResponse);
+        }
+
         private async void ButtonRegisterHID_Click(object sender, RoutedEventArgs e)
         {
             addLog("Register HID");
 
             // server
             var rpid = this.TextRPID.Text;
-            var challenge = Common.HexStringToBytes(this.TextChallenge.Text);
+            var challenge = ctapHIDlib.g.FIDO2.CTAP.HID.Common.HexStringToBytes(this.TextChallenge.Text);
             var pin = this.TextPIN.Text;
 
             // client
@@ -82,10 +92,28 @@ namespace xClient
                 var att_b = g.FIDO2.Serializer.Serialize(att);
 
                 addLog("Attestation ---");
-                addLog(Common.BytesToHexString(att_b));
+                addLog(ctapHIDlib.g.FIDO2.CTAP.HID.Common.BytesToHexString(att_b));
                 addLog("--- Attestation");
 
             }
+        }
+
+        private void ButtonLoginHID_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private async void ButtonRegisterBLE_Click(object sender, RoutedEventArgs e)
+        {
+            // server
+            var rpid = this.TextRPID.Text;
+            var challenge = ctapHIDlib.g.FIDO2.CTAP.HID.Common.HexStringToBytes(this.TextChallenge.Text);
+            var pin = this.TextPIN.Text;
+
+            var con = new BLEAuthenticatorConnector();
+            var param = new ctapHIDlib.g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid, challenge);
+            //var res = await con.MakeCredentialAsync(param, pin);
+
         }
     }
 }

@@ -16,6 +16,8 @@ namespace g.FIDO2.CTAP
 
         public CTAPResponse(CTAPResponse obj)
         {
+            if (obj == null) return;
+
             Status = obj.Status;
             StatusMsg = obj.StatusMsg;
             ResponsePayloadJson = obj.ResponsePayloadJson;
