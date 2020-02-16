@@ -11,7 +11,12 @@
         <TextBox x:Name="TextRPID" HorizontalAlignment="Left" Height="23" Margin="98,47,0,0" TextWrapping="Wrap" Text="gebogebo.com" VerticalAlignment="Top" Width="120"/>
         <Label Content="Challenge" HorizontalAlignment="Left" Height="26" Margin="22,87,0,0" VerticalAlignment="Top" Width="71"/>
         <TextBox x:Name="TextChallenge" HorizontalAlignment="Left" Height="23" Margin="98,90,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="486"/>
+
+        <Label Content="PIN" HorizontalAlignment="Left" Height="31" Margin="22,119,0,0" VerticalAlignment="Top" Width="71"/>
+        <TextBox x:Name="TextPIN" HorizontalAlignment="Left" Height="23" Margin="98,123,0,0" TextWrapping="Wrap" Text="1234" VerticalAlignment="Top" Width="120"/>
+
         <Button x:Name="ButtonRegisterHID" Content="Register HID" HorizontalAlignment="Left" Margin="170,167,0,0" VerticalAlignment="Top" Width="120" Click="ButtonRegisterHID_Click"/>
+        <TextBox x:Name="textLog" Margin="10,193,10.286,9.714" TextWrapping="Wrap" Text="" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" FontFamily="MS Gothic"/>
 
     </Grid>
 </Window>

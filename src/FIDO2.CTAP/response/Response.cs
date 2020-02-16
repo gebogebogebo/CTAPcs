@@ -70,7 +70,12 @@ namespace g.FIDO2.CTAP
     public class ResponseMakeCredential : ResponseBase
     {
         public CTAPResponseMakeCredential CTAPResponse { get; private set; }
-        public ResponseMakeCredential(DeviceStatus devst, CTAPResponse ctapres) : base(devst, ctapres) { this.CTAPResponse = ctapres as CTAPResponseMakeCredential; }
+        public ResponseMakeCredential(DeviceStatus devst, CTAPResponse ctapres) : base(devst, ctapres) {
+            this.CTAPResponse = ctapres as CTAPResponseMakeCredential;
+            if(this.CTAPResponse == null) {
+                this.CTAPResponse = new CTAPResponseMakeCredential(ctapres);
+            }
+        }
     }
 
     public class ResponseReset : ResponseBase

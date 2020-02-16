@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 namespace g.FIDO2
 {
+    [Serializable]
     public class Attestation
     {
         public string Fmt { get; set; }
@@ -23,5 +26,6 @@ namespace g.FIDO2
         public byte[] AttStmtSig { get; set; }
         public byte[] AttStmtX5c { get; set; }
     }
+
 }
 

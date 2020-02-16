@@ -12,6 +12,9 @@
         <Button x:Name="ButtonCreateChallenge" Content="Create Challenge" HorizontalAlignment="Left" Height="35" Margin="290,34,0,0" VerticalAlignment="Top" Width="145" Click="ButtonCreateChallenge_Click" />
         <Label Content="Challenge" HorizontalAlignment="Left" Height="26" Margin="22,87,0,0" VerticalAlignment="Top" Width="71"/>
         <TextBox x:Name="TextChallenge" HorizontalAlignment="Left" Height="23" Margin="98,90,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="486"/>
+        <Button x:Name="ButtonVerifyAttestation" Content="Verify Attestation" HorizontalAlignment="Left" Margin="533,270,0,0" VerticalAlignment="Top" Width="251" Height="44" Click="ButtonVerifyAttestation_Click"/>
+        <TextBox x:Name="TextAttestation" HorizontalAlignment="Left" Height="136" Margin="10,129,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="774"/>
+        <TextBox x:Name="textLog" Margin="10,319,10.286,9.714" TextWrapping="Wrap" Text="" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" FontFamily="MS Gothic"/>
 
     </Grid>
 </Window>
