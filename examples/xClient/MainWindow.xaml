@@ -1,0 +1,17 @@
+﻿<Window x:Class="xClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:xClient"
+        mc:Ignorable="d"
+        Title="Client" Height="450" Width="800">
+    <Grid>
+        <Label Content="RP ID" HorizontalAlignment="Left" Height="31" Margin="22,39,0,0" VerticalAlignment="Top" Width="71"/>
+        <TextBox x:Name="TextRPID" HorizontalAlignment="Left" Height="23" Margin="98,47,0,0" TextWrapping="Wrap" Text="gebogebo.com" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Challenge" HorizontalAlignment="Left" Height="26" Margin="22,87,0,0" VerticalAlignment="Top" Width="71"/>
+        <TextBox x:Name="TextChallenge" HorizontalAlignment="Left" Height="23" Margin="98,90,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="486"/>
+        <Button x:Name="ButtonRegisterHID" Content="Register HID" HorizontalAlignment="Left" Margin="170,167,0,0" VerticalAlignment="Top" Width="120" Click="ButtonRegisterHID_Click"/>
+
+    </Grid>
+</Window>
