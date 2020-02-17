@@ -88,7 +88,7 @@ namespace NFCTest01
 
             var rpid = "test.com";
             var challenge = Encoding.ASCII.GetBytes("this is challenge");
-            var creid = Common.HexStringToBytes("4096E0A8CC913B60041C03C3979442599C55B63675D6B1924CA493A6538EBC67940B234ABF1AED171ABDCD442774A1AE369DFFDCF81160B4C150F685DE8C9AFE");
+            var creid = g.FIDO2.Common.HexStringToBytes("4096E0A8CC913B60041C03C3979442599C55B63675D6B1924CA493A6538EBC67940B234ABF1AED171ABDCD442774A1AE369DFFDCF81160B4C150F685DE8C9AFE");
 
             var param = new g.FIDO2.CTAP.CTAPCommandGetAssertionParam(rpid,challenge,creid);
 

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B36895E8-FB06-4CA3-A30A-FE2A17BCFB61}</ProjectGuid>
+    <ProjectGuid>{D93281F9-CD40-4A9E-9E62-E07DE13047C7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>g.FIDO2.CTAP.BLE</RootNamespace>
-    <AssemblyName>g.FIDO2.CTAP.BLE</AssemblyName>
+    <RootNamespace>g.FIDO2.CTAP.HID</RootNamespace>
+    <AssemblyName>g.FIDO2.CTAP.HID</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -41,28 +41,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BLEAuthenticatorConnector.cs" />
-    <Compile Include="BLEAuthenticatorScanner.cs" />
-    <Compile Include="BLEResponsePacket.cs" />
-    <Compile Include="Common.cs" />
-    <Compile Include="CTAPBLEReceiver.cs" />
-    <Compile Include="CTAPBLESender.cs" />
-    <Compile Include="FidoDeviceInformation.cs" />
+    <Compile Include="CTAPHID.cs" />
+    <Compile Include="CTAPHIDSender.cs" />
+    <Compile Include="HIDAuthenticatorConnector.cs" />
+    <Compile Include="HIDParam.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\g.FIDO2.CTAP\g.FIDO2.CTAP.csproj">
+    <ProjectReference Include="..\g.FIDO2.CTAP\g.FIDO2.CTAP.csproj">
       <Project>{c9972585-d4d3-4c4d-a34a-f2552bceba9e}</Project>
       <Name>g.FIDO2.CTAP</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\g.FIDO2\g.FIDO2.csproj">
+    <ProjectReference Include="..\g.FIDO2\g.FIDO2.csproj">
       <Project>{db20a9a4-4788-401a-abf0-351653b67d34}</Project>
       <Name>g.FIDO2</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Windows.SDK.Contracts">
-      <Version>10.0.18362.2005</Version>
+    <PackageReference Include="hidlibrary">
+      <Version>3.3.24</Version>
     </PackageReference>
     <PackageReference Include="PeterO.Cbor">
       <Version>4.1.0</Version>

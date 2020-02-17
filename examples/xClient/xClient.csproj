@@ -101,15 +101,15 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\g.FIDO2.CTAP.BLE\ctapBLE\g.FIDO2.CTAP.BLE\g.FIDO2.CTAP.BLE.csproj">
+    <ProjectReference Include="..\..\src\g.FIDO2.CTAP.BLE\g.FIDO2.CTAP.BLE.csproj">
       <Project>{b36895e8-fb06-4ca3-a30a-fe2a17bcfb61}</Project>
       <Name>g.FIDO2.CTAP.BLE</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\g.FIDO2.CTAP.HID\ctapHID\g.FIDO2.CTAP.HID\g.FIDO2.CTAP.HID.csproj">
+    <ProjectReference Include="..\..\src\g.FIDO2.CTAP.HID\g.FIDO2.CTAP.HID.csproj">
       <Project>{d93281f9-cd40-4a9e-9e62-e07de13047c7}</Project>
       <Name>g.FIDO2.CTAP.HID</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\g.FIDO2.CTAP.NFC\ctapNFC\g.FIDO2.CTAP.NFC\g.FIDO2.CTAP.NFC.csproj">
+    <ProjectReference Include="..\..\src\g.FIDO2.CTAP.NFC\g.FIDO2.CTAP.NFC.csproj">
       <Project>{5926a1d9-68c0-42ac-aaf3-48bb5d5dcf7e}</Project>
       <Name>g.FIDO2.CTAP.NFC</Name>
     </ProjectReference>
