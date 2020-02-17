@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace g.FIDO2
 {
-    internal static class Logger
+    public static class Logger
     {
         public static void SetEnable(bool enable)
         {

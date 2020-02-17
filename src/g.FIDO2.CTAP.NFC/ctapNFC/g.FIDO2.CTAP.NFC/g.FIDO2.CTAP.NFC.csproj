@@ -41,12 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\FIDO2\DerConverter.cs">
-      <Link>FIDO2\DerConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\FIDO2\Logger.cs">
-      <Link>FIDO2\Logger.cs</Link>
-    </Compile>
     <Compile Include="APDUresponse.cs" />
     <Compile Include="APDUstatus.cs" />
     <Compile Include="Common.cs" />
@@ -68,13 +62,13 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\g.FIDO2.Credential\g.FIDO2.Credential.csproj">
-      <Project>{2b88f146-6f9a-450d-95d7-55aaba5afc36}</Project>
-      <Name>g.FIDO2.Credential</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\g.FIDO2.CTAP\g.FIDO2.CTAP.csproj">
       <Project>{c9972585-d4d3-4c4d-a34a-f2552bceba9e}</Project>
       <Name>g.FIDO2.CTAP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\g.FIDO2\g.FIDO2.csproj">
+      <Project>{db20a9a4-4788-401a-abf0-351653b67d34}</Project>
+      <Name>g.FIDO2</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

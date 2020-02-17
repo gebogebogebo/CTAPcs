@@ -95,13 +95,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\g.FIDO2.Credential\g.FIDO2.Credential.csproj">
-      <Project>{2b88f146-6f9a-450d-95d7-55aaba5afc36}</Project>
-      <Name>g.FIDO2.Credential</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\g.FIDO2.Util\util\g.FIDO2.Util\g.FIDO2.Util.csproj">
       <Project>{5a0883ba-5a0c-4032-ae12-847fa56d6665}</Project>
       <Name>g.FIDO2.Util</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\g.FIDO2\g.FIDO2.csproj">
+      <Project>{db20a9a4-4788-401a-abf0-351653b67d34}</Project>
+      <Name>g.FIDO2</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
