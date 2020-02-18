@@ -12,30 +12,27 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Windows.Threading;
 
 namespace xServer
 {
     /// <summary>
-    /// MainWindow.xaml の相互作用ロジック
+    /// Page1.xaml の相互作用ロジック
     /// </summary>
-    public partial class MainWindow : NavigationWindow
+    public partial class Page1 : Page
     {
-        public MainWindow()
+        private static Page2 page2 = null;
+
+        public Page1()
         {
             InitializeComponent();
         }
 
-        private void addLog(string message)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine($"{message}");
-            /*
-            // UIスレッドで実行するおまじない
-            var ignored = this.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Action)(() => {
-                textLog.Text += message + Environment.NewLine;
-            }));
-            */
+            if (page2 == null) {
+                page2 = new Page2();
+            }
+            this.NavigationService.Navigate(page2);
         }
-
     }
 }

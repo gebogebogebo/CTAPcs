@@ -33,7 +33,7 @@
   <PropertyGroup />
   <ItemGroup>
     <Reference Include="BouncyCastle.Crypto">
-      <HintPath>..\..\..\Dependencies\BouncyCastle.Crypto.dll</HintPath>
+      <HintPath>..\Dependencies\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -56,7 +56,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\g.FIDO2\g.FIDO2.csproj">
+    <ProjectReference Include="..\g.FIDO2\g.FIDO2.csproj">
       <Project>{db20a9a4-4788-401a-abf0-351653b67d34}</Project>
       <Name>g.FIDO2</Name>
     </ProjectReference>
