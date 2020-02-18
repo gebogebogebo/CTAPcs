@@ -18,31 +18,17 @@ using g.FIDO2.Util;
 namespace xServer
 {
     /// <summary>
-    /// Page4.xaml の相互作用ロジック
+    /// Page6.xaml の相互作用ロジック
     /// </summary>
-    public partial class Page4 : Page
+    public partial class Page6 : Page
     {
-        private static Page5 page5 = null;
-        private byte[] credentialID;
-        private string publicKey;
-
-        public Page4(byte[] creid,string pubkey)
+        public Page6()
         {
             InitializeComponent();
-
-            credentialID = creid;
-            publicKey = pubkey;
-
-            if(creid!=null) this.TextCredentialID.Text = Common.BytesToHexString(creid);
-            if(pubkey!=null) this.TextPublickKey.Text = pubkey;
         }
 
         private void ButtonNext_Click(object sender, RoutedEventArgs e)
         {
-            if (page5 == null) {
-                page5 = new Page5(credentialID,publicKey);
-            }
-            this.NavigationService.Navigate(page5);
 
         }
     }

@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace g.FIDO2
 {
+    [Serializable]
     public class Assertion
     {
         public byte[] RpIdHash { get; set; }

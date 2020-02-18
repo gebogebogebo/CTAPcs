@@ -10,7 +10,7 @@
         <Label Content="RP ID" HorizontalAlignment="Left" Height="31" Margin="22,39,0,0" VerticalAlignment="Top" Width="71"/>
         <TextBox x:Name="TextRPID" HorizontalAlignment="Left" Height="23" Margin="98,47,0,0" TextWrapping="Wrap" Text="gebogebo.com" VerticalAlignment="Top" Width="120"/>
         <Label Content="Challenge" HorizontalAlignment="Left" Height="26" Margin="22,87,0,0" VerticalAlignment="Top" Width="71"/>
-        <TextBox x:Name="TextChallenge" HorizontalAlignment="Left" Height="23" Margin="98,90,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="486"/>
+        <TextBox x:Name="TextChallenge" HorizontalAlignment="Left" Height="23" Margin="98,90,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="361"/>
 
         <Label Content="PIN" HorizontalAlignment="Left" Height="31" Margin="22,119,0,0" VerticalAlignment="Top" Width="71"/>
         <TextBox x:Name="TextPIN" HorizontalAlignment="Left" Height="23" Margin="98,123,0,0" TextWrapping="Wrap" Text="1234" VerticalAlignment="Top" Width="120"/>
@@ -23,6 +23,7 @@
         <Button x:Name="ButtonRegisterBLE" Content="Register BLE" HorizontalAlignment="Left" Margin="464,167,0,0" VerticalAlignment="Top" Width="120" Click="ButtonRegisterBLE_Click" />
 
         <TextBox x:Name="textLog" Margin="10,193,10.286,9.714" TextWrapping="Wrap" Text="" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" FontFamily="MS Gothic"/>
+        <TextBox x:Name="TextCredentialID" HorizontalAlignment="Left" Height="125" Margin="464,10,0,0" TextWrapping="Wrap" Text="creid" VerticalAlignment="Top" Width="320"/>
 
     </Grid>
 </Window>

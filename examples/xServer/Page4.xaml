@@ -5,15 +5,18 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:xServer"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="450"
+      d:DesignHeight="400" d:DesignWidth="400"
       Title="Page4">
 
     <Grid>
-        <Label Content="Credential ID" HorizontalAlignment="Left" Margin="35,21,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="TextCredentialID" HorizontalAlignment="Left" Height="65" Margin="114,21,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="279" IsEnabled="False"/>
+        <Label Content="Verify Success!&#10;- Get CredentialID and PublicKey." HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" FontSize="20"/>
 
-        <Label Content="Public Key" HorizontalAlignment="Left" Margin="35,100,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="TextPublickKey" HorizontalAlignment="Left" Height="65" Margin="114,121,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="279" IsEnabled="False"/>
+        <Label Content="Credential ID" HorizontalAlignment="Left" Margin="35,100,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TextCredentialID" HorizontalAlignment="Left" Height="65" Margin="114,100,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="279" />
+
+        <Label Content="Public Key" HorizontalAlignment="Left" Margin="35,200,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TextPublickKey" HorizontalAlignment="Left" Height="65" Margin="114,200,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="279" />
+        <Button x:Name="ButtonNext" Content="Login Demo" HorizontalAlignment="Left" Margin="196,327,0,0" VerticalAlignment="Top" Width="123" Click="ButtonNext_Click" FontSize="18"/>
 
     </Grid>
 </Page>

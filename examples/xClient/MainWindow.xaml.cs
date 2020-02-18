@@ -59,50 +59,45 @@ namespace xClient
         private void ButtonRegisterHID_Click(object sender, RoutedEventArgs e)
         {
             addLog("Register HID");
-
             register(new HIDAuthenticatorConnector());
+        }
 
-            /*
+        private async void ButtonLoginHID_Click(object sender, RoutedEventArgs e)
+        {
             // server
             var rpid = this.TextRPID.Text;
             var challenge = g.FIDO2.Common.HexStringToBytes(this.TextChallenge.Text);
             var pin = this.TextPIN.Text;
+            var credentialId = g.FIDO2.Common.HexStringToBytes(this.TextCredentialID.Text);
 
             // client
-            g.FIDO2.Attestation att = null;
+            var assertion = new g.FIDO2.Assertion();
             {
-                var con = new HIDAuthenticatorConnector();
+                var con = new g.FIDO2.CTAP.HID.HIDAuthenticatorConnector();
 
-                var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid, challenge);
-                param.RpName = "test name";
-                param.UserId = new byte[0];
-                param.UserName = "testUserName";
-                param.UserDisplayName = "testUserDisplayName";
-                param.Option_rk = false;
+                var param = new g.FIDO2.CTAP.CTAPCommandGetAssertionParam(rpid, challenge, credentialId);
+                param.Option_up = true;
                 param.Option_uv = false;
 
-                var res = await con.MakeCredentialAsync(param, pin);
-                LogResponse(res.DeviceStatus, res.CTAPResponse);
-                if (res?.CTAPResponse?.Status==0 && res?.CTAPResponse?.Attestation != null) {
-                    att = res.CTAPResponse.Attestation;
+                var res = await con.GetAssertionAsync(param, "1234");
+
+                if (res?.CTAPResponse?.Assertion != null) {
+                    assertion = res.CTAPResponse.Assertion;
                 }
 
+                if (res?.CTAPResponse?.Assertion?.NumberOfCredentials > 0) {
+                    for (int intIc = 0; intIc < res.CTAPResponse.Assertion.NumberOfCredentials - 1; intIc++) {
+                        var next = await con.GetNextAssertionAsync();
+                    }
+                }
             }
 
-            if (att != null) {
-                var att_b = g.FIDO2.Serializer.Serialize(att);
-
-                addLog("Attestation ---");
-                addLog(g.FIDO2.Common.BytesToHexString(att_b));
-                addLog("--- Attestation");
-
+            if( assertion != null) {
+                addLog("Assertion ---");
+                var ass_b = g.FIDO2.Serializer.Serialize(assertion);
+                addLog(g.FIDO2.Common.BytesToHexString(ass_b));
+                addLog("--- Assertion");
             }
-            */
-
-        }
-
-        private void ButtonLoginHID_Click(object sender, RoutedEventArgs e)
-        {
 
         }
 

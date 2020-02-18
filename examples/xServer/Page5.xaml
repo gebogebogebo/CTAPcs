@@ -1,0 +1,26 @@
+﻿<Page x:Class="xServer.Page5"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:xServer"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="450"
+      Title="Page5">
+
+    <Grid>
+        <Label Content="Credential ID" HorizontalAlignment="Left" Margin="46,291,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TextCredentialID" HorizontalAlignment="Left" Height="30" Margin="150,291,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="246" IsEnabled="False"/>
+
+        <Label Content="Public Key" HorizontalAlignment="Left" Margin="35,65,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TextPublickKey" HorizontalAlignment="Left" Height="35" Margin="114,56,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="279" IsEnabled="False"/>
+
+        <Label Content="RPID" HorizontalAlignment="Left" Margin="62,161,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TextRPID" HorizontalAlignment="Left" Height="23" Margin="150,161,0,0" TextWrapping="Wrap" Text="gebogebo.com" VerticalAlignment="Top" Width="120"/>
+
+        <Label Content="Challenge" HorizontalAlignment="Left" Margin="62,207,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TextChallenge" HorizontalAlignment="Left" Height="65" Margin="150,207,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="246"/>
+        <Button x:Name="ButtonNext" Content="Next" HorizontalAlignment="Left" Margin="223,342,0,0" VerticalAlignment="Top" Width="173" Height="33" Click="ButtonNext_Click" />
+
+    </Grid>
+</Page>

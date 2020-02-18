@@ -34,6 +34,13 @@ namespace xServer
 
         private void ButtonNext_Click(object sender, RoutedEventArgs e)
         {
+            if(string.IsNullOrEmpty(this.TextAttestation.Text)) {
+                if (page4 == null) {
+                    page4 = new Page4(null, "");
+                }
+                this.NavigationService.Navigate(page4);
+            }
+
             var challenge = Common.HexStringToBytes(this.TextChallenge.Text);
             var att_b = Common.HexStringToBytes(this.TextAttestation.Text);
             var att = g.FIDO2.Serializer.DeserializeAttestation(att_b);

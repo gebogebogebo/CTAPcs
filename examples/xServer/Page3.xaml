@@ -5,14 +5,20 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:xServer"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="450"
+      d:DesignHeight="400" d:DesignWidth="400"
       Title="Page3">
 
     <Grid>
-        <Button x:Name="ButtonNext" Content="Verify" HorizontalAlignment="Left" Margin="131,280,0,0" VerticalAlignment="Top" Width="189" Height="50" Click="ButtonNext_Click"/>
-        <TextBox x:Name="TextAttestation" HorizontalAlignment="Left" Height="139" Margin="35,106,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="358"/>
-        <Label Content="Challenge" HorizontalAlignment="Left" Margin="35,21,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="TextChallenge" HorizontalAlignment="Left" Height="65" Margin="114,21,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="279" IsEnabled="False"/>
+        <Label Content="- Register Client.&#10;- Receive Attestation from Client." HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" FontSize="20"/>
+
+        <Label Content="Attestaion" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TextAttestation" HorizontalAlignment="Left" Height="139" Margin="7,100,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="378" FontSize="9"/>
+        
+        <Label Content="Challenge" HorizontalAlignment="Left" Margin="10,250,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TextChallenge" HorizontalAlignment="Left" Height="27" Margin="10,280,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="375" IsEnabled="False" FontSize="10"/>
+        
+
+        <Button x:Name="ButtonNext" Content="Verify" HorizontalAlignment="Left" Margin="196,327,0,0" VerticalAlignment="Top" Width="189" Height="50" Click="ButtonNext_Click" FontSize="18"/>
 
     </Grid>
 </Page>

@@ -5,12 +5,12 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:xServer"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="450"
+      d:DesignHeight="400" d:DesignWidth="400"
       Title="Page1">
 
     <Grid>
-        <Label Content="FIDO2 Server DEMO" HorizontalAlignment="Left" Margin="117,92,0,0" VerticalAlignment="Top" FontSize="20"/>
-        <Button Content="Start" HorizontalAlignment="Left" Margin="184,228,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        <Label Content="FIDO2 CTAP Server DEMO" HorizontalAlignment="Center" Margin="0,92,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <Button Content="Start" HorizontalAlignment="Center" Margin="0,228,0,0" VerticalAlignment="Top" Width="100" Click="Button_Click" FontSize="16"/>
 
     </Grid>
 </Page>
