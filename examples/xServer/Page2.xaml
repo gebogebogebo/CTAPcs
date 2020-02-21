@@ -9,14 +9,17 @@
       Title="Page2">
 
     <Grid>
-        <Label Content="Register&#10;- Create RPID and Challenge.&#10;- Send to Client." HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <Label Content="Register" HorizontalAlignment="Left" Height="38" Margin="10,10,0,0" VerticalAlignment="Top" Width="380" FontSize="22" FontWeight="Bold"/>
+        <Label Content="- Create RPID and Challenge.&#10;- Send to Client." HorizontalAlignment="Center" Margin="10,53,125,0" VerticalAlignment="Top" FontSize="20"/>
 
-        <Label Content="RPID" HorizontalAlignment="Left" Margin="50,116,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <TextBox x:Name="TextRPID" HorizontalAlignment="Center" Height="26" Margin="0,120,0,0" TextWrapping="Wrap" Text="gebogebo.com" VerticalAlignment="Top" Width="200" FontSize="16"/>
+        <Label Content="RPID" HorizontalAlignment="Left" Margin="10,140,0,0" VerticalAlignment="Top" FontSize="16" />
+        <TextBox x:Name="TextRPID" HorizontalAlignment="Center" Height="26" Margin="10,176,10,0" TextWrapping="Wrap" Text="gebogebo.com" VerticalAlignment="Top" Width="380" FontSize="16"/>
 
         <Label Content="Challenge" HorizontalAlignment="Left" Margin="10,207,0,0" VerticalAlignment="Top" FontSize="18"/>
-        <TextBox x:Name="TextChallenge" HorizontalAlignment="Center" Height="65" Margin="0,207,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="200"/>
+        <TextBox x:Name="TextChallenge" HorizontalAlignment="Center" Height="65" Margin="10,241,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="380"/>
         <Button x:Name="ButtonNext" Content="Next" HorizontalAlignment="Left" Margin="196,327,0,0" VerticalAlignment="Top" Width="173" Height="33" Click="ButtonNext_Click" FontSize="18"/>
+        <Button x:Name="ButtonCopyRPID" Content="copy" HorizontalAlignment="Left" Height="20" Margin="340,148,0,0" VerticalAlignment="Top" Width="50" Click="ButtonCopyRPID_Click"/>
+        <Button x:Name="ButtonCopyChallenge" Content="copy" HorizontalAlignment="Left" Height="20" Margin="340,217,0,0" VerticalAlignment="Top" Width="50" Click="ButtonCopyChallenge_Click"/>
 
     </Grid>
 </Page>

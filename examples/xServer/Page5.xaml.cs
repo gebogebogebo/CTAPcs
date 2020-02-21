@@ -45,7 +45,7 @@ namespace xServer
         private void ButtonNext_Click(object sender, RoutedEventArgs e)
         {
             if (page6 == null) {
-                page6 = new Page6();
+                page6 = new Page6(this.TextChallenge.Text,this.TextPublickKey.Text);
             }
             this.NavigationService.Navigate(page6);
         }

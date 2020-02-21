@@ -9,16 +9,19 @@
       Title="Page3">
 
     <Grid>
-        <Label Content="- Register Client.&#10;- Receive Attestation from Client." HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <Label Content="Register" HorizontalAlignment="Left" Height="38" Margin="10,10,0,0" VerticalAlignment="Top" Width="380" FontSize="22" FontWeight="Bold"/>
 
-        <Label Content="Attestaion" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="TextAttestation" HorizontalAlignment="Left" Height="139" Margin="7,100,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="378" FontSize="9"/>
-        
+        <Label Content="- Register with the Client App.&#10;- Receive Attestation from Client." HorizontalAlignment="Center" Margin="10,50,89,0" VerticalAlignment="Top" FontSize="20"/>
+
+        <Label Content="Attestaion" HorizontalAlignment="Left" Margin="10,113,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TextAttestation" Height="105" Margin="10,145,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" FontSize="9"/>
+
         <Label Content="Challenge" HorizontalAlignment="Left" Margin="10,250,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="TextChallenge" HorizontalAlignment="Left" Height="27" Margin="10,280,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="375" IsEnabled="False" FontSize="10"/>
-        
+
 
         <Button x:Name="ButtonNext" Content="Verify" HorizontalAlignment="Left" Margin="196,327,0,0" VerticalAlignment="Top" Width="189" Height="50" Click="ButtonNext_Click" FontSize="18"/>
+        <Button x:Name="ButtonPasteAttestation" Content="Paste" HorizontalAlignment="Left" Height="20" Margin="347,113,0,0" VerticalAlignment="Top" Width="43" Click="ButtonPasteAttestation_Click"/>
 
     </Grid>
 </Page>

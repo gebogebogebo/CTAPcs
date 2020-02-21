@@ -31,7 +31,16 @@ namespace xServer
             var rpid = this.TextRPID.Text;
             var challenge = AttestationVerifier.CreateChallenge();
             this.TextChallenge.Text = Common.BytesToHexString(challenge);
+        }
 
+        private void ButtonCopyRPID_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(this.TextRPID.Text);
+        }
+
+        private void ButtonCopyChallenge_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(this.TextChallenge.Text);
         }
 
         private void ButtonNext_Click(object sender, RoutedEventArgs e)
@@ -41,5 +50,6 @@ namespace xServer
             }
             this.NavigationService.Navigate(page3);
         }
+
     }
 }

@@ -65,5 +65,10 @@ namespace xServer
             }
 
         }
+
+        private void ButtonPasteAttestation_Click(object sender, RoutedEventArgs e)
+        {
+            this.TextAttestation.Paste();
+        }
     }
 }

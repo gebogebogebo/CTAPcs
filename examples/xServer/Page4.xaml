@@ -9,14 +9,16 @@
       Title="Page4">
 
     <Grid>
-        <Label Content="Verify Success!&#10;- Get CredentialID and PublicKey." HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <Label Content="Register" HorizontalAlignment="Left" Height="38" Margin="10,10,0,0" VerticalAlignment="Top" Width="380" FontSize="22" FontWeight="Bold"/>
 
-        <Label Content="Credential ID" HorizontalAlignment="Left" Margin="35,100,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="TextCredentialID" HorizontalAlignment="Left" Height="65" Margin="114,100,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="279" />
+        <Label Content="Verify Success!&#10;- Got CredentialID and PublicKey." HorizontalAlignment="Center" Margin="10,48,89,0" VerticalAlignment="Top" FontSize="20"/>
 
-        <Label Content="Public Key" HorizontalAlignment="Left" Margin="35,200,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="TextPublickKey" HorizontalAlignment="Left" Height="65" Margin="114,200,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="279" />
-        <Button x:Name="ButtonNext" Content="Login Demo" HorizontalAlignment="Left" Margin="196,327,0,0" VerticalAlignment="Top" Width="123" Click="ButtonNext_Click" FontSize="18"/>
+        <Label Content="Credential ID" HorizontalAlignment="Left" Margin="10,120,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TextCredentialID" HorizontalAlignment="Left" Height="65" Margin="10,147,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="380" />
+
+        <Label Content="Public Key" HorizontalAlignment="Left" Margin="10,217,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TextPublickKey" HorizontalAlignment="Left" Height="75" Margin="10,247,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="380" FontSize="10" />
+        <Button x:Name="ButtonNext" Content="Login" HorizontalAlignment="Left" Margin="267,327,0,0" VerticalAlignment="Top" Width="123" Click="ButtonNext_Click" FontSize="18" Height="37"/>
 
     </Grid>
 </Page>
