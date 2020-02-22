@@ -1,29 +1,9 @@
-﻿<Window x:Class="xClient.MainWindow"
+﻿<NavigationWindow x:Class="xClient.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:xClient"
         mc:Ignorable="d"
-        Title="Client" Height="450" Width="800">
-    <Grid>
-        <Label Content="RP ID" HorizontalAlignment="Left" Height="31" Margin="22,39,0,0" VerticalAlignment="Top" Width="71"/>
-        <TextBox x:Name="TextRPID" HorizontalAlignment="Left" Height="23" Margin="98,47,0,0" TextWrapping="Wrap" Text="gebogebo.com" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Challenge" HorizontalAlignment="Left" Height="26" Margin="22,87,0,0" VerticalAlignment="Top" Width="71"/>
-        <TextBox x:Name="TextChallenge" HorizontalAlignment="Left" Height="23" Margin="98,90,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="361"/>
-
-        <Label Content="PIN" HorizontalAlignment="Left" Height="31" Margin="22,119,0,0" VerticalAlignment="Top" Width="71"/>
-        <TextBox x:Name="TextPIN" HorizontalAlignment="Left" Height="23" Margin="98,123,0,0" TextWrapping="Wrap" Text="1234" VerticalAlignment="Top" Width="120"/>
-
-        <Button x:Name="ButtonInfoHID" Content="Info HID" HorizontalAlignment="Left" Margin="10,167,0,0" VerticalAlignment="Top" Width="120" Click="ButtonInfoHID_Click" />
-
-        <Button x:Name="ButtonRegisterHID" Content="Register HID" HorizontalAlignment="Left" Margin="152,167,0,0" VerticalAlignment="Top" Width="120" Click="ButtonRegisterHID_Click"/>
-        <Button x:Name="ButtonLoginHID" Content="Login HID" HorizontalAlignment="Left" Margin="277,167,0,0" VerticalAlignment="Top" Width="130" Click="ButtonLoginHID_Click"/>
-
-        <Button x:Name="ButtonRegisterBLE" Content="Register BLE" HorizontalAlignment="Left" Margin="464,167,0,0" VerticalAlignment="Top" Width="120" Click="ButtonRegisterBLE_Click" />
-
-        <TextBox x:Name="textLog" Margin="10,193,10.286,9.714" TextWrapping="Wrap" Text="" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" FontFamily="MS Gothic"/>
-        <TextBox x:Name="TextCredentialID" HorizontalAlignment="Left" Height="125" Margin="464,10,0,0" TextWrapping="Wrap" Text="creid" VerticalAlignment="Top" Width="320"/>
-
-    </Grid>
-</Window>
+        Title="FIDO2 CTAP Client DEMO App" Height="450" Width="450" Source="Page1.xaml" >
+</NavigationWindow>

@@ -13,184 +13,77 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using g.FIDO2.CTAP.HID;
-using g.FIDO2.CTAP.BLE;
 
 namespace xClient
 {
     /// <summary>
     /// MainWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : NavigationWindow
     {
+        public string RPID;
+        public byte[] Challenge;
+        public byte[] CredentialID;
+
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private void addLog(string message)
+        public async Task<g.FIDO2.Attestation> Register(g.FIDO2.CTAP.AuthenticatorConnector con, string rpid, byte[] challenge, string pin)
         {
-            Console.WriteLine($"{message}");
-            // UIスレッドで実行するおまじない
-            var ignored = this.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Action)(() => {
-                textLog.Text += message + Environment.NewLine;
-            }));
-        }
-
-        private void LogResponse(g.FIDO2.CTAP.DeviceStatus devSt, g.FIDO2.CTAP.CTAPResponse res)
-        {
-            addLog($"- DeviceStatus = {devSt.ToString()}");
-            addLog($"- CTAP Status = 0x{res?.Status.ToString("X")}");
-            addLog($"- CTAP StatusMsg = {res?.StatusMsg}");
-            //addLog($"- CTAP SendPayloadJson = {res?.SendPayloadJson}");
-            //addLog($"- CTAP ResponseDataJson = {res?.ResponsePayloadJson}");
-            addLog("");
-        }
-
-
-        private async void ButtonInfoHID_Click(object sender, RoutedEventArgs e)
-        {
-            addLog("Info HID");
-            var con = new HIDAuthenticatorConnector();
-            var res = await con.GetInfoAsync();
-            LogResponse(res.DeviceStatus, res.CTAPResponse);
-        }
-
-        private void ButtonRegisterHID_Click(object sender, RoutedEventArgs e)
-        {
-            addLog("Register HID");
-            register(new HIDAuthenticatorConnector());
-        }
-
-        private async void ButtonLoginHID_Click(object sender, RoutedEventArgs e)
-        {
-            // server
-            var rpid = this.TextRPID.Text;
-            var challenge = g.FIDO2.Common.HexStringToBytes(this.TextChallenge.Text);
-            var pin = this.TextPIN.Text;
-            var credentialId = g.FIDO2.Common.HexStringToBytes(this.TextCredentialID.Text);
-
-            // client
-            var assertion = new g.FIDO2.Assertion();
-            {
-                var con = new g.FIDO2.CTAP.HID.HIDAuthenticatorConnector();
-
-                var param = new g.FIDO2.CTAP.CTAPCommandGetAssertionParam(rpid, challenge, credentialId);
-                param.Option_up = true;
-                param.Option_uv = false;
-
-                var res = await con.GetAssertionAsync(param, "1234");
-
-                if (res?.CTAPResponse?.Assertion != null) {
-                    assertion = res.CTAPResponse.Assertion;
-                }
-
-                if (res?.CTAPResponse?.Assertion?.NumberOfCredentials > 0) {
-                    for (int intIc = 0; intIc < res.CTAPResponse.Assertion.NumberOfCredentials - 1; intIc++) {
-                        var next = await con.GetNextAssertionAsync();
-                    }
-                }
-            }
-
-            if( assertion != null) {
-                addLog("Assertion ---");
-                var ass_b = g.FIDO2.Serializer.Serialize(assertion);
-                addLog(g.FIDO2.Common.BytesToHexString(ass_b));
-                addLog("--- Assertion");
-            }
-
-        }
-
-
-        BLEAuthenticatorScanner scannerBLE;
-        ulong addressBLE = 0;
-        BLEAuthenticatorConnector conBLE;
-
-        private void ButtonRegisterBLE_Click(object sender, RoutedEventArgs e)
-        {
-            scannerBLE = new BLEAuthenticatorScanner();
-            scannerBLE.FindDevice += OnFindDevice;
-            scannerBLE.Start();
-            addLog("Scan Start . Please turn on BLE FIDO key");
-
-        }
-
-        private async void OnFindDevice(object sender, g.FIDO2.CTAP.BLE.BLEAuthenticatorScanner.FindDeviceEventArgs e)
-        {
-
-            addLog($"<OnFindDevice>");
-            scannerBLE.Stop();
-
-            addLog($"- BluetoothAddress = {e.BluetoothAddress}");
-            addLog($"- CompanyId = 0x{e.CompanyId.ToString("X")}");
-            addLog($"- ManufacturerData = 0x{g.FIDO2.Common.BytesToHexString(e.ManufacturerData)}");
-            addressBLE = e.BluetoothAddress;
-
-            var ret = await this.connectBLE();
-            if( ret == false) {
-                return;
-            }
-            register(conBLE);
-        }
-
-        private async Task<bool> connectBLE()
-        {
-            conBLE = new BLEAuthenticatorConnector();
-
-            conBLE.PacketSizeByte = 155;       // AllinPass
-            //con.ConnectedDevice += OnConnectedDevice;
-            //con.DisconnectedDevice += OnDisconnectedDevice;
-            var result = await conBLE.ConnectAsync(this.addressBLE);
-            if (result == false) {
-                addLog("Connect Error BLE FIDO key");
-                return false;
-            }
-            addLog("Connected BLE FIDO key");
-            return true;
-        }
-
-        private void register(g.FIDO2.CTAP.AuthenticatorConnector con)
-        {
-            var ignored = this.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Action)(async() => {
-
-                // server
-                var rpid = this.TextRPID.Text;
-                var challenge = g.FIDO2.Common.HexStringToBytes(this.TextChallenge.Text);
-                var pin = this.TextPIN.Text;
-
+            return await Task<g.FIDO2.Attestation>.Run(async () => {
                 var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid, challenge);
-                param.RpName = "test name";
+                param.RpName = "";
                 param.UserId = new byte[0];
-                param.UserName = "testUserName";
-                param.UserDisplayName = "testUserDisplayName";
+                param.UserName = "";
+                param.UserDisplayName = "";
                 param.Option_rk = false;
                 param.Option_uv = false;
 
                 g.FIDO2.Attestation att = null;
                 {
-                    addLog("up FIDO key");
-
                     var res = await con.MakeCredentialAsync(param, pin);
-                    LogResponse(res.DeviceStatus, res.CTAPResponse);
                     if (res?.CTAPResponse?.Status == 0 && res?.CTAPResponse?.Attestation != null) {
                         att = res.CTAPResponse.Attestation;
                     }
                 }
-                if (att != null) {
-                    var att_b = g.FIDO2.Serializer.Serialize(att);
 
-                    addLog("Attestation ---");
-                    addLog(g.FIDO2.Common.BytesToHexString(att_b));
-                    addLog("--- Attestation");
-
-                }
-
-                if(con is BLEAuthenticatorConnector) {
+                /*
+                if (con is BLEAuthenticatorConnector) {
                     conBLE.Disconnect();
                 }
+                */
 
-            }));
+                return att;
+            });
         }
 
+        public async Task<g.FIDO2.Assertion> Authenticate(g.FIDO2.CTAP.AuthenticatorConnector con, string rpid, byte[] challenge, byte[] credentialId, string pin)
+        {
+            return await Task<g.FIDO2.Assertion>.Run(async () => {
+                var assertion = new g.FIDO2.Assertion();
+                {
+                    var param = new g.FIDO2.CTAP.CTAPCommandGetAssertionParam(rpid, challenge, credentialId);
+                    param.Option_up = true;
+                    param.Option_uv = false;
+
+                    var res = await con.GetAssertionAsync(param, pin);
+
+                    if (res?.CTAPResponse?.Assertion != null) {
+                        assertion = res.CTAPResponse.Assertion;
+                    }
+
+                    if (res?.CTAPResponse?.Assertion?.NumberOfCredentials > 0) {
+                        for (int intIc = 0; intIc < res.CTAPResponse.Assertion.NumberOfCredentials - 1; intIc++) {
+                            var next = await con.GetNextAssertionAsync();
+                        }
+                    }
+                }
+
+                return assertion;
+            });
+        }
     }
+
 }
