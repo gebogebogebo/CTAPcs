@@ -1,0 +1,19 @@
+﻿<Page x:Class="xServer.Page7"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:xServer"
+      mc:Ignorable="d" 
+      d:DesignHeight="400" d:DesignWidth="400"
+      Title="Page7">
+
+    <Grid>
+        <Label Content="Login" HorizontalAlignment="Left" Height="40" Margin="10,5,0,0" VerticalAlignment="Top" Width="380" FontSize="22" FontWeight="Bold"/>
+        <Label Content="Veirfy Success!" Height="40" Margin="10,98,10,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold" Foreground="#FFFE0000"/>
+        <Label Content="- Send [Success Message] to Client." Margin="10,145,0,0" VerticalAlignment="Top" FontSize="16" HorizontalAlignment="Left" Width="380"/>
+
+        <Button x:Name="button" Content="END" HorizontalAlignment="Left" Height="38" Margin="122,266,0,0" VerticalAlignment="Top" Width="118" Click="Button_Click"/>
+
+    </Grid>
+</Page>

@@ -24,15 +24,9 @@ namespace xServer
     {
         private static Page6 page6 = null;
 
-        private byte[] credentialID;
-        private string publicKey;
-
         public Page5(byte[] creid, string pubkey)
         {
             InitializeComponent();
-
-            credentialID = creid;
-            publicKey = pubkey;
 
             var rpid = this.TextRPID.Text;
             var challenge = AttestationVerifier.CreateChallenge();
@@ -44,10 +38,23 @@ namespace xServer
 
         private void ButtonNext_Click(object sender, RoutedEventArgs e)
         {
-            if (page6 == null) {
-                page6 = new Page6(this.TextChallenge.Text,this.TextPublickKey.Text);
-            }
+            if (page6 == null) page6 = new Page6(this.TextChallenge.Text, this.TextPublickKey.Text);
             this.NavigationService.Navigate(page6);
+        }
+
+        private void ButtonCopyRPID_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(this.TextRPID.Text);
+        }
+
+        private void ButtonCopyChallenge_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(this.TextChallenge.Text);
+        }
+
+        private void ButtonCopyCredentialID_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(this.TextCredentialID.Text);
         }
     }
 }

@@ -9,8 +9,8 @@
       Title="Page2">
 
     <Grid>
-        <Label Content="Register" HorizontalAlignment="Left" Height="38" Margin="10,10,0,0" VerticalAlignment="Top" Width="380" FontSize="22" FontWeight="Bold"/>
-        <Label Content="- Create RPID and Challenge.&#10;- Send to Client." HorizontalAlignment="Center" Margin="10,53,125,0" VerticalAlignment="Top" FontSize="20"/>
+        <Label Content="Register" HorizontalAlignment="Left" Height="40" Margin="10,5,0,0" VerticalAlignment="Top" Width="380" FontSize="22" FontWeight="Bold"/>
+        <Label Content="- Create Challenge.&#10;- Send [RPID] [Challenge] to Client." HorizontalAlignment="Left" Margin="10,45,125,0" VerticalAlignment="Top" FontSize="16"/>
 
         <Label Content="RPID" HorizontalAlignment="Left" Margin="10,140,0,0" VerticalAlignment="Top" FontSize="16" />
         <TextBox x:Name="TextRPID" HorizontalAlignment="Center" Height="26" Margin="10,176,10,0" TextWrapping="Wrap" Text="gebogebo.com" VerticalAlignment="Top" Width="380" FontSize="16"/>

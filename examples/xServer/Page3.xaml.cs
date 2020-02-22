@@ -34,36 +34,22 @@ namespace xServer
 
         private void ButtonNext_Click(object sender, RoutedEventArgs e)
         {
-            if(string.IsNullOrEmpty(this.TextAttestation.Text)) {
-                if (page4 == null) {
-                    page4 = new Page4(null, "");
-                }
-                this.NavigationService.Navigate(page4);
-            }
-
             var challenge = Common.HexStringToBytes(this.TextChallenge.Text);
             var att_b = Common.HexStringToBytes(this.TextAttestation.Text);
-            var att = g.FIDO2.Serializer.DeserializeAttestation(att_b);
-
-            if (att != null) {
-                var v = new g.FIDO2.Util.AttestationVerifier();
-                var verify = v.Verify(challenge, att);
-
-                //addLog($"Verify  = {verify.IsSuccess}\r\n");
-                if (verify.IsSuccess) {
-                    //addLog($"- CredentialID = \r\n{Common.BytesToHexString(verify.CredentialID)}\r\n");
-                    //addLog($"- PublicKey = \r\n{verify.PublicKeyPem}\r\n");
-
-                    if (page4 == null) {
-                        page4 = new Page4(verify.CredentialID,verify.PublicKeyPem);
-                    }
-                    this.NavigationService.Navigate(page4);
-
-                }
-            } else {
-                //addLog($"Attestaion Deserialize Error");
+            var att = Serializer.DeserializeAttestation(att_b);
+            if( att == null) {
+                // Attestaion Deserialize Error
+                return;
             }
 
+            // verify
+            var v = new AttestationVerifier();
+            var verify = v.Verify(challenge, att);
+
+            if (verify.IsSuccess) {
+                if (page4 == null) page4 = new Page4(verify.CredentialID, verify.PublicKeyPem);
+                this.NavigationService.Navigate(page4);
+            }
         }
 
         private void ButtonPasteAttestation_Click(object sender, RoutedEventArgs e)

@@ -9,12 +9,12 @@
       Title="Page4">
 
     <Grid>
-        <Label Content="Register" HorizontalAlignment="Left" Height="38" Margin="10,10,0,0" VerticalAlignment="Top" Width="380" FontSize="22" FontWeight="Bold"/>
+        <Label Content="Register" HorizontalAlignment="Left" Height="40" Margin="10,5,0,0" VerticalAlignment="Top" Width="380" FontSize="22" FontWeight="Bold"/>
+        <Label Content="Veirfy Success!" HorizontalAlignment="Left" Height="40" Margin="155,5,0,0" VerticalAlignment="Top" Width="235" FontSize="22" FontWeight="Bold" Foreground="#FFFE0000"/>
+        <Label Content="- Got CredentialID and PublicKey." HorizontalAlignment="Center" Margin="10,45,146,0" VerticalAlignment="Top" FontSize="16"/>
 
-        <Label Content="Verify Success!&#10;- Got CredentialID and PublicKey." HorizontalAlignment="Center" Margin="10,48,89,0" VerticalAlignment="Top" FontSize="20"/>
-
-        <Label Content="Credential ID" HorizontalAlignment="Left" Margin="10,120,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="TextCredentialID" HorizontalAlignment="Left" Height="65" Margin="10,147,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="380" />
+        <Label Content="Credential ID" HorizontalAlignment="Left" Margin="10,81,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TextCredentialID" HorizontalAlignment="Left" Height="100" Margin="10,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="380" />
 
         <Label Content="Public Key" HorizontalAlignment="Left" Margin="10,217,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="TextPublickKey" HorizontalAlignment="Left" Height="75" Margin="10,247,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="380" FontSize="10" />

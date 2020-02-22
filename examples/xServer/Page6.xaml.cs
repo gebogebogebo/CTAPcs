@@ -22,6 +22,8 @@ namespace xServer
     /// </summary>
     public partial class Page6 : Page
     {
+        private static Page7 page7 = null;
+
         public Page6(string challenge, string pubkey)
         {
             InitializeComponent();
@@ -36,24 +38,23 @@ namespace xServer
             var challenge = Common.HexStringToBytes(this.TextChallenge.Text);
             var ass_b = Common.HexStringToBytes(this.TextAssertion.Text);
             var ass = g.FIDO2.Serializer.DeserializeAssertion(ass_b);
-
-            if (ass != null) {
-                var v = new g.FIDO2.Util.AssertionVerifier();
-                var verify = v.Verify(pubkey,challenge, ass);
-
-                if (verify.IsSuccess) {
-                    /*
-                    if (page4 == null) {
-                        page4 = new Page4(verify.CredentialID, verify.PublicKeyPem);
-                    }
-                    this.NavigationService.Navigate(page4);
-                    */
-
-                }
-            } else {
-                //addLog($"Attestaion Deserialize Error");
+            if (ass == null) {
+                // Deserialize Error
+                return;
             }
 
+            var v = new g.FIDO2.Util.AssertionVerifier();
+            var verify = v.Verify(pubkey,challenge, ass);
+
+            if (verify.IsSuccess) {
+                if (page7 == null) page7 = new Page7();
+                this.NavigationService.Navigate(page7);
+            }
+        }
+
+        private void ButtonPasteAssertion_Click(object sender, RoutedEventArgs e)
+        {
+            this.TextAssertion.Paste();
         }
     }
 }

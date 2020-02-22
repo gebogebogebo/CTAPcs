@@ -9,19 +9,24 @@
       Title="Page5">
 
     <Grid>
-        <Label Content="Login" HorizontalAlignment="Left" Height="38" Margin="10,10,0,0" VerticalAlignment="Top" Width="380" FontSize="22" FontWeight="Bold"/>
+        <Label Content="Login" HorizontalAlignment="Left" Height="40" Margin="10,5,0,0" VerticalAlignment="Top" Width="171" FontSize="22" FontWeight="Bold"/>
+        <Label Content="- Create Challenge.&#xA;- Send [RPID] [Challenge] [Credential ID] to Client." HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" FontSize="16"/>
 
-        <Label Content="Credential ID" HorizontalAlignment="Left" Margin="10,243,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="TextCredentialID" HorizontalAlignment="Left" Height="60" Margin="10,274,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="380" IsEnabled="true"/>
+        <Label Content="Credential ID" HorizontalAlignment="Left" Margin="9,248,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TextCredentialID" HorizontalAlignment="Left" Height="60" Margin="10,274,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="380" IsEnabled="true"/>
+        <Button x:Name="ButtonCopyCredentialID" Content="copy" HorizontalAlignment="Left" Height="20" Margin="340,250,0,0" VerticalAlignment="Top" Width="50" Click="ButtonCopyCredentialID_Click" />
 
-        <Label Content="Public Key" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.109,-0.727"/>
-        <TextBox x:Name="TextPublickKey" HorizontalAlignment="Left" Height="35" Margin="10,69,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="380" IsEnabled="False" FontSize="10"/>
+        <Label Content="Public Key" HorizontalAlignment="Left" Margin="9,346,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.109,-0.727"/>
+        <TextBox x:Name="TextPublickKey" HorizontalAlignment="Left" Height="35" Margin="78,346,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="56" IsEnabled="False" FontSize="10"/>
 
-        <Label Content="RPID" HorizontalAlignment="Left" Margin="10,109,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="TextRPID" HorizontalAlignment="Left" Height="23" Margin="10,140,0,0" TextWrapping="Wrap" Text="gebogebo.com" VerticalAlignment="Top" Width="209"/>
+        <Label Content="RPID" HorizontalAlignment="Left" Margin="10,115,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TextRPID" HorizontalAlignment="Left" Height="23" Margin="10,140,0,0" TextWrapping="Wrap" Text="gebogebo.com" VerticalAlignment="Top" Width="380"/>
+        <Button x:Name="ButtonCopyRPID" Content="copy" HorizontalAlignment="Left" Height="20" Margin="340,115,0,0" VerticalAlignment="Top" Width="50" Click="ButtonCopyRPID_Click" />
 
-        <Label Content="Challenge" HorizontalAlignment="Left" Margin="10,168,0,0" VerticalAlignment="Top"/>
+        <Label Content="Challenge" HorizontalAlignment="Left" Margin="10,173,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="TextChallenge" HorizontalAlignment="Left" Height="39" Margin="10,199,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="380"/>
+        <Button x:Name="ButtonCopyChallenge" Content="copy" HorizontalAlignment="Left" Height="20" Margin="340,178,0,0" VerticalAlignment="Top" Width="50" Click="ButtonCopyChallenge_Click" />
+
         <Button x:Name="ButtonNext" Content="Next" HorizontalAlignment="Left" Margin="217,339,0,0" VerticalAlignment="Top" Width="173" Height="33" Click="ButtonNext_Click" />
 
     </Grid>

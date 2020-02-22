@@ -9,14 +9,17 @@
       Title="Page6">
 
     <Grid>
-        <Button x:Name="ButtonNext" Content="Verify" HorizontalAlignment="Left" Margin="114,324,0,0" VerticalAlignment="Top" Width="189" Height="50" RenderTransformOrigin="0.503,0.246" Click="ButtonNext_Click" />
-        <TextBox x:Name="TextAssertion" HorizontalAlignment="Left" Height="123" Margin="10,196,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="380"/>
-        <Label Content="Challenge" HorizontalAlignment="Left" Margin="10,21,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="TextChallenge" HorizontalAlignment="Left" Height="26" Margin="78,21,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="312" IsEnabled="False"/>
-        <Label Content="Assertion" HorizontalAlignment="Left" Margin="10,165,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.511,1.41" />
-        <Label Content="Recelive from Client" HorizontalAlignment="Left" Height="33" Margin="10,132,0,0" VerticalAlignment="Top" Width="210"/>
-        <Label Content="PublicKey" HorizontalAlignment="Left" Margin="10,64,0,0" VerticalAlignment="Top" />
-        <TextBox x:Name="TextPublicKey" HorizontalAlignment="Left" Height="63" Margin="78,64,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="312"/>
+        <Label Content="Login" HorizontalAlignment="Left" Height="40" Margin="10,5,0,0" VerticalAlignment="Top" Width="380" FontSize="22" FontWeight="Bold"/>
+        <Label Content="- Authenticate with the Client.&#10;- Receive Assertion from Client.&#10;- Verify Assertion." HorizontalAlignment="Left" Margin="10,45,89,0" VerticalAlignment="Top" FontSize="16"/>
+
+        <Button x:Name="ButtonNext" Content="Verify" HorizontalAlignment="Left" Margin="201,344,0,0" VerticalAlignment="Top" Width="189" Height="25" RenderTransformOrigin="0.503,0.246" Click="ButtonNext_Click" />
+        <TextBox x:Name="TextAssertion" Height="49" Margin="10,150,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" FontSize="9"/>
+        <Label Content="Challenge" HorizontalAlignment="Left" Margin="10,204,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TextChallenge" Height="26" Margin="10,230,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" IsEnabled="False" FontSize="9"/>
+        <Label Content="Assertion" HorizontalAlignment="Left" Margin="10,123,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.511,1.41" />
+        <Label Content="PublicKey" HorizontalAlignment="Left" Margin="9,261,0,0" VerticalAlignment="Top" />
+        <TextBox x:Name="TextPublicKey" Height="63" Margin="10,287,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" FontSize="9"/>
+        <Button x:Name="ButtonPasteAssertion" Content="Paste" HorizontalAlignment="Left" Height="23" Margin="347,113,0,0" VerticalAlignment="Top" Width="43" Click="ButtonPasteAssertion_Click" />
 
     </Grid>
 </Page>
