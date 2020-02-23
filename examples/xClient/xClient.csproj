@@ -94,6 +94,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Page24.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Page25.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Page26.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Page3.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -141,6 +153,15 @@
     </Compile>
     <Compile Include="Page23.xaml.cs">
       <DependentUpon>Page23.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Page24.xaml.cs">
+      <DependentUpon>Page24.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Page25.xaml.cs">
+      <DependentUpon>Page25.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Page26.xaml.cs">
+      <DependentUpon>Page26.xaml</DependentUpon>
     </Compile>
     <Compile Include="Page3.xaml.cs">
       <DependentUpon>Page3.xaml</DependentUpon>

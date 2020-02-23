@@ -66,7 +66,8 @@ namespace xClient
                 {
                     var param = new g.FIDO2.CTAP.CTAPCommandGetAssertionParam(rpid, challenge, credentialId);
                     param.Option_up = true;
-                    param.Option_uv = false;
+                    // pinが未設定であればUVはtrue
+                    param.Option_uv = string.IsNullOrEmpty(pin);
 
                     var res = await con.GetAssertionAsync(param, pin);
 

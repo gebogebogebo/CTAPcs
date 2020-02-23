@@ -128,12 +128,19 @@ namespace g.FIDO2.CTAP
         /// </summary>
         public async Task<ResponseGetAssertion> GetAssertionAsync(CTAPCommandGetAssertionParam param, string pin)
         {
-            var token = await ClientPINgetPINTokenAsync(pin);
-            if (token.DeviceStatus != DeviceStatus.Ok || token.CTAPResponse == null || token.CTAPResponse.Status != 0) {
-                return new ResponseGetAssertion(token.DeviceStatus,token.CTAPResponse);
+            byte[] pinAuth = null;
+            if (!string.IsNullOrEmpty(pin)) {
+                var token = await ClientPINgetPINTokenAsync(pin);
+                if (token.DeviceStatus != DeviceStatus.Ok || token.CTAPResponse == null || token.CTAPResponse.Status != 0) {
+                    return new ResponseGetAssertion(token.DeviceStatus, token.CTAPResponse);
+                }
+
+                pinAuth = CTAPCommandClientPIN.CreatePinAuth(param.ClientDataHash, token.CTAPResponse.PinToken);
+                if (pinAuth == null) {
+                    return new ResponseGetAssertion(token.DeviceStatus, token.CTAPResponse);
+                }
             }
 
-            var pinAuth = CTAPCommandClientPIN.CreatePinAuth(param.ClientDataHash, token.CTAPResponse.PinToken);
 
             var ret = await sendCommandandResponseAsync(new CTAPCommandGetAssertion(param, pinAuth), new CTAPResponseGetAssertion());
             return new ResponseGetAssertion(ret.devSt,ret.ctapRes);
@@ -170,6 +177,9 @@ namespace g.FIDO2.CTAP
                 }
 
                 pinAuth = CTAPCommandClientPIN.CreatePinAuth(param.ClientDataHash, token.CTAPResponse.PinToken);
+                if (pinAuth == null) {
+                    return new ResponseMakeCredential(token.DeviceStatus, token.CTAPResponse);
+                }
             }
 
             var ret = await sendCommandandResponseAsync(new CTAPCommandMakeCredential(param, pinAuth), new CTAPResponseMakeCredential());

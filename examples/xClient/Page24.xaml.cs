@@ -10,13 +10,13 @@ using g.FIDO2.CTAP.HID;
 namespace xClient
 {
     /// <summary>
-    /// Page23.xaml の相互作用ロジック
+    /// Page24.xaml の相互作用ロジック
     /// </summary>
-    public partial class Page23 : Page
+    public partial class Page24 : Page
     {
         private static Page31 page = null;
 
-        public Page23()
+        public Page24()
         {
             InitializeComponent();
         }
@@ -24,11 +24,12 @@ namespace xClient
         private async void GetAssertion_Click(object sender, RoutedEventArgs e)
         {
             var app = (MainWindow)Application.Current.MainWindow;
-            var ass = await app.Authenticate(new HIDAuthenticatorConnector(), app.RPID, app.Challenge, app.CredentialID,this.TextPIN.Text);
+            var ass = await app.Authenticate(new HIDAuthenticatorConnector(), app.RPID, app.Challenge, app.CredentialID, null);
             if (ass == null) return;
 
             if (page == null) page = new Page31(ass);
             this.NavigationService.Navigate(page);
+
         }
     }
 }

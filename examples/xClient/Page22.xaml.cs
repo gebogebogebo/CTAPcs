@@ -20,7 +20,10 @@ namespace xClient
     /// </summary>
     public partial class Page22 : Page
     {
-        private static Page23 page = null;
+        private static Page23 pageHIDPIN = null;
+        private static Page24 pageHIDUV = null;
+        private static Page25 pageBLEPIN = null;
+        private static Page26 pageBLEUV = null;
 
         public Page22()
         {
@@ -29,8 +32,26 @@ namespace xClient
 
         private void ButtonHIDPIN_Click(object sender, RoutedEventArgs e)
         {
-            if (page == null) page = new Page23();
-            this.NavigationService.Navigate(page);
+            if (pageHIDPIN == null) pageHIDPIN = new Page23();
+            this.NavigationService.Navigate(pageHIDPIN);
+        }
+
+        private void ButtonHIDUV_Click(object sender, RoutedEventArgs e)
+        {
+            if (pageHIDUV == null) pageHIDUV = new Page24();
+            this.NavigationService.Navigate(pageHIDUV);
+        }
+
+        private void ButtonBLEPIN_Click(object sender, RoutedEventArgs e)
+        {
+            if (pageBLEPIN == null) pageBLEPIN = new Page25();
+            this.NavigationService.Navigate(pageBLEPIN);
+        }
+
+        private void ButtonBLEUV_Click(object sender, RoutedEventArgs e)
+        {
+            if (pageBLEUV == null) pageBLEUV = new Page26();
+            this.NavigationService.Navigate(pageBLEUV);
         }
     }
 }
