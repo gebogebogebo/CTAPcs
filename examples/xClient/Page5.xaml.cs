@@ -12,19 +12,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Windows.Threading;
 using g.FIDO2.CTAP.HID;
 
 namespace xClient
 {
     /// <summary>
-    /// Page4.xaml の相互作用ロジック
+    /// Page5.xaml の相互作用ロジック
     /// </summary>
-    public partial class Page4 : Page
+    public partial class Page5 : Page
     {
         private static Page11 page = null;
 
-        public Page4()
+        public Page5()
         {
             InitializeComponent();
         }
@@ -32,13 +31,11 @@ namespace xClient
         private async void MakeCredential_Click(object sender, RoutedEventArgs e)
         {
             var app = (MainWindow)Application.Current.MainWindow;
-            var att = await app.Register(new HIDAuthenticatorConnector(), app.RPID,app.Challenge,this.TextPIN.Text);
+            var att = await app.Register(new HIDAuthenticatorConnector(), app.RPID, app.Challenge, null);
             if (att == null) return;
 
             if (page == null) page = new Page11(att);
             this.NavigationService.Navigate(page);
-
         }
-
     }
 }

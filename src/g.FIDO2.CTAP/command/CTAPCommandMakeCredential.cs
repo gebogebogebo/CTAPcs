@@ -33,7 +33,7 @@ namespace g.FIDO2.CTAP
         public CTAPCommandMakeCredential(CTAPCommandMakeCredentialParam param,byte[] pinAuth)
         {
             this.param = param;
-            this.pinAuth = pinAuth.ToArray();
+            if(pinAuth!=null) this.pinAuth = pinAuth.ToArray();
         }
 
         public override byte[] CreatePayload()

@@ -162,12 +162,15 @@ namespace g.FIDO2.CTAP
         /// </summary>
         public async Task<ResponseMakeCredential> MakeCredentialAsync(CTAPCommandMakeCredentialParam param, string pin)
         {
-            var token = await ClientPINgetPINTokenAsync(pin);
-            if (token.DeviceStatus != DeviceStatus.Ok || token.CTAPResponse == null || token.CTAPResponse.Status != 0) {
-                return new ResponseMakeCredential(token.DeviceStatus,token.CTAPResponse);
-            }
+            byte[] pinAuth = null;
+            if(!string.IsNullOrEmpty(pin)) {
+                var token = await ClientPINgetPINTokenAsync(pin);
+                if (token.DeviceStatus != DeviceStatus.Ok || token.CTAPResponse == null || token.CTAPResponse.Status != 0) {
+                    return new ResponseMakeCredential(token.DeviceStatus, token.CTAPResponse);
+                }
 
-            var pinAuth = CTAPCommandClientPIN.CreatePinAuth(param.ClientDataHash, token.CTAPResponse.PinToken);
+                pinAuth = CTAPCommandClientPIN.CreatePinAuth(param.ClientDataHash, token.CTAPResponse.PinToken);
+            }
 
             var ret = await sendCommandandResponseAsync(new CTAPCommandMakeCredential(param, pinAuth), new CTAPResponseMakeCredential());
             return new ResponseMakeCredential(ret.devSt, ret.ctapRes);

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using g.FIDO2;
 
 namespace xClient
 {
@@ -22,11 +23,12 @@ namespace xClient
     {
         private static Page21 page = null;
 
-        public Page11(string att)
+        public Page11(Attestation att)
         {
             InitializeComponent();
 
-            TextAttestation.Text = att;
+            var att_b = g.FIDO2.Serializer.Serialize(att);
+            TextAttestation.Text = g.FIDO2.Common.BytesToHexString(att_b);
         }
 
         private void ButtonCopyAtt_Click(object sender, RoutedEventArgs e)

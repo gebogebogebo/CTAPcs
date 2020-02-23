@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using g.FIDO2.CTAP.BLE;
 
 namespace xClient
 {
@@ -39,7 +40,8 @@ namespace xClient
                 param.UserName = "";
                 param.UserDisplayName = "";
                 param.Option_rk = false;
-                param.Option_uv = false;
+                // pinが未設定であればUVはtrue
+                param.Option_uv = string.IsNullOrEmpty(pin);
 
                 g.FIDO2.Attestation att = null;
                 {
@@ -49,11 +51,9 @@ namespace xClient
                     }
                 }
 
-                /*
                 if (con is BLEAuthenticatorConnector) {
-                    conBLE.Disconnect();
+                    (con as BLEAuthenticatorConnector).Disconnect();
                 }
-                */
 
                 return att;
             });
