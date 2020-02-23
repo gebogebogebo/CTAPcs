@@ -9,6 +9,8 @@ namespace g.FIDO2.CTAP.HID
 {
     internal class CTAPHID : IDisposable
 	{
+        public event EventHandler KeepAlive;
+
         public int ReceiveResponseTotalTimeoutMs = 0;
         public bool isReceiveResponseTotalTimeout = false;
 
@@ -150,6 +152,7 @@ namespace g.FIDO2.CTAP.HID
                 loop_n = this.ReceiveResponseTotalTimeoutMs / keepalivesleepms;
             }
 
+            bool eventKeepAlive = false;
             for (int intIc = 0 ;intIc < loop_n ;intIc++ ) {
                 report = await hidDevice.ReadReportAsync(CallTimeoutMs);
 
@@ -166,6 +169,12 @@ namespace g.FIDO2.CTAP.HID
                     throw new Exception("Error in response header");
                 } else if(resp[4] == (byte)(CTAP_FRAME_INIT | CTAPHID_KEEPALIVE)) {
                     System.Diagnostics.Debug.WriteLine("keep alive");
+
+                    // event 1time
+                    if (eventKeepAlive == false) {
+                        KeepAlive?.BeginInvoke(this, EventArgs.Empty, null, null);
+                        eventKeepAlive = true;
+                    }
                     await Task.Delay(keepalivesleepms);
                     continue;
                 }
@@ -230,7 +239,7 @@ namespace g.FIDO2.CTAP.HID
             }
         }
 
-        public static async Task<SendCommandandResponseResult> SendCommandandResponse(List<HidParam> hidParams, byte[] send,int timeoutms)
+        public static async Task<SendCommandandResponseResult> SendCommandandResponse(List<HidParam> hidParams, byte[] send,int timeoutms,EventHandler keepalive)
         {
             var result = new SendCommandandResponseResult();
             IHidDevice hidDevice = null;
@@ -242,6 +251,7 @@ namespace g.FIDO2.CTAP.HID
                 }
                 using (var openedDevice = await CTAPHID.OpenAsync(hidDevice)) {
                     openedDevice.ReceiveResponseTotalTimeoutMs = timeoutms;
+                    openedDevice.KeepAlive += keepalive;
                     result.responseData = await openedDevice.CborAsync(send);
                     result.isTimeout = openedDevice.isReceiveResponseTotalTimeout;
                 }

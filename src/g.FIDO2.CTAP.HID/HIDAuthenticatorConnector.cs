@@ -14,6 +14,11 @@ namespace g.FIDO2.CTAP.HID
         public int ReceiveResponseTimeoutmillisecond = 5000;
 
         /// <summary>
+        /// KeepAlive event 
+        /// </summary>
+        public event EventHandler KeepAlive;
+
+        /// <summary>
         /// constructor
         /// </summary>
         public HIDAuthenticatorConnector()
@@ -51,6 +56,7 @@ namespace g.FIDO2.CTAP.HID
 
                 // 送信して、応答受信(byte[])
                 var sender = new CTAPHIDSender();
+                sender.KeepAlive += this.KeepAlive;
                 var response = await sender.SendCommandandResponseAsync(hidParams, payload, ReceiveResponseTimeoutmillisecond);
 
                 // 応答をパース

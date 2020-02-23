@@ -8,6 +8,8 @@ namespace g.FIDO2.CTAP.HID
 {
     internal class CTAPHIDSender
     {
+        public event EventHandler KeepAlive;
+
         public CTAPHIDSender() { }
 
         public async Task<(DeviceStatus devSt, byte[] ctapRes)> SendCommandandResponseAsync(List<HidParam> hidParams,byte[] payload, int timeoutms)
@@ -17,7 +19,7 @@ namespace g.FIDO2.CTAP.HID
                 return (DeviceStatus.NotConnedted, null);
             }
 
-            var res = await CTAPHID.SendCommandandResponse(hidParams,payload, timeoutms);
+            var res = await CTAPHID.SendCommandandResponse(hidParams,payload, timeoutms,KeepAlive);
             if (res == null) {
                 Logger.Err("Response Error");
                 return (DeviceStatus.Unknown,null);

@@ -22,6 +22,12 @@ namespace HIDTest01
     /// </summary>
     public partial class MainWindow : Window
     {
+        private void OnKeepAlive(object sender, EventArgs e)
+        {
+            addLog($"<OnKeppAlive>");
+            addLog($"- touch authenticator!");
+        }
+
         private void addLog(string message)
         {
             Console.WriteLine($"{message}");
@@ -47,6 +53,7 @@ namespace HIDTest01
         {
             InitializeComponent();
             con = new HIDAuthenticatorConnector();
+            con.KeepAlive += OnKeepAlive;
         }
 
         private async void ButtonGetInfo_Click(object sender, RoutedEventArgs e)
@@ -81,15 +88,15 @@ namespace HIDTest01
 
             var rpid = "test.com";
             var challenge = System.Text.Encoding.ASCII.GetBytes("this is challenge");
-            var creid = g.FIDO2.Common.HexStringToBytes("8F3045BE18CC2076E4EC8E5D9BCDEB7977B4217AE7B0503F0F5DBCF965CE172B28BFF3EE169E9F17D305E4D4C1FF0F7662A909D7ECA6AE63702AC9FFFBBAC229E907A29D29EE57E59949B075408A4C97780A04354407E73CAC72B31888E3DD09");
+            var creid = g.FIDO2.Common.HexStringToBytes("C6664E44AACED4611C04D5FE2F082DF377B4217AE7B0503F0F5DBCF965CE172BADF0F664E1028216EB6EAF701AFB8C208E01EAF65AE40B46FB7F7FDCEFCDB89025D1A69090D7B1BF7323ADE630B2CED5ABCE987976293B98424FD86B5175908D");
 
-            var param = new g.FIDO2.CTAP.CTAPCommandGetAssertionParam(rpid, challenge,null);
-
-
+            var param = new g.FIDO2.CTAP.CTAPCommandGetAssertionParam(rpid, challenge,creid);
             param.Option_up = true;
             param.Option_uv = false;
 
-            var res = await con.GetAssertionAsync(param, "1234");
+            string pin = "1234";
+
+            var res = await con.GetAssertionAsync(param, pin);
             LogResponse(res.DeviceStatus,res.CTAPResponse);
 
             if (res?.CTAPResponse?.Assertion?.NumberOfCredentials > 0) {
