@@ -12,11 +12,11 @@
         <Label Content="Register" HorizontalAlignment="Left" Height="40" Margin="10,5,0,0" VerticalAlignment="Top" Width="380" FontSize="22" FontWeight="Bold"/>
         <Label Content="- Register Authenticator.&#10;- Click any button." HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" FontSize="16" Width="338"/>
 
-        <Button x:Name="buttonHIDPIN" Content="PIN with USB Authenticator" HorizontalAlignment="Left" Height="40" Margin="10,191,0,0" VerticalAlignment="Top" Width="238" Click="ButtonHIDPIN_Click"/>
-        <Button x:Name="buttonHIDUV" Content="Fingerprint with USB Authenticator" HorizontalAlignment="Left" Height="40" Margin="10,236,0,0" VerticalAlignment="Top" Width="238" Click="ButtonHIDUV_Click" />
+        <Button x:Name="buttonHIDPIN" Content="PIN with USB Authenticator" HorizontalAlignment="Left" Height="40" Margin="10,128,0,0" VerticalAlignment="Top" Width="238" Click="ButtonHIDPIN_Click"/>
+        <Button x:Name="buttonHIDUV" Content="Fingerprint with USB Authenticator" HorizontalAlignment="Left" Height="40" Margin="10,173,0,0" VerticalAlignment="Top" Width="238" Click="ButtonHIDUV_Click" />
 
-        <Button x:Name="buttonBLEPIN" Content="PIN with BLE Authenticator" HorizontalAlignment="Left" Height="40" Margin="10,281,0,0" VerticalAlignment="Top" Width="238" Click="ButtonBLEPIN_Click" />
-        <Button x:Name="buttonBLEUV" Content="Fingerprint with BLE Authenticator" HorizontalAlignment="Left" Height="40" Margin="10,326,0,0" VerticalAlignment="Top" Width="238" Click="ButtonBLEUV_Click" />
+        <Button x:Name="buttonBLEPIN" Content="PIN with BLE Authenticator" HorizontalAlignment="Left" Height="40" Margin="10,218,0,0" VerticalAlignment="Top" Width="238" Click="ButtonBLEPIN_Click" />
+        <Button x:Name="buttonBLEUV" Content="Fingerprint with BLE Authenticator" HorizontalAlignment="Left" Height="40" Margin="10,263,0,0" VerticalAlignment="Top" Width="238" Click="ButtonBLEUV_Click" />
 
     </Grid>
 </Page>

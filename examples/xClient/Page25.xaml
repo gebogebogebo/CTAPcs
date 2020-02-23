@@ -10,10 +10,11 @@
 
     <Grid>
         <Label Content="Login" HorizontalAlignment="Left" Height="40" Margin="10,5,0,0" VerticalAlignment="Top" Width="380" FontSize="22" FontWeight="Bold"/>
-        <Label Content="- Push connect switch BLE Authenticator.&#10;- Input PIN.&#10;- Click [GetAssertion] Button.&#10;- Touch Authenticator" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" FontSize="16" Width="338"/>
+        <Label Content="PIN with BLE Authenticator" HorizontalAlignment="Left" Height="40" Margin="10,45,0,0" VerticalAlignment="Top" Width="380" FontSize="22" FontWeight="Bold"/>
+        <Label Content="- Push connect switch BLE Authenticator.&#10;- Input PIN.&#10;- Click [GetAssertion] Button.&#10;- Touch Authenticator" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top" FontSize="16" Width="338"/>
 
-        <Label Content="PIN" HorizontalAlignment="Left" Height="31" Margin="22,178,0,0" VerticalAlignment="Top" Width="71"/>
-        <TextBox x:Name="TextPIN" HorizontalAlignment="Left" Height="23" Margin="98,181,0,0" TextWrapping="Wrap" Text="1234" VerticalAlignment="Top" Width="120"/>
+        <Label Content="PIN" HorizontalAlignment="Left" Height="31" Margin="22,250,0,0" VerticalAlignment="Top" Width="71"/>
+        <TextBox x:Name="TextPIN" HorizontalAlignment="Left" Height="23" Margin="98,250,0,0" TextWrapping="Wrap" Text="1234" VerticalAlignment="Top" Width="120"/>
 
         <Button x:Name="GetAssertion" Content="GetAssertion" HorizontalAlignment="Left" Margin="149,286,0,0" VerticalAlignment="Top" Width="151" Height="37" Click="GetAssertion_Click" />
 

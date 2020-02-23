@@ -5,5 +5,5 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:xServer"
         mc:Ignorable="d"
-        Title="FIDO2 CTAP Server DEMO App" Height="450" Width="450" Source="Page1.xaml" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen">
+        Title="FIDO2 CTAP Server DEMO App" Height="450" Width="450" Source="Page1.xaml" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen" Background="#FFF5B7B7">
 </NavigationWindow>

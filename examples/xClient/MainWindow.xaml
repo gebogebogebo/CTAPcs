@@ -5,5 +5,5 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:xClient"
         mc:Ignorable="d"
-        Title="FIDO2 CTAP Client DEMO App" Height="450" Width="450" Source="Page1.xaml" >
+        Title="FIDO2 CTAP Client DEMO App" Height="450" Width="450" Source="Page1.xaml" Background="#FFA2DCA6" >
 </NavigationWindow>
