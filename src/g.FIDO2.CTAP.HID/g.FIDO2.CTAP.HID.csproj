@@ -61,9 +61,6 @@
     <PackageReference Include="hidlibrary">
       <Version>3.3.24</Version>
     </PackageReference>
-    <PackageReference Include="PeterO.Cbor">
-      <Version>4.1.0</Version>
-    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

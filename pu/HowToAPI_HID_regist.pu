@@ -1,0 +1,30 @@
+@startuml
+title Register 
+hide footbox
+
+participant "USB FIDO Key" as Key
+participant "User" as User
+participant "Client" as Client
+participant "Server" as Server
+
+User -> Client : Start
+Client -> Server : Request
+note over Server : create\n- RPID\n- Challenge
+Client <-- Server : RPID,Challenge
+
+note over Client : Message\n- Insert key
+Key --> Client : Insert
+
+Key <- Client : MakeCredential
+note over Key : Flashing
+Key <- User : touch
+Key --> Client : Attestation
+
+Client -> Server : Request(Attestation)
+Server -> Server : Verify
+note over Server : register DB
+Client <-- Server : OK
+
+note over Client : END
+
+@enduml

@@ -1,0 +1,49 @@
+@startuml
+title Module
+
+component userServerApp.exe as userServerApp <<Server>>
+component userClientHIDApp.exe as userClientHIDApp <<Client>>
+component userClientNFCApp.exe as userClientNFCApp <<Client>>
+component userClientBLEApp.exe as userClientBLEApp <<Client>>
+
+(g.FIDO2.CTAP.HID.dll) as g.FIDO2.CTAP.HID.dll
+(g.FIDO2.CTAP.NFC.dll) as g.FIDO2.CTAP.NFC.dll
+(g.FIDO2.CTAP.BLE.dll) as g.FIDO2.CTAP.BLE.dll
+(g.FIDO2.CTAP.dll) as g.FIDO2.CTAP.dll
+(g.FIDO2.Util.dll) as g.FIDO2.Util.dll
+(g.FIDO2.dll) as g.FIDO2.dll 
+
+(CBOR.dll) as CBOR <<PeterO.Cbor 4.1.0>>
+(Numbers.dll) as Numbers <<PeterO.Numbers 1.5.1>>
+(URIUtility.dll) as URIUtility <<PeterO.URIUtility 1.0.0>>
+
+(HidLibrary.dll) as HidLibrary <<hidlibrary 3.3.24.0>>
+
+(BouncyCastle.Crypto.dll) as Bouncy <<Bouncy Castle 1.8.5>>
+(Microsoft.Windows.SDK.Contracts) as WinSDK <<Microsoft.Windows.SDK.Contracts 10.0.18362.2005>>
+
+userServerApp ..> g.FIDO2.Util.dll
+g.FIDO2.Util.dll ..> g.FIDO2.dll
+g.FIDO2.Util.dll ..> Bouncy
+g.FIDO2.Util.dll ..> CBOR
+CBOR ..> Numbers
+CBOR ..> URIUtility
+
+userClientHIDApp ..> g.FIDO2.CTAP.HID.dll
+g.FIDO2.CTAP.HID.dll ..> g.FIDO2.CTAP.dll
+g.FIDO2.CTAP.HID.dll ..> g.FIDO2.dll
+g.FIDO2.CTAP.HID.dll ..> HidLibrary
+
+userClientNFCApp ..> g.FIDO2.CTAP.NFC.dll
+g.FIDO2.CTAP.NFC.dll ..> g.FIDO2.CTAP.dll
+g.FIDO2.CTAP.NFC.dll ..> g.FIDO2.dll
+
+userClientBLEApp ..> g.FIDO2.CTAP.BLE.dll
+g.FIDO2.CTAP.BLE.dll ..> g.FIDO2.CTAP.dll
+g.FIDO2.CTAP.BLE.dll ..> g.FIDO2.dll
+g.FIDO2.CTAP.BLE.dll ..> WinSDK
+
+g.FIDO2.CTAP.dll ..> g.FIDO2.dll
+g.FIDO2.CTAP.dll ..> CBOR
+
+@enduml
