@@ -26,6 +26,11 @@ namespace g.FIDO2.CTAP.BLE
         public event EventHandler DisconnectedDevice;
 
         /// <summary>
+        /// KeepAlive event 
+        /// </summary>
+        public event EventHandler KeepAlive;
+
+        /// <summary>
         /// constructor
         /// </summary>
         public BLEAuthenticatorConnector() { }
@@ -90,7 +95,7 @@ namespace g.FIDO2.CTAP.BLE
                                 Logger.Err("Error Connect Characteristic FIDO Status(Notify)");
                             } else {
                                 receiver = new CTAPBLEReceiver();
-
+                                receiver.KeepAlive += this.KeepAlive;
                                 if (this.characteristic_Receive.CharacteristicProperties.HasFlag(GattCharacteristicProperties.Notify)) {
                                     // イベントハンドラ追加
                                     this.characteristic_Receive.ValueChanged += receiver.OnReceiveFromDevice;

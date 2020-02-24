@@ -11,6 +11,8 @@ namespace g.FIDO2.CTAP.BLE
 {
     internal class CTAPBLEReceiver
     {
+        public event EventHandler KeepAlive;
+
         public bool IsReceived { get; private set; }
 
         private BLEResponsePacket receiveData;
@@ -56,6 +58,7 @@ namespace g.FIDO2.CTAP.BLE
                     Logger.Log($"PING");
                 } else if (data[0] == 0x82) {
                     Logger.Log($"KEEPALIVE");
+                    KeepAlive?.BeginInvoke(this, EventArgs.Empty, null, null);
                 } else if (data[0] == 0x83) {
                     Logger.Log($"MSG");
                     IsReceived = false;

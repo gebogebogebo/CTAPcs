@@ -70,6 +70,12 @@ namespace Test01
             addLog($"<OnDisconnectedDevice>");
         }
 
+        private void OnKeepAlive(object sender, EventArgs e)
+        {
+            addLog($"<OnKeppAlive>");
+            addLog($"- touch authenticator!");
+        }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -102,6 +108,7 @@ namespace Test01
             con.PacketSizeByte = 155;       // AllinPass
             con.ConnectedDevice += OnConnectedDevice;
             con.DisconnectedDevice += OnDisconnectedDevice;
+            con.KeepAlive += OnKeepAlive;
             var result = await con.ConnectAsync(this.bleAddress);
         }
 
@@ -139,7 +146,7 @@ namespace Test01
 
             var rpid = "BLEtest.com";
             var challenge = Encoding.ASCII.GetBytes("this is challenge");
-            var creid = g.FIDO2.Common.HexStringToBytes("1A9862CFD3AF8FA152622D3612B3AAE5ACD59FC3EB65A3F71390EBFA56E79C64CAB890AF184E341EBB616D0E9220BA25800F1A16974E08258744FA2C7B6EABD8F467E285A3CA20899E41C67111880CF455AAEE68DC0D9DCEF87FEED076635BEB");
+            var creid = g.FIDO2.Common.HexStringToBytes("532AF82B1E83CB31C50CA5DCBB4B4895ACD59FC3EB65A3F71390EBFA56E79C6458CDB738BE9F00FDC785A868EDA094EB3874F357DF0D41B53DDD83B1B01AE19E7B365A66C31120BF896C44E1F6FBABA60972C9AFB6700BF70A793D29398DC1E5");
 
             var param = new g.FIDO2.CTAP.CTAPCommandGetAssertionParam(rpid,challenge,creid);
 

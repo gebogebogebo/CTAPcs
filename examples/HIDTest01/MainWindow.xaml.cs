@@ -22,12 +22,6 @@ namespace HIDTest01
     /// </summary>
     public partial class MainWindow : Window
     {
-        private void OnKeepAlive(object sender, EventArgs e)
-        {
-            addLog($"<OnKeppAlive>");
-            addLog($"- touch authenticator!");
-        }
-
         private void addLog(string message)
         {
             Console.WriteLine($"{message}");
@@ -45,6 +39,12 @@ namespace HIDTest01
             addLog($"- CTAP SendPayloadJson = {res?.SendPayloadJson}");
             addLog($"- CTAP ResponseDataJson = {res?.ResponsePayloadJson}");
             addLog("");
+        }
+
+        private void OnKeepAlive(object sender, EventArgs e)
+        {
+            addLog($"<OnKeppAlive>");
+            addLog($"- touch authenticator!");
         }
 
         HIDAuthenticatorConnector con;

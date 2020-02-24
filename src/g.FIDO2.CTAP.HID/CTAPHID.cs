@@ -20,6 +20,7 @@ namespace g.FIDO2.CTAP.HID
 
         // CTAP Command
 		private const byte CTAPHID_INIT = 0x06;
+        private const byte CTAPHID_WINK = 0x08;
         private const byte CTAPHID_CBOR = 0x10;
         //This command code is used in response messages only.
         private const byte CTAPHID_ERROR = 0x3F;
@@ -62,8 +63,12 @@ namespace g.FIDO2.CTAP.HID
 			}
 
 			this.cid = response.Skip(8).Take(4).ToArray();
-
 		}
+
+        public async Task<byte[]> WinkAsync(byte[] command)
+        {
+            return await CallAsync(CTAPHID_WINK, command);
+        }
 
         public async Task<byte[]> CborAsync(byte[] command)
         {
@@ -152,7 +157,6 @@ namespace g.FIDO2.CTAP.HID
                 loop_n = this.ReceiveResponseTotalTimeoutMs / keepalivesleepms;
             }
 
-            bool eventKeepAlive = false;
             for (int intIc = 0 ;intIc < loop_n ;intIc++ ) {
                 report = await hidDevice.ReadReportAsync(CallTimeoutMs);
 
@@ -170,11 +174,7 @@ namespace g.FIDO2.CTAP.HID
                 } else if(resp[4] == (byte)(CTAP_FRAME_INIT | CTAPHID_KEEPALIVE)) {
                     System.Diagnostics.Debug.WriteLine("keep alive");
 
-                    // event 1time
-                    if (eventKeepAlive == false) {
-                        KeepAlive?.BeginInvoke(this, EventArgs.Empty, null, null);
-                        eventKeepAlive = true;
-                    }
+                    KeepAlive?.BeginInvoke(this, EventArgs.Empty, null, null);
                     await Task.Delay(keepalivesleepms);
                     continue;
                 }
