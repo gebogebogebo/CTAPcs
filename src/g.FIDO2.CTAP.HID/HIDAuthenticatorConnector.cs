@@ -45,6 +45,25 @@ namespace g.FIDO2.CTAP.HID
             }
         }
 
+        public async Task<bool> Wink()
+        {
+            HidLibrary.IHidDevice hidDevice = null;
+
+            try {
+                hidDevice = CTAPHID.find(hidParams);
+                if (hidDevice == null) return false;
+
+                using (var openedDevice = await CTAPHID.OpenAsync(hidDevice)) {
+                    var ret = await openedDevice.WinkAsync(null);
+                }
+            } catch (Exception) {
+                return false;
+            } finally {
+                hidDevice?.Dispose();
+            }
+            return true;
+        }
+
         // private
         private List<HidParam> hidParams;
 

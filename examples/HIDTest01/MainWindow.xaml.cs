@@ -159,5 +159,16 @@ namespace HIDTest01
             var res = await con.ResetAsync();
             LogResponse(res.DeviceStatus, res.CTAPResponse);
         }
+
+        private async void ButtonWink_Click(object sender, RoutedEventArgs e)
+        {
+            addLog("<Wink x 5 >");
+            for (int intIc = 0; intIc < 5; intIc++) {
+                addLog("Wink...");
+                var ret = await con.Wink();
+                await Task.Delay(1000);
+            }
+            addLog("<Wink - END >");
+        }
     }
 }

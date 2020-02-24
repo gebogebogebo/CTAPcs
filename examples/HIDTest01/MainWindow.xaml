@@ -15,7 +15,8 @@
         <Button x:Name="ButtonClientPINchangePIN" Content="changePIN" HorizontalAlignment="Left" Margin="409,10,0,0" VerticalAlignment="Top" Width="104" Height="28" Click="ButtonClientPINchangePIN_Click"/>
         <Button x:Name="ButtonClientPINsetPIN" Content="setPIN" HorizontalAlignment="Left" Margin="518,10,0,0" VerticalAlignment="Top" Width="54" Height="28" Click="ButtonClientPINsetPIN_Click"/>
         <Button x:Name="ButtonIsConnected" Content="IsConnected" HorizontalAlignment="Left" Margin="577,10,0,0" VerticalAlignment="Top" Width="83" Height="28" Click="ButtonIsConnected_Click"/>
-        <Button x:Name="ButtonReset" Content="Reset" HorizontalAlignment="Left" Margin="665,10,0,0" VerticalAlignment="Top" Width="75" Height="28" Click="ButtonReset_Click"/>
+        <Button x:Name="ButtonReset" Content="Reset" HorizontalAlignment="Left" Margin="665,10,0,0" VerticalAlignment="Top" Width="43" Height="28" Click="ButtonReset_Click"/>
+        <Button x:Name="buttonWink" Content="Wink" HorizontalAlignment="Left" Margin="713,10,0,0" VerticalAlignment="Top" Width="51" Height="28" Click="ButtonWink_Click"/>
 
     </Grid>
 </Window>
