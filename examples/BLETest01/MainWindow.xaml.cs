@@ -110,6 +110,9 @@ namespace Test01
             con.DisconnectedDevice += OnDisconnectedDevice;
             con.KeepAlive += OnKeepAlive;
             var result = await con.ConnectAsync(this.bleAddress);
+            if( result == false) {
+                addLog("- Connect Error");
+            }
         }
 
         private void ButtonDiscon_Click(object sender, RoutedEventArgs e)

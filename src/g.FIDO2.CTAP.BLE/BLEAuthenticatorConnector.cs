@@ -89,32 +89,39 @@ namespace g.FIDO2.CTAP.BLE
                     // FIDO Status(Notify) 受信データ
                     {
                         var characteristics = await service_Fido.GetCharacteristicsForUuidAsync(Common.GATT_CHARACTERISTIC_FIDO_STATUS_GUID);
-                        if (characteristics.Characteristics.Count > 0) {
-                            this.characteristic_Receive = characteristics.Characteristics.First();
-                            if (this.characteristic_Receive == null) {
-                                Logger.Err("Error Connect Characteristic FIDO Status(Notify)");
-                            } else {
-                                receiver = new CTAPBLEReceiver();
-                                receiver.KeepAlive += this.KeepAlive;
-                                if (this.characteristic_Receive.CharacteristicProperties.HasFlag(GattCharacteristicProperties.Notify)) {
-                                    // イベントハンドラ追加
-                                    this.characteristic_Receive.ValueChanged += receiver.OnReceiveFromDevice;
+                        if(characteristics.Characteristics.Count <= 0) {
+                            Logger.Err("Error Connect Characteristic FIDO Status(Notify)");
+                            return false;
+                        }
+                        this.characteristic_Receive = characteristics.Characteristics.First();
+                        if (this.characteristic_Receive == null) {
+                            Logger.Err("Error Connect Characteristic FIDO Status(Notify)");
+                            return false;
+                        }
 
-                                    // これで有効になる
-                                    await this.characteristic_Receive.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Notify);
-                                }
-                            }
+                        receiver = new CTAPBLEReceiver();
+                        receiver.KeepAlive += this.KeepAlive;
+                        if (this.characteristic_Receive.CharacteristicProperties.HasFlag(GattCharacteristicProperties.Notify)) {
+                            // イベントハンドラ追加
+                            this.characteristic_Receive.ValueChanged += receiver.OnReceiveFromDevice;
+
+                            // これで有効になる
+                            await this.characteristic_Receive.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Notify);
                         }
                     }
 
                     // FIDO Control Point(Write) 送信データ
                     {
                         var characteristics = await service_Fido.GetCharacteristicsForUuidAsync(Common.GATT_CHARACTERISTIC_FIDO_CONTROL_POINT_GUID);
-                        if (characteristics.Characteristics.Count > 0) {
-                            this.characteristic_Send = characteristics.Characteristics.First();
-                            if (this.characteristic_Send == null) {
-                                Logger.Err("Error Connect Characteristic FIDO Control Point(Write)");
-                            }
+                        if (characteristics.Characteristics.Count <= 0) {
+                            Logger.Err("Error Connect CharacteristicFIDO Control Point(Write)");
+                            return false;
+                        }
+
+                        this.characteristic_Send = characteristics.Characteristics.First();
+                        if (this.characteristic_Send == null) {
+                            Logger.Err("Error Connect Characteristic FIDO Control Point(Write)");
+                            return false;
                         }
                     }
 
