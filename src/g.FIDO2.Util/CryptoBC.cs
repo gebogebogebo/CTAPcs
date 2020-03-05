@@ -8,6 +8,17 @@ using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security;
 
+using Org.BouncyCastle.X509;
+using Org.BouncyCastle.Math;
+using Org.BouncyCastle.Asn1.X509;
+using Org.BouncyCastle.Asn1.Pkcs;
+using Org.BouncyCastle.Crypto.Operators;
+// Org.BouncyCastle.X509.X509CertificateとSystem.Security.Cryptographic.X509Certificates.X509Certificateの名前が重複するので、直接名前空間を使わないことにする
+using MsX509Certificate2 = System.Security.Cryptography.X509Certificates.X509Certificate2;
+using Org.BouncyCastle.Crypto.Prng;
+using Org.BouncyCastle.Crypto.Generators;
+using Org.BouncyCastle.Asn1;
+
 namespace g.FIDO2.Util
 {
     internal class CryptoBC
@@ -57,5 +68,61 @@ namespace g.FIDO2.Util
             return (result);
         }
 
+        public static MsX509Certificate2 CreateCertificate(string pubkeyPem)
+        {
+            // ここで生成したPrivateKeyで署名するのでこの証明書の署名には意味がない
+            // 鍵のジェネレータ
+            var randGen = new CryptoApiRandomGenerator();
+            var rand = new SecureRandom(randGen);
+            var param = new KeyGenerationParameters(rand, 2048);
+
+            // 鍵生成
+            var keyGen = new RsaKeyPairGenerator();
+            keyGen.Init(param);
+            var keyPair = keyGen.GenerateKeyPair();
+
+
+            var privateKeyReader = new PemReader(new StringReader(pubkeyPem));
+            var publicKey = (AsymmetricKeyParameter)privateKeyReader.ReadObject();
+
+            // 証明書の属性
+            var attr = new Dictionary<DerObjectIdentifier, string>()
+            {
+                { X509Name.CN, "test" },
+                { X509Name.C, "Japan" },
+                { X509Name.OU, "None" },
+            };
+            var ord = new List<DerObjectIdentifier>()
+            {
+                X509Name.CN,
+                X509Name.C,
+                X509Name.OU,
+            };
+            var issuerDN = new X509Name(ord, attr);
+
+            // シリアル番号の文字列表現(10進数)
+            string serialString = "123";
+
+            // これより前の時刻は証明書は無効
+            DateTime notBefore = DateTime.Now;
+
+            // これより後の時刻は証明書は無効
+            DateTime notAfter = DateTime.Now;
+
+            var x509gen = new X509V3CertificateGenerator();
+            var serial = new BigInteger(serialString);
+            x509gen.SetSerialNumber(serial);
+            x509gen.SetIssuerDN(issuerDN);
+            x509gen.SetSubjectDN(issuerDN);
+            x509gen.SetNotBefore(notBefore);
+            x509gen.SetNotAfter(notAfter);
+            x509gen.SetPublicKey(publicKey);
+
+            // SHA256+RSAで署名する
+            var signerFactory = new Asn1SignatureFactory(PkcsObjectIdentifiers.Sha256WithRsaEncryption.Id, keyPair.Private);
+            var x509 = x509gen.Generate(signerFactory);
+
+            return new MsX509Certificate2(DotNetUtilities.ToX509Certificate(x509));
+        }
     }
 }

@@ -61,6 +61,10 @@ namespace g.FIDO2.Util
                 result.CredentialID = decAuthdata.CredentialId;
                 result.PublicKeyPem = decAuthdata.PublicKeyPem;
             }
+
+            // PublicKeyを証明書形式にする
+            //var cert2 = CryptoBC.CreateCertificate(result.PublicKeyPem);
+
             return result;
         }
 

@@ -116,11 +116,11 @@ namespace HIDTest01
 
             var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid,challenge);
             param.RpName = "test name";
-            param.UserId = new byte[0];
+            param.UserId = new byte[1] { 0x01 };
             param.UserName = "testUserName";
             param.UserDisplayName = "testUserDisplayName";
             param.Option_rk = false;
-            param.Option_uv = false;
+            param.Option_uv = true;
 
             string pin = "1234";
 
