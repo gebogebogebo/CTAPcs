@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 
 namespace g.FIDO2.Util
 {
@@ -62,12 +63,14 @@ namespace g.FIDO2.Util
                 result.PublicKeyPem = decAuthdata.PublicKeyPem;
             }
 
-            // PublicKeyを証明書形式にする
-            //var cert2 = CryptoBC.CreateCertificate(result.PublicKeyPem);
-
             return result;
         }
 
+        public X509Certificate2 CreateSelfSignedCertificate(Result result)
+        {
+            // PublicKeyを証明書形式にする
+            return(CryptoBC.CreateSelfSignedCertificate(result?.PublicKeyPem));
+        }
     }
 
     public class AssertionVerifier : Verifier

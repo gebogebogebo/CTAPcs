@@ -68,22 +68,27 @@ namespace g.FIDO2.Util
             return (result);
         }
 
-        public static MsX509Certificate2 CreateCertificate(string pubkeyPem)
+        public static MsX509Certificate2 CreateSelfSignedCertificate(string pubkeyPem)
         {
+            if (string.IsNullOrEmpty(pubkeyPem)) return null;
+
             // ここで生成したPrivateKeyで署名するのでこの証明書の署名には意味がない
-            // 鍵のジェネレータ
-            var randGen = new CryptoApiRandomGenerator();
-            var rand = new SecureRandom(randGen);
-            var param = new KeyGenerationParameters(rand, 2048);
+            AsymmetricCipherKeyPair keyPair = null;
+            {
+                // 鍵のジェネレータ
+                var randGen = new CryptoApiRandomGenerator();
+                var rand = new SecureRandom(randGen);
+                var param = new KeyGenerationParameters(rand, 2048);
 
-            // 鍵生成
-            var keyGen = new RsaKeyPairGenerator();
-            keyGen.Init(param);
-            var keyPair = keyGen.GenerateKeyPair();
+                // 鍵生成
+                var keyGen = new RsaKeyPairGenerator();
+                keyGen.Init(param);
+                keyPair = keyGen.GenerateKeyPair();
+            }
 
 
-            var privateKeyReader = new PemReader(new StringReader(pubkeyPem));
-            var publicKey = (AsymmetricKeyParameter)privateKeyReader.ReadObject();
+            var keyReader = new PemReader(new StringReader(pubkeyPem));
+            var publicKey = (AsymmetricKeyParameter)keyReader.ReadObject();
 
             // 証明書の属性
             var attr = new Dictionary<DerObjectIdentifier, string>()

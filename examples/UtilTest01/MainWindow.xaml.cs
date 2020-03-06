@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Security.Cryptography.X509Certificates;
 
 namespace UtilTest01
 {
@@ -63,6 +64,15 @@ namespace UtilTest01
                 if(verify.IsSuccess) {
                     this.credentialID = verify.CredentialID.ToArray();
                     this.publicKey = verify.PublicKeyPem;
+
+                    var cert = v.CreateSelfSignedCertificate(verify);
+
+                    // certmgr.msc
+                    var store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
+
+                    store.Open(OpenFlags.ReadWrite);
+                    store.Add(cert);
+                    store.Close();
                 }
             }
         }
