@@ -18,7 +18,7 @@ namespace g.FIDO2.Util
             return random;
         }
 
-        public bool VerifyPublicKey(string publickey, byte[] challenge, byte[] authData, byte[] sig)
+        protected bool VerifyPublicKey(string publickey, byte[] challenge, byte[] authData, byte[] sig)
         {
             // VerifyTarget = authData + SHA256(challenge)
             byte[] verifyTarget;
