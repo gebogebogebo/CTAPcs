@@ -68,7 +68,7 @@ namespace g.FIDO2.Util
             return (result);
         }
 
-        public static MsX509Certificate2 CreateSelfSignedCertificate(string pubkeyPem)
+        public static MsX509Certificate2 CreateSelfSignedCertificate(string pubkeyPem, string subjectOrganization, string subjectCommonname,string issureOrganization,string issureCommonname, DateTime notBefore, DateTime notAfter)
         {
             if (string.IsNullOrEmpty(pubkeyPem)) return null;
 
@@ -78,7 +78,7 @@ namespace g.FIDO2.Util
                 // 鍵のジェネレータ
                 var randGen = new CryptoApiRandomGenerator();
                 var rand = new SecureRandom(randGen);
-                var param = new KeyGenerationParameters(rand, 2048);
+                var param = new KeyGenerationParameters(rand, 1024);
 
                 // 鍵生成
                 var keyGen = new RsaKeyPairGenerator();
@@ -90,37 +90,52 @@ namespace g.FIDO2.Util
             var keyReader = new PemReader(new StringReader(pubkeyPem));
             var publicKey = (AsymmetricKeyParameter)keyReader.ReadObject();
 
-            // 証明書の属性
-            var attr = new Dictionary<DerObjectIdentifier, string>()
-            {
-                { X509Name.CN, "test" },
-                { X509Name.C, "Japan" },
-                { X509Name.OU, "None" },
-            };
-            var ord = new List<DerObjectIdentifier>()
-            {
-                X509Name.CN,
-                X509Name.C,
-                X509Name.OU,
-            };
-            var issuerDN = new X509Name(ord, attr);
-
             // シリアル番号の文字列表現(10進数)
             string serialString = "123";
-
-            // これより前の時刻は証明書は無効
-            DateTime notBefore = DateTime.Now;
-
-            // これより後の時刻は証明書は無効
-            DateTime notAfter = DateTime.Now;
 
             var x509gen = new X509V3CertificateGenerator();
             var serial = new BigInteger(serialString);
             x509gen.SetSerialNumber(serial);
-            x509gen.SetIssuerDN(issuerDN);
-            x509gen.SetSubjectDN(issuerDN);
+
+            // Issure(発行者)
+            {
+                var attr = new Dictionary<DerObjectIdentifier, string>()
+                {
+                    { X509Name.CN, issureCommonname },
+                    { X509Name.O, issureOrganization },
+                };
+                var ord = new List<DerObjectIdentifier>()
+                {
+                    X509Name.CN,
+                    X509Name.O,
+                };
+                var dn = new X509Name(ord, attr);
+                x509gen.SetIssuerDN(dn);
+            }
+
+            // Subject(申請者-発行先)
+            {
+                var attr = new Dictionary<DerObjectIdentifier, string>()
+                {
+                    { X509Name.CN, subjectCommonname },
+                    { X509Name.O, subjectOrganization },
+                };
+                var ord = new List<DerObjectIdentifier>()
+                {
+                    X509Name.CN,
+                    X509Name.O,
+                };
+                var dn = new X509Name(ord, attr);
+                x509gen.SetSubjectDN(dn);
+            }
+
+            // これより前の時刻は証明書は無効
             x509gen.SetNotBefore(notBefore);
+
+            // これより後の時刻は証明書は無効
             x509gen.SetNotAfter(notAfter);
+
+            // 公開鍵
             x509gen.SetPublicKey(publicKey);
 
             // SHA256+RSAで署名する

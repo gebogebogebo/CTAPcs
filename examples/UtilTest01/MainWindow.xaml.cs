@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Security.Cryptography.X509Certificates;
+using System.IO;
 
 namespace UtilTest01
 {
@@ -36,14 +37,15 @@ namespace UtilTest01
             var challenge = g.FIDO2.Util.AttestationVerifier.CreateChallenge();
 
             // client
+            var userName = "testUserName";
             var att = new g.FIDO2.Attestation();
             {
                 var con = new g.FIDO2.CTAP.HID.HIDAuthenticatorConnector();
 
                 var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid, challenge);
-                param.RpName = "test name";
+                param.RpName = rpid;
                 param.UserId = new byte[1] { 0x01 };
-                param.UserName = "testUserName";
+                param.UserName = userName;
                 param.UserDisplayName = "testUserDisplayName";
                 param.Option_rk = false;
                 param.Option_uv = false;
@@ -65,14 +67,27 @@ namespace UtilTest01
                     this.credentialID = verify.CredentialID.ToArray();
                     this.publicKey = verify.PublicKeyPem;
 
-                    var cert = v.CreateSelfSignedCertificate(verify);
+                    // 公開鍵をX.509証明書に変換
+                    var cert = v.CreateSelfSignedCertificate(verify,rpid, userName, new TimeSpan(365,0,0,0,0));
 
+                    // Windowsの証明書ストアに保存
+                    /*
                     // certmgr.msc
                     var store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
 
                     store.Open(OpenFlags.ReadWrite);
                     store.Add(cert);
                     store.Close();
+                    */
+
+                    // ファイルに保存
+                    var bcert = cert.Export(X509ContentType.Cert);
+                    var fileName = @"c:\work\test.cer";
+                    using (var writer = new BinaryWriter(new FileStream(fileName, FileMode.Create))) {
+                        //書き込む処理
+                        writer.Write(bcert);
+                    }
+
                 }
             }
         }

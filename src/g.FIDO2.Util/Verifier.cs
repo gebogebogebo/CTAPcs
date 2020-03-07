@@ -66,10 +66,11 @@ namespace g.FIDO2.Util
             return result;
         }
 
-        public X509Certificate2 CreateSelfSignedCertificate(Result result)
+        public X509Certificate2 CreateSelfSignedCertificate(Result result,string rpName,string userName,TimeSpan expirationDate)
         {
-            // PublicKeyを証明書形式にする
-            return(CryptoBC.CreateSelfSignedCertificate(result?.PublicKeyPem));
+            DateTime notBefore=DateTime.Now;
+            DateTime notAfter=notBefore+expirationDate;
+            return (CryptoBC.CreateSelfSignedCertificate(result?.PublicKeyPem, rpName, userName, "g.FIDO2.Util", "AttestationVerifier", notBefore, notAfter));
         }
     }
 
