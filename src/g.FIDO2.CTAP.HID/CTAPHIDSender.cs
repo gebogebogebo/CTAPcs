@@ -16,7 +16,7 @@ namespace g.FIDO2.CTAP.HID
         {
             if (CTAPHID.find(hidParams) == null) {
                 Logger.Err("Connect Error");
-                return (DeviceStatus.NotConnedted, null);
+                return (DeviceStatus.NotConnected, null);
             }
 
             var res = await CTAPHID.SendCommandandResponse(hidParams,payload, timeoutms,KeepAlive);

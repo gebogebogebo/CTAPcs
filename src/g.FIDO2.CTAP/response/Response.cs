@@ -9,7 +9,7 @@ namespace g.FIDO2.CTAP
     public enum DeviceStatus
     {
         Ok = 0,
-        NotConnedted = 1,
+        NotConnected = 1,
         Timeout = 2,
         Unauthorized = 3,
         Unknown = 999,

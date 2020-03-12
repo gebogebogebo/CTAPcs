@@ -15,7 +15,7 @@ namespace g.FIDO2.CTAP.NFC
             var chk = CTAPNFC.CheckAP(targetReaders);
             if (string.IsNullOrEmpty(chk)) {
                 Logger.Err("Connect Error");
-                return (DeviceStatus.NotConnedted, null);
+                return (DeviceStatus.NotConnected, null);
             }
 
             var res = await CTAPNFC.SendCommandandResponse(targetReaders, payload);
