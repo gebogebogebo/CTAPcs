@@ -1,6 +1,15 @@
-# CTAPResponse Class
+# Response
 
-応答は`CTAPResponse`を継承した以下のクラスです。
+応答は`ResponseBase`を継承したクラスで、`ResponseGetInfo`,`ResponseMakeCredential`,`ResponseGetAssertion`など、送信したコマンド毎に定義されています。
+
+これらのクラスは
+
+- **DeviceStatus**
+- **CTAPResponse**
+
+のメンバ変数で構成されています。
+
+CTAPコマンド応答は`CTAPResponseメンバに格納されています。
 
 - `CTAPResponseGetInfo`
 - `CTAPResponseMakeCredential`
