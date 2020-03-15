@@ -13,7 +13,8 @@ C# .net FIDO2 CTAP library
 
 ## Read Me (Japanese)
 - [CTAPcsについて](https://github.com/gebogebogebo/CTAPcs/blob/master/readme/CTAPcs_ReadMe_01.md)
-- [API概要](https://github.com/gebogebogebo/CTAPcs/blob/master/readme/CTAPcs_ReadMe_02.md)
+- [AuthenticatorConnector Class](https://github.com/gebogebogebo/CTAPcs/blob/master/readme/CTAPcs_ReadMe_02.md)
+- [CTAPResponse Class](https://github.com/gebogebogebo/CTAPcs/blob/master/readme/CTAPcs_ReadMe_04.md)
 
 ## Author
 gebo
