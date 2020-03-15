@@ -30,7 +30,7 @@ namespace g.FIDO2.CTAP.NFC
 
         private List<string> targetReaders;
 
-        public override async Task<(DeviceStatus devSt, CTAPResponse ctapRes)> sendCommandandResponseAsync(CTAPCommand cmd, CTAPResponse res)
+        protected override async Task<(DeviceStatus devSt, CTAPResponse ctapRes)> sendCommandandResponseAsync(CTAPCommand cmd, CTAPResponse res)
         {
             try {
                 // 送信コマンドを作成(byte[])

@@ -159,7 +159,7 @@ namespace g.FIDO2.CTAP.BLE
         private CTAPBLEReceiver receiver;
         private bool checkDeviceInformation = false;
 
-        public override async Task<(DeviceStatus devSt, CTAPResponse ctapRes)> sendCommandandResponseAsync(CTAPCommand cmd, CTAPResponse res)
+        protected override async Task<(DeviceStatus devSt, CTAPResponse ctapRes)> sendCommandandResponseAsync(CTAPCommand cmd, CTAPResponse res)
         {
             try {
                 // 送信コマンドを作成(byte[])
