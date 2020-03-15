@@ -4,14 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using g.FIDO2.CTAP.HID;
 
@@ -61,6 +53,18 @@ namespace HIDTest01
             addLog("<GetInfo>");
             var res = await con.GetInfoAsync();
             LogResponse(res.DeviceStatus,res.CTAPResponse);
+            if(res.DeviceStatus == g.FIDO2.CTAP.DeviceStatus.Unauthorized) {
+                addLog("Excute Administrator ?");
+                return;
+            } else if (res.DeviceStatus == g.FIDO2.CTAP.DeviceStatus.NotConnected) {
+                addLog("FIDO Key Not Connected");
+                return;
+            } else if (res.DeviceStatus == g.FIDO2.CTAP.DeviceStatus.Ok) {
+                if (res.CTAPResponse.Status == 0) {
+                    addLog("Get CTAP Response");
+                }
+            }
+
         }
 
         private async void ButtonClientPINgetRetries_Click(object sender, RoutedEventArgs e)
@@ -116,7 +120,7 @@ namespace HIDTest01
 
             var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid,challenge);
             param.RpName = "test name";
-            param.UserId = new byte[1] { 0x01 };
+            param.UserId = new byte[] { 0x01, 0x02, 0x03, 0x04 };
             param.UserName = "testUserName";
             param.UserDisplayName = "testUserDisplayName";
             param.Option_rk = false;
@@ -127,9 +131,23 @@ namespace HIDTest01
             var res = await con.MakeCredentialAsync(param, pin);
             LogResponse(res.DeviceStatus,res.CTAPResponse);
 
-            if (res?.CTAPResponse?.Attestation != null) {
-                var creid = g.FIDO2.Common.BytesToHexString(res.CTAPResponse.Attestation.CredentialId);
-                addLog($"- CredentialID = {creid}\r\n");
+            if (res.DeviceStatus == g.FIDO2.CTAP.DeviceStatus.NotConnected) {
+                addLog("FIDO Key Not Connected");
+                return;
+            } else if (res.DeviceStatus == g.FIDO2.CTAP.DeviceStatus.Timeout) {
+                addLog("UP or UV timeout");
+                return;
+            } else if (res.DeviceStatus == g.FIDO2.CTAP.DeviceStatus.Ok) {
+                if (res.CTAPResponse.Status == 0) {
+                    if (res?.CTAPResponse?.Attestation != null) {
+                        addLog("Get CTAP Response");
+                        var att = g.FIDO2.Serializer.Serialize(res.CTAPResponse.Attestation);
+                        // send att to Server
+
+                        var creid = g.FIDO2.Common.BytesToHexString(res.CTAPResponse.Attestation.CredentialId);
+                        addLog($"- CredentialID = {creid}\r\n");
+                    }
+                }
             }
 
         }
@@ -169,6 +187,16 @@ namespace HIDTest01
                 await Task.Delay(1000);
             }
             addLog("<Wink - END >");
+        }
+
+        private void ButtonFinds_Click(object sender, RoutedEventArgs e)
+        {
+            addLog("<List HID>");
+            var res = HIDAuthenticatorConnector.GetAllHIDDeviceInfo();
+            foreach(var info in res) {
+                addLog(info);
+            }
+            addLog("<List HID - END>");
         }
     }
 }

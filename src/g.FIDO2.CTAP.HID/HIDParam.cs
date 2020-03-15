@@ -42,7 +42,8 @@ namespace g.FIDO2.CTAP.HID
             ret.Add(new HidParam(0x1050));
 
             // BioPass FIDO2
-            ret.Add(new HidParam(0x096E));
+            //ret.Add(new HidParam(0x096E,0x85D,"fido"));
+            ret.Add(new HidParam(0x096E,0,"fido"));
 
             // Solo Key
             ret.Add(new HidParam(0x0483));

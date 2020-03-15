@@ -12,11 +12,12 @@
         <Button x:Name="ButtonClientPINgetRetries" Content="ClientPINgetRetries" HorizontalAlignment="Left" Margin="98,10,0,0" VerticalAlignment="Top" Width="119" Height="28" Click="ButtonClientPINgetRetries_Click" />
         <Button x:Name="ButtonGetAssertion" Content="GetAssertion" HorizontalAlignment="Left" Margin="222,10,0,0" VerticalAlignment="Top" Width="75" Height="28" Click="ButtonGetAssertion_Click" />
         <Button x:Name="ButtonMakeCredential" Content="MakeCredential" HorizontalAlignment="Left" Margin="302,10,0,0" VerticalAlignment="Top" Width="102" Height="28" Click="ButtonMakeCredential_Click" />
-        <Button x:Name="ButtonClientPINchangePIN" Content="changePIN" HorizontalAlignment="Left" Margin="409,10,0,0" VerticalAlignment="Top" Width="104" Height="28" Click="ButtonClientPINchangePIN_Click"/>
-        <Button x:Name="ButtonClientPINsetPIN" Content="setPIN" HorizontalAlignment="Left" Margin="518,10,0,0" VerticalAlignment="Top" Width="54" Height="28" Click="ButtonClientPINsetPIN_Click"/>
-        <Button x:Name="ButtonIsConnected" Content="IsConnected" HorizontalAlignment="Left" Margin="577,10,0,0" VerticalAlignment="Top" Width="83" Height="28" Click="ButtonIsConnected_Click"/>
-        <Button x:Name="ButtonReset" Content="Reset" HorizontalAlignment="Left" Margin="665,10,0,0" VerticalAlignment="Top" Width="43" Height="28" Click="ButtonReset_Click"/>
-        <Button x:Name="buttonWink" Content="Wink" HorizontalAlignment="Left" Margin="713,10,0,0" VerticalAlignment="Top" Width="51" Height="28" Click="ButtonWink_Click"/>
+        <Button x:Name="ButtonClientPINchangePIN" Content="changePIN" HorizontalAlignment="Left" Margin="409,10,0,0" VerticalAlignment="Top" Width="70" Height="28" Click="ButtonClientPINchangePIN_Click"/>
+        <Button x:Name="ButtonClientPINsetPIN" Content="setPIN" HorizontalAlignment="Left" Margin="484,10,0,0" VerticalAlignment="Top" Width="54" Height="28" Click="ButtonClientPINsetPIN_Click"/>
+        <Button x:Name="ButtonIsConnected" Content="IsConnected" HorizontalAlignment="Left" Margin="543,10,0,0" VerticalAlignment="Top" Width="83" Height="28" Click="ButtonIsConnected_Click"/>
+        <Button x:Name="ButtonReset" Content="Reset" HorizontalAlignment="Left" Margin="631,10,0,0" VerticalAlignment="Top" Width="53" Height="28" Click="ButtonReset_Click"/>
+        <Button x:Name="buttonWink" Content="Wink" HorizontalAlignment="Left" Margin="689,10,0,0" VerticalAlignment="Top" Width="51" Height="28" Click="ButtonWink_Click" RenderTransformOrigin="0.89,0.553"/>
+        <Button x:Name="buttonFinds" Content="List HID" HorizontalAlignment="Left" Height="28" Margin="745,10,0,0" VerticalAlignment="Top" Width="39" Click="ButtonFinds_Click"/>
 
     </Grid>
 </Window>

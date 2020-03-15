@@ -266,31 +266,30 @@ namespace g.FIDO2.CTAP.HID
             return (result);
         }
 
+        public static List<HidDevice> finds()
+        {
+            return HidDevices.Enumerate().OrderBy(x => x.DevicePath).ToList();
+        }
+
         public static HidDevice find(List<HidParam> hidparams)
         {
             HidDevice device = null;
             foreach (var hidparam in hidparams) {
+                List<HidDevice> devs;
                 if (hidparam.ProductId == 0x00) {
-                    device = HidDevices.Enumerate(hidparam.VendorId).OrderBy(x=>x.DevicePath).FirstOrDefault();
-                    if (device != null) {
-                        break;
-                    }
+                    devs = HidDevices.Enumerate(hidparam.VendorId).OrderBy(x => x.DevicePath).ToList();
                 } else {
-                    var devs = HidDevices.Enumerate(hidparam.VendorId, hidparam.ProductId).OrderBy(x => x.DevicePath);
-                    foreach( var dev in devs) {
-                        if(string.IsNullOrEmpty(hidparam.Something)) {
-                            device = dev;
-                            break;
-                        }
-                        if( dev.DevicePath.IndexOf(hidparam.Something, StringComparison.OrdinalIgnoreCase) >= 0 ) {
-                            device = dev;
-                            break;
-                        }
+                    devs = HidDevices.Enumerate(hidparam.VendorId, hidparam.ProductId).OrderBy(x => x.DevicePath).ToList();
+                }
+                foreach (var dev in devs) {
+                    if (string.IsNullOrEmpty(hidparam.Something)) {
+                        device = dev;
+                    } else if (dev.DevicePath?.IndexOf(hidparam.Something, StringComparison.OrdinalIgnoreCase) >= 0) {
+                        device = dev;
+                    } else if (dev.Description?.IndexOf(hidparam.Something, StringComparison.OrdinalIgnoreCase) >= 0) {
+                        device = dev;
                     }
-
-                    if (device != null) {
-                        break;
-                    }
+                    if (device != null) return device;
                 }
             }
             return (device);

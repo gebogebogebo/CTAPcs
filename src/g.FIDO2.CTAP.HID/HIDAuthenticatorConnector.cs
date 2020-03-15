@@ -64,6 +64,16 @@ namespace g.FIDO2.CTAP.HID
             return true;
         }
 
+        public static List<string> GetAllHIDDeviceInfo()
+        {
+            var ret = new List<string>();
+            var hids = CTAPHID.finds();
+            foreach(var hid in hids) {
+                ret.Add($"VendorId = 0x{hid.Attributes.VendorId} , ProductId = 0x{hid.Attributes.ProductHexId} , DevicePath = {hid.DevicePath} , Description = {hid.Description}");
+            }
+            return ret;
+        }
+
         // private
         private List<HidParam> hidParams;
 

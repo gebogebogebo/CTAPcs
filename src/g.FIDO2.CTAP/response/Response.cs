@@ -20,9 +20,17 @@ namespace g.FIDO2.CTAP
         public DeviceStatus DeviceStatus { get; private set; }
         public ResponseBase(DeviceStatus devst, CTAPResponse ctapres)
         {
-            if( (ctapres == null || ctapres.Status != 0) && devst == DeviceStatus.Ok) {
+            bool check = false;
+            if (devst == DeviceStatus.NotConnected) {
+                // HIDデバイスは権限がないとみつからない
+                check = true;
+            } else if ( (ctapres == null || ctapres.Status != 0) && devst == DeviceStatus.Ok) {
                 // この場合、アプリの権限の問題が怪しい
-                if (!Common.IsAdministrator()){
+                check = true;
+            }
+            // この場合、アプリの権限の問題が怪しい
+            if (check) {
+                if (!Common.IsAdministrator()) {
                     devst = DeviceStatus.Unauthorized;
                 }
             }
