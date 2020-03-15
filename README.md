@@ -11,5 +11,9 @@ C# .net FIDO2 CTAP library
   - C# Desktop Applicaion
   - .Net Framework 4.6.1
 
+## Read Me (Japanese)
+- [CTAPcsについて](https://github.com/gebogebogebo/CTAPcs/blob/master/readme/CTAPcs_ReadMe_01.md)
+- [API概要](https://github.com/gebogebogebo/CTAPcs/blob/master/readme/CTAPcs_ReadMe_02.md)
+
 ## Author
 gebo
