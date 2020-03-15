@@ -1,5 +1,5 @@
 # CTAPcsについて
-- [FIDO Alliance Client to Authenticator Protocol (CTAP)Proposed Standard, January 30, 2019]()を実装したDllです。
+- [FIDO Alliance Client to Authenticator Protocol (CTAP)Proposed Standard, January 30, 2019](https://fidoalliance.org/specs/fido-v2.0-ps-20190130/fido-client-to-authenticator-protocol-v2.0-ps-20190130.html)を実装したDllです。
 
 - HID/NFC/BLEのAuthenticatorとのCTAPプロトコル通信、チャレンジ生成、Attestation、AssertionのVerifyを実装しています。
 
