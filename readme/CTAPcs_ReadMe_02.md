@@ -1,4 +1,4 @@
-# APIリファレンス
+# AuthenticatorConnector Class
 
 FIDOキーと通信するクラスは`AuthenticatorConnector`を継承した以下のクラスです。
 
@@ -17,7 +17,7 @@ FIDOキーと通信するクラスは`AuthenticatorConnector`を継承した以�
 
 以下のメソッドを実装しています。
 
-| メソッド                      | 機能                     | 対応するCTAPコマンド                                         |
+| method                        | 機能                     | 対応するCTAPコマンド                                         |
 | ----------------------------- | ------------------------ | ------------------------------------------------------------ |
 | GetInfoAsync                  | FIDOキーの情報を取得する | [authenticatorGetInfo (0x04)](https://fidoalliance.org/specs/fido-v2.0-ps-20190130/fido-client-to-authenticator-protocol-v2.0-ps-20190130.html#authenticatorGetInfo) |
 | MakeCredentialAsync           | クレデンシャルの登録     | [authenticatorMakeCredential(0x01)](https://fidoalliance.org/specs/fido-v2.0-ps-20190130/fido-client-to-authenticator-protocol-v2.0-ps-20190130.html#authenticatorMakeCredential) |
@@ -36,9 +36,34 @@ FIDOキーと通信するクラスは`AuthenticatorConnector`を継承した以�
 
 - 継承元の`AuthenticatorConnector`に加えて以下のメソッド／イベントを実装しています。
 
-| メソッド/イベント   | 機能                                    | 備考                                                         |
+| method/event        | 機能                                    | 備考                                                         |
 | ------------------- | --------------------------------------- | ------------------------------------------------------------ |
-| IsConnected         | FIDOキーの接続チェック                  | -                                                            |
-| Wink                | FIDOキーLEDを点滅する                   | [CTAPHID_WINK (0x08)](https://fidoalliance.org/specs/fido-v2.0-ps-20190130/fido-client-to-authenticator-protocol-v2.0-ps-20190130.html#usb-hid-wink) |
+| IsConnected         | HID FIDOキーの接続チェック              | -                                                            |
+| Wink                | HID FIDOキーLEDを点滅する               | [CTAPHID_WINK (0x08)](https://fidoalliance.org/specs/fido-v2.0-ps-20190130/fido-client-to-authenticator-protocol-v2.0-ps-20190130.html#usb-hid-wink) |
 | GetAllHIDDeviceInfo | 接続されているHIDデバイス情報を取得する | -                                                            |
 | KeepAlive           | UP,UVの操作Wait中に発生するイベント     | [CTAPHID_KEEPALIVE (0x3B)](https://fidoalliance.org/specs/fido-v2.0-ps-20190130/fido-client-to-authenticator-protocol-v2.0-ps-20190130.html#usb-hid-keepalive) |
+
+
+
+## NFCAuthenticatorConnector
+
+- 継承元の`AuthenticatorConnector`に加えて以下のメソッドを実装しています。
+
+| メソッド    | 機能                       | 備考 |
+| ----------- | -------------------------- | ---- |
+| IsConnected | NFC FIDOキーの接続チェック | -    |
+
+
+
+## BLEAuthenticatorConnector
+
+- 継承元の`AuthenticatorConnector`に加えて以下のメソッド／イベントを実装しています。
+
+| method/event       | 機能                                     | 備考                                                         |
+| ------------------ | ---------------------------------------- | ------------------------------------------------------------ |
+| ConnectAsync       | BLE FIDOキーと接続します                 | -                                                            |
+| Disconnect         | BLE FIDOキーと切断します                 |                                                              |
+| ConnectedDevice    | BLE FIDOキーと接続すると発生するイベント |                                                              |
+| DisconnectedDevice | BLE FIDOキーと切断すると発生するイベント |                                                              |
+| KeepAlive          | UP,UVの操作Wait中に発生するイベント      | [8.3.4.3.Command, Status, and Error constants](https://fidoalliance.org/specs/fido-v2.0-ps-20190130/fido-client-to-authenticator-protocol-v2.0-ps-20190130.html#ble-constants) |
+

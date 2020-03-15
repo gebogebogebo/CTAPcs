@@ -1,15 +1,11 @@
-# APIリファレンス
+# AuthenticatorConnector - Method
 
+## GetInfoAsync
 
+```
+public async Task<ResponseGetInfo> GetInfoAsync()
+```
 
-## AuthenticatorConnectorクラス
-
-
-
-### GetInfoAsync
-
-- 定義
-  - **public async Task<ResponseGetInfo> GetInfoAsync()**
 
 - 機能
   - **authenticatorGetInfo**コマンドを実行します。
@@ -62,14 +58,14 @@ namespace HIDTest01
 
 
 
-### MakeCredentialAsync
+## MakeCredentialAsync
 
-- 宣言
-  - **public async Task<ResponseMakeCredential> MakeCredentialAsync(CTAPCommandMakeCredentialParam param, string pin)**
+```
+public async Task<ResponseMakeCredential> MakeCredentialAsync(CTAPCommandMakeCredentialParam param, string pin)
+```
 
 - 機能
   - **authenticatorMakeCredential**コマンドを実行し応答を取得します。
-  - FIDOキーの登録です。
 - 引数
   - [CTAPCommandMakeCredentialParam]() param
     - 詳細は[5.1. authenticatorMakeCredential (0x01)]()を参照してください。
