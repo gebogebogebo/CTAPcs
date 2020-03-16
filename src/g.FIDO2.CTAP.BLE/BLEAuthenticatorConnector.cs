@@ -42,10 +42,10 @@ namespace g.FIDO2.CTAP.BLE
         {
             bleDevice = await BluetoothLEDevice.FromBluetoothAddressAsync(bluetoothAddress);
 
-            if(checkDeviceInformation) {
+            if (checkDeviceInformation) {
                 // Debug DeviceInformationチェック
                 var devinfo = new FidoDeviceInformation();
-                if (await devinfo.IsFidoDevice(bleDevice,"") == false) {
+                if (await devinfo.IsFidoDevice(bleDevice, "") == false) {
                     return false;
                 }
             }
@@ -73,7 +73,7 @@ namespace g.FIDO2.CTAP.BLE
                     if (PacketSizeByte <= 0) {
                         // FIDO Control Point Length(Read-2byte)
                         var readVal = await readCharacteristicValue(service_Fido, Common.Gatt_Characteristic_FIDO_Control_Point_Length_GUID);
-                        if( readVal != null) {
+                        if (readVal != null) {
                             this.PacketSizeByte = g.FIDO2.Common.ToUInt16(readVal, 0, true);
                         }
                     }
@@ -89,7 +89,7 @@ namespace g.FIDO2.CTAP.BLE
                     // FIDO Status(Notify) 受信データ
                     {
                         var characteristics = await service_Fido.GetCharacteristicsForUuidAsync(Common.GATT_CHARACTERISTIC_FIDO_STATUS_GUID);
-                        if(characteristics.Characteristics.Count <= 0) {
+                        if (characteristics.Characteristics.Count <= 0) {
                             Logger.Err("Error Connect Characteristic FIDO Status(Notify)");
                             return false;
                         }
@@ -129,7 +129,6 @@ namespace g.FIDO2.CTAP.BLE
                     ConnectedDevice?.Invoke(this, EventArgs.Empty);
                 }
             }
-
             return true;
         }
 
@@ -148,6 +147,7 @@ namespace g.FIDO2.CTAP.BLE
                 Logger.Log("BLE Device Disposed");
             }
             Logger.Log("BLE FIDOキーと切断しました");
+
             return true;
         }
 

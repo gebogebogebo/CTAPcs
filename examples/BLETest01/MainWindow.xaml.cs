@@ -102,16 +102,20 @@ namespace Test01
 
         private async void ButtonConnect_Click(object sender, RoutedEventArgs e)
         {
-            addLog("<Connect>");
+            try {
+                addLog("<Connect>");
 
-            con = new BLEAuthenticatorConnector();
-            con.PacketSizeByte = 155;       // AllinPass
-            con.ConnectedDevice += OnConnectedDevice;
-            con.DisconnectedDevice += OnDisconnectedDevice;
-            con.KeepAlive += OnKeepAlive;
-            var result = await con.ConnectAsync(this.bleAddress);
-            if( result == false) {
-                addLog("- Connect Error");
+                con = new BLEAuthenticatorConnector();
+                //con.PacketSizeByte = 155;       // AllinPass
+                con.ConnectedDevice += OnConnectedDevice;
+                con.DisconnectedDevice += OnDisconnectedDevice;
+                con.KeepAlive += OnKeepAlive;
+                var result = await con.ConnectAsync(this.bleAddress);
+                if (result == false) {
+                    addLog("- Connect Error");
+                }
+            } catch (Exception ex) {
+                addLog($"- Connect Error Exception{ex.Message}");
             }
         }
 
@@ -147,17 +151,18 @@ namespace Test01
         {
             addLog("<getAssertion>");
 
-            var rpid = "BLEtest.com";
+            //var rpid = "BLEtest.com";
+            var rpid = "edokt.com";
             var challenge = Encoding.ASCII.GetBytes("this is challenge");
-            var creid = g.FIDO2.Common.HexStringToBytes("532AF82B1E83CB31C50CA5DCBB4B4895ACD59FC3EB65A3F71390EBFA56E79C6458CDB738BE9F00FDC785A868EDA094EB3874F357DF0D41B53DDD83B1B01AE19E7B365A66C31120BF896C44E1F6FBABA60972C9AFB6700BF70A793D29398DC1E5");
+            var creid = g.FIDO2.Common.HexStringToBytes("037999FF2CBF4509988ADF17621BBA58");
 
             var param = new g.FIDO2.CTAP.CTAPCommandGetAssertionParam(rpid,challenge,creid);
 
-            param.Option_up = true;
-            param.Option_uv = false;
+            param.Option_up = false;
+            param.Option_uv = true;
 
             //var res = await con.GetAssertion(param);
-            var res = await con.GetAssertionAsync(param, "1234");
+            var res = await con.GetAssertionAsync(param, "");
             LogResponse(res.DeviceStatus, res.CTAPResponse);
 
             if (res?.CTAPResponse?.Assertion?.NumberOfCredentials > 0) {
@@ -172,7 +177,8 @@ namespace Test01
         {
             addLog("<makeCredential>");
 
-            var rpid = "BLEtest.com";
+            //var rpid = "BLEtest.com";
+            var rpid = "edokt.com";
             var challenge = Encoding.ASCII.GetBytes("this is challenge");
 
             var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid,challenge);
@@ -181,9 +187,9 @@ namespace Test01
             param.UserName = "testUserName";
             param.UserDisplayName = "testUserDisplayName";
             param.Option_rk = false;
-            param.Option_uv = false;
+            param.Option_uv = true;
 
-            string pin = "1234";
+            string pin = "";
 
             var res = await con.MakeCredentialAsync(param, pin);
             LogResponse(res.DeviceStatus, res.CTAPResponse);

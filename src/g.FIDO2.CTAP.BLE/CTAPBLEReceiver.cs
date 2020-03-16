@@ -81,7 +81,6 @@ namespace g.FIDO2.CTAP.BLE
                     Logger.Log("<<<Receive Complete>>>");
                 }
             }
-
             return;
         }
 

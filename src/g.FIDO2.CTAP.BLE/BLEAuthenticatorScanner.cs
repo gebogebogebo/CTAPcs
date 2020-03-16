@@ -48,6 +48,9 @@ namespace g.FIDO2.CTAP.BLE
 
             internal FindDeviceEventArgs(BluetoothLEAdvertisementReceivedEventArgs args)
             {
+                CompanyId = 0;
+                ManufacturerData = new byte[0];
+
                 this.BluetoothAddress = args.BluetoothAddress;
                 foreach (var mdata in args.Advertisement.ManufacturerData.ToList()) {
                     this.CompanyId = mdata.CompanyId;
