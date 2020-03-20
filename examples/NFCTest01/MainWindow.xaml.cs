@@ -114,9 +114,8 @@ namespace NFCTest01
             var rpid = "test.com";
             var challenge = Encoding.ASCII.GetBytes("this is challenge");
 
-            var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid, challenge);
+            var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid, challenge, new byte[] { 0x01, 0x02, 0x03, 0x04 });
             param.RpName = "test name";
-            param.UserId = new byte[] { 0x01, 0x02, 0x03, 0x04 };
             param.UserName = "testUserName";
             param.UserDisplayName = "testUserDisplayName";
             param.Option_rk = false;

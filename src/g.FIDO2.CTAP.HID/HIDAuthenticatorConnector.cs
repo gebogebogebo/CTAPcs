@@ -45,7 +45,7 @@ namespace g.FIDO2.CTAP.HID
             }
         }
 
-        public async Task<bool> Wink()
+        public async Task<bool> WinkAsync()
         {
             HidLibrary.IHidDevice hidDevice = null;
 

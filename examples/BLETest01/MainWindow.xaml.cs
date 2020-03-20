@@ -151,8 +151,7 @@ namespace Test01
         {
             addLog("<getAssertion>");
 
-            //var rpid = "BLEtest.com";
-            var rpid = "edokt.com";
+            var rpid = "BLEtest.com";
             var challenge = Encoding.ASCII.GetBytes("this is challenge");
             var creid = g.FIDO2.Common.HexStringToBytes("037999FF2CBF4509988ADF17621BBA58");
 
@@ -177,13 +176,11 @@ namespace Test01
         {
             addLog("<makeCredential>");
 
-            //var rpid = "BLEtest.com";
-            var rpid = "edokt.com";
+            var rpid = "BLEtest.com";
             var challenge = Encoding.ASCII.GetBytes("this is challenge");
 
-            var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid,challenge);
+            var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid,challenge, new byte[0]);
             param.RpName = "BLEtest name";
-            param.UserId = new byte[0];
             param.UserName = "testUserName";
             param.UserDisplayName = "testUserDisplayName";
             param.Option_rk = false;

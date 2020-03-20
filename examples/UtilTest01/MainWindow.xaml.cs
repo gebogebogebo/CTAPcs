@@ -42,9 +42,8 @@ namespace UtilTest01
             {
                 var con = new g.FIDO2.CTAP.HID.HIDAuthenticatorConnector();
 
-                var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid, challenge);
+                var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid, challenge, new byte[1] { 0x01 });
                 param.RpName = rpid;
-                param.UserId = new byte[1] { 0x01 };
                 param.UserName = userName;
                 param.UserDisplayName = "testUserDisplayName";
                 param.Option_rk = false;

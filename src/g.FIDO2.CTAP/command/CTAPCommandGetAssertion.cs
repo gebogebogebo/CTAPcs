@@ -9,17 +9,17 @@ namespace g.FIDO2.CTAP
 {
     public class CTAPCommandGetAssertionParam
     {
-        public string RpId { get; private set; }
-        public byte[] ClientDataHash { get; private set; }
-        public byte[] AllowList_CredentialId { get; private set; }
+        public string RpId { get; set; }
+        public byte[] ClientDataHash { get; set; }
+        public byte[] AllowList_CredentialId { get; set; }
         public bool Option_up { get; set; }
         public bool Option_uv { get; set; }
 
-        public CTAPCommandGetAssertionParam(string rpid,byte[] challenge,byte[] credentialid)
+        public CTAPCommandGetAssertionParam(string rpid,byte[] challenge,byte[] credentialid=null)
         {
-            this.RpId = rpid;
-            this.ClientDataHash = Common.CreateClientDataHash(challenge);
-            this.AllowList_CredentialId = credentialid?.ToArray();
+            if(rpid != null) this.RpId = rpid;
+            if( challenge != null) this.ClientDataHash = Common.CreateClientDataHash(challenge);
+            if (credentialid != null) this.AllowList_CredentialId = credentialid.ToArray();
         }
     }
 
