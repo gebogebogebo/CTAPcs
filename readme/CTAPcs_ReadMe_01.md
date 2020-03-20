@@ -48,28 +48,24 @@
 
 # サンプルプロジェクト
 
-- HIDTest01
-  
+- HIDTest01  
     - HIDタイプのFIDOキーを利用するサンプルです。
 - NFCTest01
-  
     - NFCタイプのFIDOキーを利用するサンプルです。
-- BLETest01
-  
+- BLETest01  
     - BLEタイプのFIDOキーを利用するサンプルです。
-- xClient
-  
+- xClient 
     - クライアントサイドアプリケーションサンプルです。
 - xServer
-  
     - サーバーサイドアプリケーションサンプルです。
     
     
 
 
 # プロジェクトを新規作成する方法
-
-- FIDOキーとコミュニケーションする場合、exeを管理者権限で実行する必要があります。
+- WPFアプリ(.NET Framwwork)を新規作成します。
+- .Net Framework 4.6.1が推奨ですが、それ以外でも動くかと思います。
+- FIDOキーを利用する場合、exeを管理者権限で実行する必要があります。
     - プロジェクトにアプリケーションマニフェストファイルを追加し、requestedExecutionLevelのlevelを**requireAdministrator**に変更してください。この設定で管理者権限でアプリが実行されるようになります。
 - HIDタイプのFIDOキーを利用する場合、以下の参照を追加してください。
     - `g.FIDO2.CTAP.HID.dll`
@@ -83,7 +79,7 @@
     - `g.FIDO2.CTAP.BLE.dll`
     - `g.FIDO2.CTAP.dll`
     - `g.FIDO2.dll`
-- FIDOサーバーの機能（Attestation、AssertionのVerify）を実装する場合、以下の参照を追加してください。
+- FIDOサーバーの機能（Attestation、AssertionのVerify）を利用する場合、以下の参照を追加してください。
     - `g.FIDO2.Util.dll`
     - `g.FIDO2.dll`
 
