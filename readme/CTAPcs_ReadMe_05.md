@@ -8,7 +8,7 @@ HidParamで検索対象のHIDタイプのFIDOキーを指定します。
 
 HIDデバイスはベンダーID、プロダクトID、DescriptionをもっておりHIDタイプのFIDOキーも製品毎に異なっています。
 
-`HIDAuthenticatorConnector`クラスの`GetAllHIDDeviceInfo()`でベンダーID、プロダクトIDを調査することもできますが、とりあえず、**GetDefaultParams()** で主要なFIDOキーのHidParmを作成することができます。あるいは、`HIDAuthenticatorConnector`のコンストラクタにHidParamを指定しなければ**GetDefaultParams()**が適用されます。
+`HIDAuthenticatorConnector`クラスの`GetAllHIDDeviceInfo()`でベンダーID、プロダクトIDを調査することもできますが、とりあえず、**GetDefaultParams()** で主要なFIDOキーのHidParmを作成することができます。あるいは、`HIDAuthenticatorConnector`のコンストラクタにHidParamを指定しなければ **GetDefaultParams()** が適用されます。
 
 
 
