@@ -1,0 +1,52 @@
+@startuml
+title NFC FIDO Key Registration (Non Resident Key)
+hide footbox
+
+participant "NFC FIDO Key" as Key
+actor  "User" as User
+control "g.FIDO2.CTAP.HID.dll\ng.FIDO2.CTAP.dll\ng.FIDO2.dll" as CTAPHID
+participant "ClientApp" as Client
+participant "ServerApp" as Server
+control "g.FIDO2.Util.dll\ng.FIDO2.dll" as Util
+
+User -> Client : Start
+Client -> Server : Request\n- UserID
+note over Server : Check - UserID
+Server --> Util : **AttestationVerifier**\n**.CreateChallenge()**
+Server <-- Util : - RPID\n- Challenge
+Client <- Server : Response\n- RPID\n- Challenge
+
+note over Client : Message\n- Put the key on the NFC reader
+Key -> Client : Put the key on the NFC reader
+
+note over Client : Message\n- Input PIN
+User -> Client : PIN
+
+note over Client : Create \nCTAPCommandMakeCredentialParam\n- RPID\n- Challenge\n- UserID
+
+CTAPHID <-- Client : **NFCAuthenticatorConnector**\n**.MakeCredentialAsync()**\n- CTAPCommandMakeCredentialParam\n- PIN
+
+activate CTAPHID
+    Key <-- CTAPHID : authenticatorClientPIN
+    Key --> CTAPHID
+    Key <-- CTAPHID : authenticatorMakeCredential
+    Key --> CTAPHID : Attestation
+    CTAPHID -> Client : **ResponseMakeCredential**
+deactivate CTAPHID
+
+CTAPHID <-- Client : **Serializer.Serialize()**\n**- ResponseMakeCredential**\n**  .Attestation**
+CTAPHID --> Client :- Serialized Attestation
+
+Client -> Server :- Serialized Attestation
+
+Server --> Util : **Serializer.DeserializeAttestation()**\n**- Serialized Attestation**
+Server <-- Util : - Attestation
+Server --> Util : **AttestationVerifier**\n**.Verify()**\n- Challenge\n- Attestation
+Server <-- Util : - **CredentialID**\n- **PublicKeyPem**
+
+note over Server : **register DB**\n- UserID\n  - CredentialID\n  - PublicKeyPem
+Client <-- Server : OK
+
+note over Client : Message\n- Registration Success
+
+@enduml

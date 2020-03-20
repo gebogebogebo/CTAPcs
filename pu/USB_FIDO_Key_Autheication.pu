@@ -1,0 +1,61 @@
+@startuml
+title USB FIDO Key Autheication (Non Resident Key)
+hide footbox
+
+participant "USB FIDO Key" as Key
+actor  "User" as User
+control "g.FIDO2.CTAP.HID.dll\ng.FIDO2.CTAP.dll\ng.FIDO2.dll" as CTAPHID
+participant "ClientApp" as Client
+participant "ServerApp" as Server
+control "g.FIDO2.Util.dll\ng.FIDO2.dll" as Util
+
+User -> Client : Start
+Client -> Server : Request\n- UserID
+note over Server : Check DB\n- UserID\n  - CredentialID
+
+Server --> Util : **AttestationVerifier**\n**.CreateChallenge()**
+Server <-- Util : - RPID\n- Challenge
+Client <- Server : Response\n- RPID\n- Challenge\n- CredentialID
+
+note over Client : Message\n- Insert key
+Key -> Client : Insert
+
+note over Client : Message\n- Input PIN
+User -> Client : PIN
+
+note over Client : Create \CTAPCommandGetAssertionParam\n- RPID\n- Challenge\n- CredentialID
+
+CTAPHID <-- Client : **HIDAuthenticatorConnector**\n**.GetAssertionAsync()**\n- CTAPCommandGetAssertionParam\n- PIN
+
+activate CTAPHID
+    Key <-- CTAPHID : authenticatorClientPIN
+    Key --> CTAPHID
+    Key <-- CTAPHID : authenticatorGetAssertion
+    note over Key : Flashing
+    Key --> CTAPHID : KEEP ALIVE
+    CTAPHID --> Client : **HIDAuthenticatorConnector**\n**.KeepAlive**
+
+    note over Client : Message\n- UP key
+
+    Key <- User : touch
+    Key --> CTAPHID : Assertion
+    CTAPHID -> Client : **ResponseGetAssertion**
+deactivate CTAPHID
+
+CTAPHID <-- Client : **Serializer.Serialize()**\n**- ResponseGetAssertion**\n**  .Assertion**
+CTAPHID --> Client :- Serialized Assertion
+
+Client -> Server :- Serialized Assertion
+
+Server --> Util : **Serializer.DeserializeAttestation()**\n**- Serialized Assertion**
+Server <-- Util : - Assertion
+
+note over Server : Check DB\n- UserID\n  - PublicKeyPem
+Server --> Util : **AssertionVerifier**\n**.Verify()**\n- PublicKeyPem\n- Challenge\n- Assertion
+Server <-- Util 
+
+Client <-- Server : OK
+
+note over Client : Message\n- Autheication Success
+
+@enduml
