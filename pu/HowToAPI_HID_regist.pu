@@ -3,28 +3,47 @@ title Register
 hide footbox
 
 participant "USB FIDO Key" as Key
-participant "User" as User
-participant "Client" as Client
-participant "Server" as Server
+actor  "User" as User
+control "g.FIDO2.CTAP.HID.dll\ng.FIDO2.CTAP.dll\ng.FIDO2.dll" as CTAPHID
+participant "ClientApp" as Client
+participant "ServerApp" as Server
+control "g.FIDO2.Util.dll\ng.FIDO2.dll" as Util
 
 User -> Client : Start
 Client -> Server : Request
-note over Server : create\n- RPID\n- Challenge
-Client <-- Server : RPID,Challenge
+Server --> Util : AttestationVerifier\n.CreateChallenge()
+Server <-- Util : - RPID\n- Challenge
+Client <-- Server : Response\n- RPID\n- Challenge
 
 note over Client : Message\n- Insert key
 Key --> Client : Insert
 
-Key <- Client : MakeCredential
-note over Key : Flashing
-Key <- User : touch
-Key --> Client : Attestation
+CTAPHID <-- Client : HIDAuthenticatorConnector\n.MakeCredentialAsync()
 
-Client -> Server : Request(Attestation)
-Server -> Server : Verify
+activate CTAPHID
+    Key <-- CTAPHID : authenticatorMakeCredential
+    note over Key : Flashing
+    Key --> CTAPHID : KEEP ALIVE
+    CTAPHID --> Client : HIDAuthenticatorConnector\n.KeepAlive
+
+    note over Client : Message\n- UP or UV key
+
+    Key <- User : touch
+    Key --> CTAPHID : Attestation
+    CTAPHID --> Client : ResponseMakeCredential
+deactivate CTAPHID
+
+CTAPHID <-- Client : Serializer.Serialize()
+CTAPHID --> Client
+
+Client -> Server : Serialized Attestation
+
+Server --> Util : AttestationVerifier.\nVerify()
+Server <-- Util
+
 note over Server : register DB
 Client <-- Server : OK
 
-note over Client : END
+note over Client : Message\n- Register Successful
 
 @enduml
