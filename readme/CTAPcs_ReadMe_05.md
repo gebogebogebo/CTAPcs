@@ -1,6 +1,10 @@
 
 
-# HidParam Class
+# HidParam
+
+```csharp
+public class CTAPCommandMakeCredentialParam
+```
 
 HidParam は`HIDAuthenticatorConnector`クラスのコンストラクタに指定します。
 
@@ -20,13 +24,19 @@ HIDデバイスはベンダーID、プロダクトID、Descriptionをもって�
 
 
 
-| method                                           | 機能                              | 備考                                                         |
-| ------------------------------------------------ | --------------------------------- | ------------------------------------------------------------ |
-| static List<HidParam> <br>**GetDefaultParams()** | 主要なFIDOキーのHidParmを作成する | 詳細は[HIDParam.cs](https://github.com/gebogebogebo/CTAPcs/blob/master/src/g.FIDO2.CTAP.HID/HIDParam.cs)参照 |
+| method                                            | 機能                              | 備考                                                         |
+| ------------------------------------------------- | --------------------------------- | ------------------------------------------------------------ |
+| static List\<HidParam> <br>**GetDefaultParams()** | 主要なFIDOキーのHidParmを作成する | 詳細は[HIDParam.cs](https://github.com/gebogebogebo/CTAPcs/blob/master/src/g.FIDO2.CTAP.HID/HIDParam.cs)参照 |
+
+
 
 
 
 # CTAPCommandMakeCredentialParam
+
+```csharp
+public class CTAPCommandMakeCredentialParam
+```
 
 CTAPCommandMakeCredentialParamは`AuthenticatorConnector`クラス`MakeCredentialAsync`メソッドの引数です。
 
@@ -48,6 +58,10 @@ CTAPCommandMakeCredentialParamは`AuthenticatorConnector`クラス`MakeCredentia
 
 # CTAPCommandGetAssertionParam
 
+```csharp
+public class CTAPCommandGetAssertionParam
+```
+
 CTAPCommandGetAssertionParamは`AuthenticatorConnector`クラス`CTAPCommandGetAssertion`メソッドの引数です。
 
 
@@ -60,5 +74,28 @@ CTAPCommandGetAssertionParamは`AuthenticatorConnector`クラス`CTAPCommandGetA
 
 | method                                                       | 機能           | 備考                             |
 | ------------------------------------------------------------ | -------------- | -------------------------------- |
-| public <br>**CTAPCommandGetAssertionParam**<br>(string rpid,byte[] challenge,byte[] credentialid=null) | コンストラクタ | 引数はコマンド実行に必須のメンバ |
+| **CTAPCommandGetAssertionParam**<br>(string rpid,byte[] challenge,byte[] credentialid=null) | コンストラクタ | 引数はコマンド実行に必須のメンバ |
+
+
+
+
+
+# Serializer
+
+```csharp
+public class Serializer
+```
+
+`Attestation`クラス、`Assertion`クラスをシリアライズ、デシリアライズします。
+
+
+
+| method                                                       |                                   |      |
+| ------------------------------------------------------------ | --------------------------------- | ---- |
+| static byte[]<br>**Serialize**<br>(Attestation att)          | Attestationをシリアライズします   |      |
+| static Attestation <br>**DeserializeAttestation**<br>(byte[] byteData) | Attestationをデシリアライズします |      |
+| static byte[] <br>**Serialize**<br>(Assertion ass)           | Assertionをシリアライズします     |      |
+| static Assertion <br>**DeserializeAssertion**<br>(byte[] byteData) | Assertionをデシリアライズします   |      |
+
+
 
