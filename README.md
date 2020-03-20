@@ -19,6 +19,8 @@ C# .net FIDO2 CTAP library
 - [CTAPCommandGetAssertionParam](https://github.com/gebogebogebo/CTAPcs/blob/master/readme/CTAPcs_ReadMe_05.md#ctapcommandgetassertionparam)
 - [CTAPResponse Class](https://github.com/gebogebogebo/CTAPcs/blob/master/readme/CTAPcs_ReadMe_04.md)
 - [Verifier](https://github.com/gebogebogebo/CTAPcs/blob/master/readme/CTAPcs_ReadMe_06.md#verifier)
+- [Flow USB FIDO Key](https://github.com/gebogebogebo/CTAPcs/blob/master/readme/CTAPcs_ReadMe_21.md)
+- [Flow NFC FIDO Key](https://github.com/gebogebogebo/CTAPcs/blob/master/readme/CTAPcs_ReadMe_22.md)
 
 ## Author
 gebo
