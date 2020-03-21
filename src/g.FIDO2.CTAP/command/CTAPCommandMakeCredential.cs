@@ -9,11 +9,11 @@ namespace g.FIDO2.CTAP
 {
     public class CTAPCommandMakeCredentialParam
     {
-        public string RpId { get; set; }
-        public string RpName { get; set; }
+        public string RpId { get; set; } = "";
+        public string RpName { get; set; } = "";
         public byte[] UserId { get; set; }
-        public string UserName { get; set; }
-        public string UserDisplayName { get; set; }
+        public string UserName { get; set; } = "";
+        public string UserDisplayName { get; set; } = "";
         public bool Option_rk { get; set; }
         public bool Option_uv { get; set; }
         public byte[] ClientDataHash { get; set; }

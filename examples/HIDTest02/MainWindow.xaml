@@ -1,0 +1,14 @@
+﻿<Window x:Class="HIDTest02.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HIDTest02"
+        mc:Ignorable="d"
+        Title="HID Test 02" Height="450" Width="450" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Button x:Name="ButtonGetInfo" Content="GetInfo" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="83" Height="28" Click="ButtonGetInfo_Click" />
+        <Button x:Name="ButtonMakeCredential" Content="MakeCredential" HorizontalAlignment="Left" Margin="302,10,0,0" VerticalAlignment="Top" Width="102" Height="28" Click="ButtonMakeCredential_Click" />
+
+    </Grid>
+</Window>

@@ -117,17 +117,11 @@ namespace HIDTest01
 
             var rpid = "test.com";
             var challenge = System.Text.Encoding.ASCII.GetBytes("this is challenge");
+            var userid = System.Text.Encoding.ASCII.GetBytes("12345");
 
-            var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid,challenge, new byte[] { 0x01, 0x02, 0x03, 0x04 });
-            param.RpName = "test name";
-            param.UserName = "testUserName";
-            param.UserDisplayName = "testUserDisplayName";
-            param.Option_rk = false;
-            param.Option_uv = true;
+            var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid,challenge,userid);
 
-            string pin = "1234";
-
-            var res = await con.MakeCredentialAsync(param, pin);
+            var res = await con.MakeCredentialAsync(param, "1234");
             LogResponse(res.DeviceStatus,res.CTAPResponse);
 
             if (res.DeviceStatus == g.FIDO2.CTAP.DeviceStatus.NotConnected) {
@@ -138,10 +132,13 @@ namespace HIDTest01
                 return;
             } else if (res.DeviceStatus == g.FIDO2.CTAP.DeviceStatus.Ok) {
                 if (res.CTAPResponse.Status == 0) {
-                    if (res?.CTAPResponse?.Attestation != null) {
+                    if (res.CTAPResponse.Attestation != null) {
                         addLog("Get CTAP Response");
-                        var att = g.FIDO2.Serializer.Serialize(res.CTAPResponse.Attestation);
-                        // send att to Server
+
+                        // verify (g.FIDO2.Util.dll)
+                        // var att = res.CTAPResponse.Attestation;
+                        //var v = new AttestationVerifier();
+                        //var verify = v.Verify(challenge, att);
 
                         var creid = g.FIDO2.Common.BytesToHexString(res.CTAPResponse.Attestation.CredentialId);
                         addLog($"- CredentialID = {creid}\r\n");
