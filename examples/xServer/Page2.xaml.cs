@@ -23,12 +23,13 @@ namespace xServer
     public partial class Page2 : Page
     {
         private static Page3 page3 = null;
+        private string rpid = "";
 
         public Page2()
         {
             InitializeComponent();
 
-            var rpid = this.TextRPID.Text;
+            this.rpid = this.TextRPID.Text;
             var challenge = AttestationVerifier.CreateChallenge();
             this.TextChallenge.Text = Common.BytesToHexString(challenge);
         }
@@ -46,7 +47,7 @@ namespace xServer
         private void ButtonNext_Click(object sender, RoutedEventArgs e)
         {
             if (page3 == null) {
-                page3 = new Page3(this.TextChallenge.Text);
+                page3 = new Page3(this.rpid,this.TextChallenge.Text);
             }
             this.NavigationService.Navigate(page3);
         }

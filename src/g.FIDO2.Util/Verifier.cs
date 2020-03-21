@@ -38,6 +38,15 @@ namespace g.FIDO2.Util
             return result;
         }
 
+        protected bool VerifyRpId(string rpid,byte[] rpidHash)
+        {
+            // SHA-256(rpid) == attestation.RpIdHash
+            byte[] rpidbyte = System.Text.Encoding.ASCII.GetBytes(rpid);
+            SHA256 sha = new SHA256CryptoServiceProvider();
+            byte[] rpidbytesha = sha.ComputeHash(rpidbyte);
+            return (rpidbytesha.SequenceEqual(rpidHash));
+        }
+
     }
 
 
@@ -45,12 +54,18 @@ namespace g.FIDO2.Util
     {
         public class Result
         {
-            public bool IsSuccess;
-            public byte[] CredentialID;
-            public string PublicKeyPem;
+            public bool IsSuccess { get; internal set; } = false;
+            public byte[] CredentialID { get; internal set; } = null;
+            public string PublicKeyPem { get; internal set; } = "";
         }
 
-        public Result Verify(byte[] challenge, Attestation att)
+        public Result Verify(string rpid,byte[] challenge, Attestation att)
+        {
+            if (VerifyRpId(rpid, att.RpIdHash) == false) return new Result();
+            return (Verify(challenge, att));
+        }
+
+        protected Result Verify(byte[] challenge, Attestation att)
         {
             var result = new Result();
             var cert = DerConverter.ToPemCertificate(att.AttStmtX5c);

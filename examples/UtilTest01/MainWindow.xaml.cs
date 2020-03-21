@@ -61,7 +61,7 @@ namespace UtilTest01
             // server
             if(att!=null) {
                 var v = new g.FIDO2.Util.AttestationVerifier();
-                var verify = v.Verify(challenge, att);
+                var verify = v.Verify(rpid,challenge, att);
                 if(verify.IsSuccess) {
                     this.credentialID = verify.CredentialID.ToArray();
                     this.publicKey = verify.PublicKeyPem;

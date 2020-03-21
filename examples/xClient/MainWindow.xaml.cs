@@ -34,7 +34,7 @@ namespace xClient
         public async Task<g.FIDO2.Attestation> Register(g.FIDO2.CTAP.AuthenticatorConnector con, string rpid, byte[] challenge, string pin)
         {
             return await Task<g.FIDO2.Attestation>.Run(async () => {
-                var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid, challenge, new byte[0]);
+                var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid, challenge);
                 param.RpName = "";
                 param.UserName = "";
                 param.UserDisplayName = "";

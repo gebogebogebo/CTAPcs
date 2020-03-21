@@ -43,8 +43,9 @@ namespace HIDTest02
 
         private async void ButtonMakeCredential_Click(object sender, RoutedEventArgs e)
         {
+            string rpid = "test.com";
             var challenge = AttestationVerifier.CreateChallenge();
-            var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam("test.com", challenge);
+            var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid, challenge);
             var res = await con.MakeCredentialAsync(param, "1234");
             if (res.DeviceStatus == g.FIDO2.CTAP.DeviceStatus.NotConnected) {
                 // FIDOキーが接続されていない場合
@@ -58,9 +59,9 @@ namespace HIDTest02
                     if (res.CTAPResponse.Attestation != null) {
                         // verify
                         var v = new AttestationVerifier();
-                        var verify = v.Verify(challenge, res.CTAPResponse.Attestation);
+                        var verify = v.Verify("aaa",challenge, res.CTAPResponse.Attestation);
                         verifyResult = $"- Verify = {verify.IsSuccess}\r\n- CredentialID = {Common.BytesToHexString(verify.CredentialID)}\r\n- PublicKey = {verify.PublicKeyPem}";
-                        if(verify.IsSuccess) {
+                        if (verify.IsSuccess) {
                             // store
                             creid = verify.CredentialID.ToArray();
                             pubkey = verify.PublicKeyPem;

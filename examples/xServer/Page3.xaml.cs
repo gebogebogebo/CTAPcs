@@ -23,13 +23,14 @@ namespace xServer
     public partial class Page3 : Page
     {
         private static Page4 page4 = null;
+        private string rpid = "";
 
-        public Page3(string challenge)
+        public Page3(string rpid,string challenge)
         {
             InitializeComponent();
 
             this.TextChallenge.Text = challenge;
-
+            this.rpid = rpid;
         }
 
         private void ButtonNext_Click(object sender, RoutedEventArgs e)
@@ -44,7 +45,7 @@ namespace xServer
 
             // verify
             var v = new AttestationVerifier();
-            var verify = v.Verify(challenge, att);
+            var verify = v.Verify(rpid,challenge, att);
 
             if (verify.IsSuccess) {
                 if (page4 == null) page4 = new Page4(verify.CredentialID, verify.PublicKeyPem);
