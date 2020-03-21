@@ -18,7 +18,7 @@ namespace g.FIDO2.CTAP
         public bool Option_uv { get; set; }
         public byte[] ClientDataHash { get; set; }
 
-        public CTAPCommandMakeCredentialParam(string rpid, byte[] challenge,byte[] userid)
+        public CTAPCommandMakeCredentialParam(string rpid, byte[] challenge,byte[] userid=null)
         {
             if(rpid != null) this.RpId = rpid;
             if(challenge != null) this.ClientDataHash = Common.CreateClientDataHash(challenge);
@@ -50,7 +50,11 @@ namespace g.FIDO2.CTAP
             // 0x03 : user
             {
                 var user = CBORObject.NewMap();
-                user.Add("id", param.UserId);
+                if (param.UserId == null) {
+                    user.Add("id", new byte[] { 0x00 });
+                } else {
+                    user.Add("id", param.UserId);
+                }
 
                 if (string.IsNullOrEmpty(param.UserName)) {
                     user.Add("name", " ");

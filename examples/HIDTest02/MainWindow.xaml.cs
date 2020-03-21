@@ -1,36 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Threading;
 using g.FIDO2.CTAP.HID;
 using g.FIDO2.Util;
+using g.FIDO2;
 
 namespace HIDTest02
 {
-    /// <summary>
-    /// MainWindow.xaml の相互作用ロジック
-    /// </summary>
     public partial class MainWindow : Window
     {
-        HIDAuthenticatorConnector con;
+        private HIDAuthenticatorConnector con;
+        private byte[] creid;
+        private string pubkey;
 
         public MainWindow()
         {
             InitializeComponent();
             con = new HIDAuthenticatorConnector();
+            con.KeepAlive += OnKeepAlive;
         }
 
         private async void ButtonGetInfo_Click(object sender, RoutedEventArgs e)
@@ -49,39 +37,83 @@ namespace HIDTest02
 
         private void OnKeepAlive(object sender, EventArgs e)
         {
-            // addLog($"- touch authenticator!");
+            // MakeCredentialAsync()、GetAssertionAsync()で
+            // PIN認証が通ってFIDOキーのタッチ待ちになるとこのイベントが発生します
         }
 
         private async void ButtonMakeCredential_Click(object sender, RoutedEventArgs e)
         {
-            var rpid = "test.com";
             var challenge = AttestationVerifier.CreateChallenge();
-            var userid = System.Text.Encoding.ASCII.GetBytes("12345");
-
-            var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid, challenge, userid);
-
+            var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam("test.com", challenge);
             var res = await con.MakeCredentialAsync(param, "1234");
-
             if (res.DeviceStatus == g.FIDO2.CTAP.DeviceStatus.NotConnected) {
-                //addLog("FIDO Key Not Connected");
+                // FIDOキーが接続されていない場合
                 return;
             } else if (res.DeviceStatus == g.FIDO2.CTAP.DeviceStatus.Timeout) {
-                // addLog("UP or UV timeout");
+                // FIDOキーのタッチ待ちでTimeoutした場合
                 return;
             } else if (res.DeviceStatus == g.FIDO2.CTAP.DeviceStatus.Ok) {
+                string verifyResult = "";
                 if (res.CTAPResponse.Status == 0) {
                     if (res.CTAPResponse.Attestation != null) {
+                        // verify
                         var v = new AttestationVerifier();
                         var verify = v.Verify(challenge, res.CTAPResponse.Attestation);
-
-                        //var creid = g.FIDO2.Common.BytesToHexString(res.CTAPResponse.Attestation.CredentialId);
-                        //addLog($"- CredentialID = {creid}\r\n");
+                        verifyResult = $"- Verify = {verify.IsSuccess}\r\n- CredentialID = {Common.BytesToHexString(verify.CredentialID)}\r\n- PublicKey = {verify.PublicKeyPem}";
+                        if(verify.IsSuccess) {
+                            // store
+                            creid = verify.CredentialID.ToArray();
+                            pubkey = verify.PublicKeyPem;
+                        }
                     }
-                    MessageBox.Show($"MakeCredentialAsync\r\n- Status = {res.CTAPResponse.Status}\r\n- StatusMsg = {res.CTAPResponse.StatusMsg}");
-
                 }
+                MessageBox.Show($"MakeCredentialAsync\r\n- Status = {res.CTAPResponse.Status}\r\n- StatusMsg = {res.CTAPResponse.StatusMsg}\r\n{verifyResult}");
             }
 
         }
+
+        private async void ButtonGetAssertion_Click(object sender, RoutedEventArgs e)
+        {
+            var challenge = AttestationVerifier.CreateChallenge();
+            var param = new g.FIDO2.CTAP.CTAPCommandGetAssertionParam("test.com", challenge, creid);
+            param.Option_up = true;
+
+            var res = await con.GetAssertionAsync(param, "1234");
+            if (res.DeviceStatus == g.FIDO2.CTAP.DeviceStatus.NotConnected) {
+                // FIDOキーが接続されていない場合
+                return;
+            } else if (res.DeviceStatus == g.FIDO2.CTAP.DeviceStatus.Timeout) {
+                // FIDOキーのタッチ待ちでTimeoutした場合
+                return;
+            } else if (res.DeviceStatus == g.FIDO2.CTAP.DeviceStatus.Ok) {
+                string verifyResult = "";
+                if ( res.CTAPResponse.Assertion != null) {
+                    // verify
+                    var v = new AssertionVerifier();
+                    var verify = v.Verify(pubkey,challenge, res.CTAPResponse.Assertion);
+                    verifyResult = $"- Verify = {verify.IsSuccess}";
+                }
+                MessageBox.Show($"GetAssertionAsync\r\n- Status = {res.CTAPResponse.Status}\r\n- StatusMsg = {res.CTAPResponse.StatusMsg}\r\n{verifyResult}");
+            }
+        }
+
+        private async void ButtonClientPINgetRetries_Click(object sender, RoutedEventArgs e)
+        {
+            var con2 = new HIDAuthenticatorConnector();
+            var res = await con2.ClientPINgetRetriesAsync();
+            if (res.DeviceStatus == g.FIDO2.CTAP.DeviceStatus.Ok) {
+                MessageBox.Show($"ClientPINgetRetriesAsync\r\n- Status = {res.CTAPResponse.Status}\r\n- StatusMsg = {res.CTAPResponse.StatusMsg}\r\n- PIN Retry Count = {res.CTAPResponse.RetryCount}");
+            }
+        }
+
+        private async void ButtonWink_Click(object sender, RoutedEventArgs e)
+        {
+            var con2 = new HIDAuthenticatorConnector();
+            for (int intIc = 0; intIc < 5; intIc++) {
+                var ret = await con2.WinkAsync();
+                await Task.Delay(1000);
+            }
+        }
+
     }
 }
