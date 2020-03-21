@@ -14,8 +14,8 @@ Client -> Server : Request\n- UserID
 note over Server : Check DB\n- UserID\n  - CredentialID
 
 Server --> Util : **AttestationVerifier**\n**.CreateChallenge()**
-Server <-- Util : - RPID\n- Challenge
-Client <- Server : Response\n- RPID\n- Challenge\n- CredentialID
+Server <-- Util : - Challenge
+Client <- Server : Response\n- RpId\n- Challenge\n- CredentialID
 
 note over Client : Message\n- Insert key
 Key -> Client : Insert
@@ -51,7 +51,7 @@ Server --> Util : **Serializer.DeserializeAttestation()**\n**- Serialized Assert
 Server <-- Util : - Assertion
 
 note over Server : Check DB\n- UserID\n  - PublicKeyPem
-Server --> Util : **AssertionVerifier**\n**.Verify()**\n- PublicKeyPem\n- Challenge\n- Assertion
+Server --> Util : **AssertionVerifier**\n**.Verify()**\n- RpId\n- PublicKeyPem\n- Challenge\n- Assertion
 Server <-- Util 
 
 Client <-- Server : OK

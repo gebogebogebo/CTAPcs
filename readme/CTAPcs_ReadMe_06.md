@@ -28,7 +28,7 @@ public class AttestationVerifier:Verifier
 
 | method                                                       |                                                              |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| Result <br>**Verify**<br>(byte[] challenge, Attestation att) | Attestationを検証します。<br>引数challengeは`MakeCredentialAsync()`に指定したものと同じものを指定してください。 |
+| Result <br>**Verify**<br>(string rpid,byte[] challenge, Attestation att) | Attestationを検証します。<br>引数challengeは`MakeCredentialAsync()`に指定したものと同じものを指定してください。 |
 | X509Certificate2 <br>**CreateSelfSignedCertificate**<br>(Result result,string rpName,string userName,TimeSpan expirationDate) | 自己署名した証明書を作成します。<br>引数resultはVerify()の結果を指定します。 |
 
 
@@ -65,7 +65,7 @@ public class AssertionVerifier : Verifier
 
 | method                                                       |                                                              |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| Result <br>**Verify**<br>(string publicKey, byte[] challenge,Assertion ass) | Assertionを検証します。<br>引数challengeは`GetAssertionAsync()`に指定したものと同じものを指定してください。 |
+| Result <br>**Verify**<br>(string rpid,string publicKey, byte[] challenge,Assertion ass) | Assertionを検証します。<br>引数challengeは`GetAssertionAsync()`に指定したものと同じものを指定してください。 |
 
 
 
