@@ -23,11 +23,13 @@ namespace xServer
     public partial class Page6 : Page
     {
         private static Page7 page7 = null;
+        private string rpid;
 
-        public Page6(string challenge, string pubkey)
+        public Page6(string rpid,string challenge, string pubkey)
         {
             InitializeComponent();
 
+            this.rpid = rpid;
             this.TextChallenge.Text = challenge;
             this.TextPublicKey.Text= pubkey;
         }
@@ -44,7 +46,7 @@ namespace xServer
             }
 
             var v = new g.FIDO2.Util.AssertionVerifier();
-            var verify = v.Verify(pubkey,challenge, ass);
+            var verify = v.Verify(rpid,pubkey,challenge, ass);
 
             if (verify.IsSuccess) {
                 if (page7 == null) page7 = new Page7();

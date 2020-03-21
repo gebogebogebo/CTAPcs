@@ -96,7 +96,13 @@ namespace g.FIDO2.Util
             public bool IsSuccess;
         }
 
-        public Result Verify(string publicKey, byte[] challenge,Assertion ass)
+        public Result Verify(string rpid, string publicKey, byte[] challenge, Assertion ass)
+        {
+            if (VerifyRpId(rpid, ass.RpIdHash) == false) return new Result();
+            return (Verify(publicKey, challenge, ass));
+        }
+
+        protected Result Verify(string publicKey, byte[] challenge,Assertion ass)
         {
             var result = new Result();
             result.IsSuccess = this.VerifyPublicKey(publicKey, challenge, ass.AuthData, ass.Signature);

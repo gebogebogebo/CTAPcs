@@ -59,7 +59,7 @@ namespace HIDTest02
                     if (res.CTAPResponse.Attestation != null) {
                         // verify
                         var v = new AttestationVerifier();
-                        var verify = v.Verify("aaa",challenge, res.CTAPResponse.Attestation);
+                        var verify = v.Verify(rpid,challenge, res.CTAPResponse.Attestation);
                         verifyResult = $"- Verify = {verify.IsSuccess}\r\n- CredentialID = {Common.BytesToHexString(verify.CredentialID)}\r\n- PublicKey = {verify.PublicKeyPem}";
                         if (verify.IsSuccess) {
                             // store
@@ -75,8 +75,9 @@ namespace HIDTest02
 
         private async void ButtonGetAssertion_Click(object sender, RoutedEventArgs e)
         {
+            var rpid = "test.com";
             var challenge = AttestationVerifier.CreateChallenge();
-            var param = new g.FIDO2.CTAP.CTAPCommandGetAssertionParam("test.com", challenge, creid);
+            var param = new g.FIDO2.CTAP.CTAPCommandGetAssertionParam(rpid, challenge, creid);
             param.Option_up = true;
 
             var res = await con.GetAssertionAsync(param, "1234");
@@ -91,7 +92,7 @@ namespace HIDTest02
                 if ( res.CTAPResponse.Assertion != null) {
                     // verify
                     var v = new AssertionVerifier();
-                    var verify = v.Verify(pubkey,challenge, res.CTAPResponse.Assertion);
+                    var verify = v.Verify(rpid,pubkey,challenge, res.CTAPResponse.Assertion);
                     verifyResult = $"- Verify = {verify.IsSuccess}";
                 }
                 MessageBox.Show($"GetAssertionAsync\r\n- Status = {res.CTAPResponse.Status}\r\n- StatusMsg = {res.CTAPResponse.StatusMsg}\r\n{verifyResult}");

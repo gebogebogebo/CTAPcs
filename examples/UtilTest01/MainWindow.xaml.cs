@@ -124,7 +124,7 @@ namespace UtilTest01
             //server
             if(assertion != null) {
                 var v = new g.FIDO2.Util.AssertionVerifier();
-                var result = v.Verify(this.publicKey, challenge, assertion);
+                var result = v.Verify(rpid,this.publicKey, challenge, assertion);
             }
 
         }

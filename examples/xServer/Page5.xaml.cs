@@ -28,7 +28,6 @@ namespace xServer
         {
             InitializeComponent();
 
-            var rpid = this.TextRPID.Text;
             var challenge = AttestationVerifier.CreateChallenge();
             this.TextChallenge.Text = Common.BytesToHexString(challenge);
             if(creid != null) this.TextCredentialID.Text = Common.BytesToHexString(creid);
@@ -38,7 +37,7 @@ namespace xServer
 
         private void ButtonNext_Click(object sender, RoutedEventArgs e)
         {
-            if (page6 == null) page6 = new Page6(this.TextChallenge.Text, this.TextPublickKey.Text);
+            if (page6 == null) page6 = new Page6(this.TextRPID.Text,this.TextChallenge.Text, this.TextPublickKey.Text);
             this.NavigationService.Navigate(page6);
         }
 
