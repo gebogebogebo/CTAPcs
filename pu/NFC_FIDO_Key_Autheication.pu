@@ -2,12 +2,17 @@
 title NFC FIDO Key Autheication (Non Resident Key)
 hide footbox
 
-participant "NFC FIDO Key" as Key
-actor  "User" as User
-control "g.FIDO2.CTAP.HID.dll\ng.FIDO2.CTAP.dll\ng.FIDO2.dll" as CTAPHID
-participant "ClientApp" as Client
-participant "ServerApp" as Server
-control "g.FIDO2.Util.dll\ng.FIDO2.dll" as Util
+box "Client" #FloralWhite
+    participant "NFC FIDO Key" as Key
+    actor  "User" as User
+    control "g.FIDO2.CTAP.HID.dll\ng.FIDO2.CTAP.dll\ng.FIDO2.dll" as CTAPHID
+    participant "ClientApp" as Client
+end box
+
+box "Server" #GhostWhite
+    participant "ServerApp" as Server
+    control "g.FIDO2.Util.dll\ng.FIDO2.dll" as Util
+end box
 
 User -> Client : Start
 Client -> Server : Request\n- UserID
