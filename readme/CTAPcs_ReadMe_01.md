@@ -63,7 +63,7 @@
 
 
 # プロジェクトを新規作成する方法
-- WPFアプリ(.NET Framwwork)を新規作成します。
+- WPFアプリ(.NET Framework)を新規作成します。
 - .Net Framework 4.6.1が推奨ですが、それ以外でも動くかと思います。
 - FIDOキーを利用する場合、exeを管理者権限で実行する必要があります。
     - プロジェクトにアプリケーションマニフェストファイルを追加し、requestedExecutionLevelのlevelを**requireAdministrator**に変更してください。この設定で管理者権限でアプリが実行されるようになります。
