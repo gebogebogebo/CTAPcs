@@ -47,17 +47,23 @@ namespace Test01
 
         private void OnFindDevice(object sender, g.FIDO2.CTAP.BLE.BLEAuthenticatorScanner.FindDeviceEventArgs e)
         {
+            try {
+                addLog($"<OnFindDevice>");
+                scanner.Stop();
 
-            addLog($"<OnFindDevice>");
-            scanner.Stop();
+                addLog($"- BluetoothAddress = {e.BluetoothAddress.ToString("X")}");
+                addLog($"- CompanyId = 0x{e.CompanyId.ToString("X")}");
+                addLog($"- ManufacturerData = 0x{g.FIDO2.Common.BytesToHexString(e.ManufacturerData)}");
 
-            addLog($"- BluetoothAddress = {e.BluetoothAddress}");
-            addLog($"- CompanyId = 0x{e.CompanyId.ToString("X")}");
-            addLog($"- ManufacturerData = 0x{g.FIDO2.Common.BytesToHexString(e.ManufacturerData)}");
+                bleAddress = e.BluetoothAddress;
 
-            bleAddress = e.BluetoothAddress;
+                // そのままコネクトすることをやめる
+                //ButtonConnect_Click(null, null);
+                addLog($"Scan OK ! : Next Click [Connect]Button");
 
-            ButtonConnect_Click(null, null);
+            } catch (Exception ex) {
+                addLog($"- OnFindDevice Error Exception{ex.Message}");
+            }
         }
 
         private void OnConnectedDevice(object sender, EventArgs e)
@@ -83,14 +89,18 @@ namespace Test01
 
         private void ButtonStartScan_Click(object sender, RoutedEventArgs e)
         {
-            scanner = new BLEAuthenticatorScanner();
-            scanner.FindDevice += OnFindDevice;
-            if (scanner.Start()) {
-                addLog("Scan Start.BLE FIDOキーをONにしてください");
-                addLog("");
-            } else {
-                addLog("Scan Start Error");
-                addLog("");
+            try {
+                scanner = new BLEAuthenticatorScanner();
+                scanner.FindDevice += OnFindDevice;
+                if (scanner.Start()) {
+                    addLog("Scan Start.BLE FIDOキーをONにしてください");
+                    addLog("");
+                } else {
+                    addLog("Scan Start Error");
+                    addLog("");
+                }
+            } catch (Exception ex) {
+                addLog($"- Scan Start Error Exception{ex.Message}");
             }
         }
 
@@ -103,7 +113,12 @@ namespace Test01
         private async void ButtonConnect_Click(object sender, RoutedEventArgs e)
         {
             try {
-                addLog("<Connect>");
+                addLog($"<Connect> BLE Address = {this.bleAddress.ToString("X")}");
+
+                if( this.bleAddress == 0) {
+                    addLog($"- Connect Error BLE Address");
+                    return;
+                }
 
                 con = new BLEAuthenticatorConnector();
                 //con.PacketSizeByte = 155;       // AllinPass

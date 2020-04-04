@@ -129,6 +129,19 @@ namespace g.FIDO2.CTAP.BLE
             {
                 // search FIDO service
                 if (args.Advertisement.ServiceUuids.Contains(Common.Gatt_Service_FIDO_GUID) == true) {
+                    /*
+                    foreach(var d in args.Advertisement.DataSections) {
+                        // Local Name
+                        if( d.DataType == 0x09) {
+                            byte[] readBytes = new byte[d.Data.Length];
+                            using (DataReader reader = DataReader.FromBuffer(d.Data)) {
+                                reader.ReadBytes(readBytes);
+                                //ASCII エンコード
+                                string text = System.Text.Encoding.ASCII.GetString(readBytes);
+                            }
+                        }
+                    }
+                    */
                     find = true;
                     Logger.Log("Scan FIDO Device");
                 }
