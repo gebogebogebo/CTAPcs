@@ -55,15 +55,11 @@ namespace g.FIDO2.CTAP.BLE
 
             {
                 // FIDOのサービスをGET
-                {
-                    //addLog("Connect FIDO Service");
-                    var services = await bleDevice.GetGattServicesForUuidAsync(Common.Gatt_Service_FIDO_GUID);
-                    if (services.Services.Count <= 0) {
-                        // サービス無し
-                        Logger.Err("Error Connect FIDO Service");
-                        return false;
-                    }
-                    service_Fido = services.Services.First();
+                service_Fido = await this.getFIDOService(bleDevice);
+                if (service_Fido == null) {
+                    // サービス無し
+                    Logger.Err("Error Connect FIDO Service");
+                    return false;
                 }
 
                 // Characteristicアクセス
@@ -241,5 +237,51 @@ namespace g.FIDO2.CTAP.BLE
             return (retval);
         }
 
+        private async Task<GattDeviceService> getFIDOService(BluetoothLEDevice device)
+        {
+            GattDeviceService ret=null;
+            Logger.Log("Connect FIDO Service");
+
+            //serviceを取得
+            GattDeviceServicesResult servicesResult = await device.GetGattServicesAsync(BluetoothCacheMode.Uncached);
+            if (servicesResult.Status == GattCommunicationStatus.Success) {
+                var services = servicesResult.Services;
+                foreach (GattDeviceService service in services) {
+                    string uuid = service.Uuid.ToString();
+                    if (uuid.ToLower() == Common.Gatt_Service_FIDO_UUID) {
+                        ret = service;
+                        break;
+                    }
+                    /*
+                    //characteristicを取得
+                    GattCharacteristicsResult characteristicsResult = await service.GetCharacteristicsAsync();
+                    if (characteristicsResult.Status == GattCommunicationStatus.Success) {
+                        var characteristics = characteristicsResult.Characteristics;
+                        foreach (GattCharacteristic characteristic in characteristics) {
+                           string chuuid = "characterisitics uuid: " + characteristic.Uuid;
+                        }
+                    }
+                    */
+                }
+            }
+
+            // こっちはダメ
+            //var services = await bleDevice.GetGattServicesForUuidAsync(Common.Gatt_Service_FIDO_GUID);
+            //if (services.Services.Count <= 0) {
+            //    // サービス無し
+            //    Logger.Err("Error Connect FIDO Service");
+            //    return false;
+            //}
+            //ret = services.Services.First();
+
+            // この時点で接続状態になっているはず
+            if (device.ConnectionStatus != BluetoothConnectionStatus.Connected) {
+                Logger.Err("Error getFIDOService");
+                return null;
+            }
+
+            return ret;
+
+        }
     }
 }

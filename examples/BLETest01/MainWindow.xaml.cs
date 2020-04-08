@@ -28,10 +28,11 @@ namespace Test01
 
         private void addLog(string message)
         {
-            Console.WriteLine($"{message}");
+            string log = DateTime.Now.ToString() + " " + message;
+            Console.WriteLine($"{log}");
             // UIスレッドで実行するおまじない
             var ignored = this.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Action)(() => {
-                textLog.Text += message + Environment.NewLine;
+                textLog.Text += log + Environment.NewLine;
             }));
         }
 
@@ -129,6 +130,7 @@ namespace Test01
                 if (result == false) {
                     addLog("- Connect Error");
                 }
+                addLog($"Connect OK");
             } catch (Exception ex) {
                 addLog($"- Connect Error Exception{ex.Message}");
             }
