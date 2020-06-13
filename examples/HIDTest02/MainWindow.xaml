@@ -7,11 +7,11 @@
         mc:Ignorable="d"
         Title="HID Test 02" Height="450" Width="450" WindowStartupLocation="CenterScreen">
     <Grid>
-        <Button x:Name="ButtonGetInfo" Content="GetInfo" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="425" Height="28" Click="ButtonGetInfo_Click" />
-        <Button x:Name="ButtonMakeCredential" Content="MakeCredential" HorizontalAlignment="Left" Margin="10,58,0,0" VerticalAlignment="Top" Width="425" Height="28" Click="ButtonMakeCredential_Click" />
-        <Button x:Name="ButtonGetAssertion" Content="GetAssertion" HorizontalAlignment="Left" Margin="10,106,0,0" VerticalAlignment="Top" Width="425" Height="28" Click="ButtonGetAssertion_Click" />
-        <Button x:Name="ButtonClientPINgetRetries" Content="ClientPINgetRetries" HorizontalAlignment="Left" Margin="10,156,0,0" VerticalAlignment="Top" Width="425" Height="28" Click="ButtonClientPINgetRetries_Click" />
-        <Button x:Name="buttonWink" Content="Wink" HorizontalAlignment="Left" Margin="10,206,0,0" VerticalAlignment="Top" Width="425" Height="28" Click="ButtonWink_Click" />
+        <Button x:Name="ButtonGetInfo" Content="GetInfo" Margin="10,10,10,0" VerticalAlignment="Top" Height="28" Click="ButtonGetInfo_Click" />
+        <Button x:Name="ButtonMakeCredential" Content="MakeCredential" Margin="10,58,10,0" VerticalAlignment="Top" Height="28" Click="ButtonMakeCredential_Click" />
+        <Button x:Name="ButtonGetAssertion" Content="GetAssertion" Margin="10,106,10,0" VerticalAlignment="Top" Height="28" Click="ButtonGetAssertion_Click" />
+        <Button x:Name="ButtonClientPINgetRetries" Content="ClientPINgetRetries" Margin="10,156,10,0" VerticalAlignment="Top" Height="28" Click="ButtonClientPINgetRetries_Click" />
+        <Button x:Name="buttonWink" Content="Wink" Margin="10,206,10,0" VerticalAlignment="Top" Height="28" Click="ButtonWink_Click" />
 
     </Grid>
 </Window>

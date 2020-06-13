@@ -69,7 +69,7 @@ namespace g.FIDO2.CTAP.HID
             var ret = new List<string>();
             var hids = CTAPHID.finds();
             foreach(var hid in hids) {
-                ret.Add($"VendorId = 0x{hid.Attributes.VendorId} , ProductId = 0x{hid.Attributes.ProductHexId} , DevicePath = {hid.DevicePath} , Description = {hid.Description}");
+                ret.Add($"VendorId = {hid.Attributes.VendorHexId} , ProductId = {hid.Attributes.ProductHexId} , DevicePath = {hid.DevicePath} , Description = {hid.Description}");
             }
             return ret;
         }
