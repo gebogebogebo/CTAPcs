@@ -69,6 +69,8 @@ namespace g.FIDO2.CTAP.BLE
                 } else if (data[0] == 0xbf) {
                     // ERROR
                     Logger.Log($"ERROR");
+                    receiveData = new BLEResponsePacket(data);
+                    IsReceived = true;
                 } else {
                     Logger.Log($"next MSG?");
                     receiveData.Add(data);

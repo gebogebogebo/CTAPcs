@@ -35,37 +35,47 @@ namespace g.FIDO2.Util
 
         public static string GetPublicKeyPEMfromCert(string certPem)
         {
-            // 証明書の読み込み
-            var pemReader = new PemReader(new StringReader(certPem));
-            var readedCert = (Org.BouncyCastle.X509.X509Certificate)pemReader.ReadObject();
+            try {
+                // 証明書の読み込み
+                var pemReader = new PemReader(new StringReader(certPem));
+                var readedCert = (Org.BouncyCastle.X509.X509Certificate)pemReader.ReadObject();
 
-            // Get
-            var publicKey = readedCert.GetPublicKey();
+                // Get
+                var publicKey = readedCert.GetPublicKey();
 
-            // ToPem
-            var mem = new MemoryStream();
-            using (var writer = new StreamWriter(mem, Encoding.ASCII)) {
-                var pemWriter = new PemWriter(writer);
-                pemWriter.WriteObject(publicKey);
-                pemWriter.Writer.Flush();
+                // ToPem
+                var mem = new MemoryStream();
+                using (var writer = new StreamWriter(mem, Encoding.ASCII)) {
+                    var pemWriter = new PemWriter(writer);
+                    pemWriter.WriteObject(publicKey);
+                    pemWriter.Writer.Flush();
+                }
+                var pem = Encoding.UTF8.GetString(mem.ToArray());
+
+                return pem;
+            } catch (Exception ex) {
+                Logger.Err(ex);
+                return "";
             }
-            var pem = Encoding.UTF8.GetString(mem.ToArray());
-
-            return pem;
         }
 
         public bool VerifybyPublicKey(string pubkeyPem)
         {
-            var privateKeyReader = new PemReader(new StringReader(pubkeyPem));
-            var publicKey = (AsymmetricKeyParameter)privateKeyReader.ReadObject();
+            try {
+                var privateKeyReader = new PemReader(new StringReader(pubkeyPem));
+                var publicKey = (AsymmetricKeyParameter)privateKeyReader.ReadObject();
 
-            ISigner signer = SignerUtilities.GetSigner(algorithm);
-            signer.Init(false, publicKey);
+                ISigner signer = SignerUtilities.GetSigner(algorithm);
+                signer.Init(false, publicKey);
 
-            signer.BlockUpdate(target, 0, target.Length);
-            var result = signer.VerifySignature(sig);
+                signer.BlockUpdate(target, 0, target.Length);
+                var result = signer.VerifySignature(sig);
 
-            return (result);
+                return (result);
+            } catch (Exception ex) {
+                Logger.Err(ex);
+                return false;
+            }
         }
 
         public static MsX509Certificate2 CreateSelfSignedCertificate(string pubkeyPem, string subjectOrganization, string subjectCommonname,string issureOrganization,string issureCommonname, DateTime notBefore, DateTime notAfter)

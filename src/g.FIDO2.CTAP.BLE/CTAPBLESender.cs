@@ -11,7 +11,7 @@ namespace g.FIDO2.CTAP.BLE
 {
     internal class CTAPBLESender
     {
-        public int ReceiveResponseTimeoutmillisecond = 3000;
+        //public int ReceiveResponseTimeoutmillisecond = 3000;
 
         private int packetSizeByte;
         private CTAPBLEReceiver receiver;
@@ -72,7 +72,7 @@ namespace g.FIDO2.CTAP.BLE
 
                 // Wait Response
                 int delay = 10;
-                int waitCounter = this.ReceiveResponseTimeoutmillisecond / delay;
+                int waitCounter = timeoutms / delay;
                 for (int intIc = 0; intIc < waitCounter; intIc++) {
                     await Task.Delay(delay);
                     if (receiver.IsReceived) {
@@ -107,7 +107,7 @@ namespace g.FIDO2.CTAP.BLE
 
                 // log
                 Logger.Log($"send Command...");
-                Logger.Log($"{BitConverter.ToString(command)}");
+                Logger.Log($"{BitConverter.ToString(command).ToLower()}");
 
                 //ReceveData = new List<byte>();
 

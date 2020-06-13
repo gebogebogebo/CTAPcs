@@ -22,6 +22,7 @@ namespace g.FIDO2
         // Byte配列 => 16進数文字列
         public static string BytesToHexString(byte[] bs)
         {
+            if (bs == null) return "";
             var str = BitConverter.ToString(bs);
             // "-"がいらないなら消しておく
             str = str.Replace("-", string.Empty);

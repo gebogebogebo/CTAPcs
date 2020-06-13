@@ -17,6 +17,8 @@ namespace g.FIDO2.CTAP
 
         public override void Parse(byte[] byteresponse)
         {
+            if (byteresponse == null) return;
+
             this.Assertion = new Assertion();
 
             var cbor = this.decodeFromBytes(byteresponse);
@@ -43,60 +45,69 @@ namespace g.FIDO2.CTAP
 
         private void parseAuthData(byte[] data)
         {
-            int index = 0;
+            try {
+                int index = 0;
 
-            // rpIdHash	(32)
-            Assertion.RpIdHash = data.Skip(index).Take(32).ToArray();
-            index = index + 32;
+                // rpIdHash	(32)
+                Assertion.RpIdHash = data.Skip(index).Take(32).ToArray();
+                index = index + 32;
 
-            // flags(1)
-            {
-                byte flags = data[index];
-                index++;
-                Assertion.Flags_UserPresentResult = Common.GetBit(flags, 0);
-                Assertion.Flags_UserVerifiedResult = Common.GetBit(flags, 2);
-                Assertion.Flags_AttestedCredentialDataIncluded = Common.GetBit(flags, 6);
-                Assertion.Flags_ExtensionDataIncluded = Common.GetBit(flags, 7);
+                // flags(1)
+                {
+                    byte flags = data[index];
+                    index++;
+                    Assertion.Flags_UserPresentResult = Common.GetBit(flags, 0);
+                    Assertion.Flags_UserVerifiedResult = Common.GetBit(flags, 2);
+                    Assertion.Flags_AttestedCredentialDataIncluded = Common.GetBit(flags, 6);
+                    Assertion.Flags_ExtensionDataIncluded = Common.GetBit(flags, 7);
+                }
+
+                // signCount(4)
+                {
+                    Assertion.SignCount = Common.ToInt32(data, index, true);
+                    index = index + 4;
+                }
+
+                // aaguid	16
+                Assertion.Aaguid = data.Skip(index).Take(16).ToArray();
+                index = index + 16;
+            } catch (Exception ex) {
+                Logger.Err(ex, "parseAuthData");
             }
-
-            // signCount(4)
-            {
-                Assertion.SignCount = Common.ToInt32(data, index, true);
-                index = index + 4;
-            }
-
-            // aaguid	16
-            Assertion.Aaguid = data.Skip(index).Take(16).ToArray();
-            index = index + 16;
-
             Assertion.AuthData = data;
         }
 
         private void parsePublicKeyCredentialUserEntity(CBORObject cbor)
         {
-            foreach (var key in cbor.Keys) {
-                var keyVal = key.AsString();
-                if (keyVal == "id") {
-                    Assertion.User_Id = cbor[key].GetByteString();
-                } else if (keyVal == "name") {
-                    Assertion.User_Name = cbor[key].AsString();
-                } else if (keyVal == "displayName") {
-                    Assertion.User_DisplayName = cbor[key].AsString();
+            try {
+                foreach (var key in cbor.Keys) {
+                    var keyVal = key.AsString();
+                    if (keyVal == "id") {
+                        Assertion.User_Id = cbor[key].GetByteString();
+                    } else if (keyVal == "name") {
+                        Assertion.User_Name = cbor[key].AsString();
+                    } else if (keyVal == "displayName") {
+                        Assertion.User_DisplayName = cbor[key].AsString();
+                    }
                 }
+            } catch (Exception ex) {
+                Logger.Err(ex, "parsePublicKeyCredentialUserEntity");
             }
-
         }
 
         private void parseCredential(CBORObject cbor)
         {
-            foreach (var key in cbor.Keys) {
-                var keyVal = key.AsString();
-                if (keyVal == "id") {
-                    Assertion.CredentialId = cbor[key].GetByteString();
-                } else if (keyVal == "type") {
+            try {
+                foreach (var key in cbor.Keys) {
+                    var keyVal = key.AsString();
+                    if (keyVal == "id") {
+                        Assertion.CredentialId = cbor[key].GetByteString();
+                    } else if (keyVal == "type") {
+                    }
                 }
+            } catch (Exception ex) {
+                Logger.Err(ex, "parseCredential");
             }
-
         }
 
     }

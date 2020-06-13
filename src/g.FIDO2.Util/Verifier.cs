@@ -70,8 +70,12 @@ namespace g.FIDO2.Util
             var result = new Result();
             var cert = DerConverter.ToPemCertificate(att.AttStmtX5c);
             var publicKeyforVerify = CryptoBC.GetPublicKeyPEMfromCert(cert);
-            result.IsSuccess = VerifyPublicKey(publicKeyforVerify, challenge, att.AuthData, att.AttStmtSig);
-            if (result.IsSuccess) {
+            if (!string.IsNullOrEmpty(publicKeyforVerify)) {
+                result.IsSuccess = VerifyPublicKey(publicKeyforVerify, challenge, att.AuthData, att.AttStmtSig);
+            }
+
+            // Verifyの結果によらず
+            {
                 var decAuthdata = new DecodedAuthData();
                 decAuthdata.Decode(att.AuthData);
                 result.CredentialID = decAuthdata.CredentialId;

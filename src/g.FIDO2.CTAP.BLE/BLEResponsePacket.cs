@@ -8,6 +8,7 @@ namespace g.FIDO2.CTAP.BLE
 {
     internal class BLEResponsePacket
     {
+        public byte Constant { get; private set; } = 0x00;
         private int needSize = 0;
         private List<byte> cborbyte;
 
@@ -19,6 +20,9 @@ namespace g.FIDO2.CTAP.BLE
         public BLEResponsePacket(byte[] data)
         {
             cborbyte = new List<byte>();
+
+            // constant(MSG=0x83,ERROR=0xbf)
+            Constant = data[0];
 
             // [1] HLEN
             // [2] LLEN
@@ -65,6 +69,7 @@ namespace g.FIDO2.CTAP.BLE
 
         public void Clear()
         {
+            this.Constant = 0x00;
             this.needSize = 0;
             cborbyte = new List<byte>();
         }

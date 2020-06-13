@@ -21,53 +21,63 @@ namespace g.FIDO2.Util
 
         public bool Decode(byte[] authData)
         {
-            int index = 0;
+            try {
 
-            // rpIdHash	(32)
-            RpIdHash = authData.Skip(index).Take(32).ToArray();
-            index = index + 32;
+                int index = 0;
 
-            // flags(1)
-            {
-                byte flags = authData[index];
-                index++;
-                Flags_UserPresentResult = Common.GetBit(flags, 0);
-                Flags_UserVerifiedResult = Common.GetBit(flags, 2);
-                Flags_AttestedCredentialDataIncluded = Common.GetBit(flags, 6);
-                Flags_ExtensionDataIncluded = Common.GetBit(flags, 7);
+                // rpIdHash	(32)
+                RpIdHash = authData.Skip(index).Take(32).ToArray();
+                index = index + 32;
+
+                // flags(1)
+                {
+                    byte flags = authData[index];
+                    index++;
+                    Flags_UserPresentResult = Common.GetBit(flags, 0);
+                    Flags_UserVerifiedResult = Common.GetBit(flags, 2);
+                    Flags_AttestedCredentialDataIncluded = Common.GetBit(flags, 6);
+                    Flags_ExtensionDataIncluded = Common.GetBit(flags, 7);
+                }
+
+                // signCount(4)
+                {
+                    SignCount = Common.ToInt32(authData, index, true);
+                    index = index + 4;
+                }
+
+                // aaguid	16
+                Aaguid = authData.Skip(index).Take(16).ToArray();
+                index = index + 16;
+
+                // credentialId
+                {
+                    int credentialIdLength = Common.ToInt16(authData, index, true);
+                    index = index + 2;
+
+                    CredentialId = authData.Skip(index).Take(credentialIdLength).ToArray();
+                    index = index + credentialIdLength;
+                }
+
+                // credentialPublicKey
+                {
+                    var tmp = authData.Skip(index).ToArray();
+
+                    // tmp -> cbors
+                    //          [0] credentialPublicKey
+                    //          [1] extensions
+                    var cbors = CBORObject.DecodeSequenceFromBytes(tmp, CBOREncodeOptions.Default);
+                    if (cbors.Count() > 0) {
+                        var credentialPublicKeyByte = cbors[0].EncodeToBytes();
+                        // PublickKeyをPEMに変換する
+                        PublicKeyPem = this.convertCOSEtoPEM(credentialPublicKeyByte);
+                    }
+                }
+
+                return true;
+            } catch (Exception ex) {
+                Logger.Err(ex, "Decode");
+                return false;
             }
-
-            // signCount(4)
-            {
-                SignCount = Common.ToInt32(authData, index, true);
-                index = index + 4;
-            }
-
-            // aaguid	16
-            Aaguid = authData.Skip(index).Take(16).ToArray();
-            index = index + 16;
-
-            // credentialId
-            {
-                int credentialIdLength = Common.ToInt16(authData, index, true);
-                index = index + 2;
-
-                CredentialId = authData.Skip(index).Take(credentialIdLength).ToArray();
-                index = index + credentialIdLength;
-            }
-
-            // credentialPublicKey
-            {
-                var CredentialPublicKeyByte = authData.Skip(index).ToArray();
-                //var credentialPublicKeyCobr = CBORObject.DecodeFromBytes(CredentialPublicKeyByte, CBOREncodeOptions.Default);
-                //var CredentialPublicKey = credentialPublicKeyCobr.ToJSONString();
-                //Console.WriteLine("credentialPublicKeyCobr:" + CredentialPublicKey);
-
-                // PublickKeyをPEMに変換する
-                PublicKeyPem = this.convertCOSEtoPEM(CredentialPublicKeyByte);
-            }
-
-            return true;
         }
 
         private string convertCOSEtoPEM(byte[] cose)
