@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HIDTest01"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="858.667">
+        Title="MainWindow" Height="450" Width="877.334">
     <Grid>
-        <TextBox x:Name="textLog" Margin="10,50,10,10" TextWrapping="Wrap" Text="" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" FontFamily="MS Gothic"/>
+        <TextBox x:Name="textLog" Margin="10,71,10,9.667" TextWrapping="Wrap" Text="" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" FontFamily="MS Gothic"/>
         <Button x:Name="ButtonGetInfo" Content="GetInfo" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" Height="28" Click="ButtonGetInfo_Click" />
         <Button x:Name="ButtonClientPINgetRetries" Content="ClientPINgetRetries" HorizontalAlignment="Left" Margin="95,10,0,0" VerticalAlignment="Top" Width="120" Height="28" Click="ButtonClientPINgetRetries_Click" />
         <Button x:Name="ButtonGetAssertion" Content="GetAssertion" HorizontalAlignment="Left" Margin="220,10,0,0" VerticalAlignment="Top" Width="75" Height="28" Click="ButtonGetAssertion_Click" />
@@ -18,6 +18,9 @@
         <Button x:Name="ButtonReset" Content="Reset" HorizontalAlignment="Left" Margin="631,10,0,0" VerticalAlignment="Top" Width="53" Height="28" Click="ButtonReset_Click"/>
         <Button x:Name="buttonWink" Content="Wink" HorizontalAlignment="Left" Margin="689,10,0,0" VerticalAlignment="Top" Width="51" Height="28" Click="ButtonWink_Click" RenderTransformOrigin="0.89,0.553"/>
         <Button x:Name="buttonFinds" Content="List HID" HorizontalAlignment="Left" Height="28" Margin="745,10,0,0" VerticalAlignment="Top" Width="79" Click="ButtonFinds_Click"/>
+        <Label  Content="Credential ID" HorizontalAlignment="Left" Margin="95,43,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBoxCreID" Height="23" Margin="179,43,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" FontSize="9"/>
+        <Button x:Name="buttonClear" Content="clear log" HorizontalAlignment="Left" Height="23" Margin="10,43,0,0" VerticalAlignment="Top" Width="60" FontSize="9" Click="ButtonClear_Click"/>
 
     </Grid>
 </Window>

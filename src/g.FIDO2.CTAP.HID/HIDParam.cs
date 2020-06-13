@@ -48,6 +48,9 @@ namespace g.FIDO2.CTAP.HID
             // Solo Key
             ret.Add(new HidParam(0x0483));
 
+            // OpenSK
+            ret.Add(new HidParam(0x1915));
+
             return (ret);
         }
     }

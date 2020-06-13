@@ -92,7 +92,11 @@ namespace HIDTest01
 
             var rpid = "test.com";
             var challenge = System.Text.Encoding.ASCII.GetBytes("this is challenge");
-            var creid = g.FIDO2.Common.HexStringToBytes("78493D4BB918D4F73796DD9F33C43869BA4703B949E46CE6C42796296C78CA693BCE06BCEB63B2127E6D26572F0086602DC96571BD7088B705FDA8F442C5D2D9");
+            //var creid = g.FIDO2.Common.HexStringToBytes("99F946F5EAC7F8F9D56FF1F791626143DCBB9450AAA102F4EDBFF6D9913E44E9161B7AE113EFC482DA6C22A9037840757D8DA9922233BCB99F0473528E6DD7E8");
+            byte[] creid = null;
+            if (!string.IsNullOrEmpty(textBoxCreID.Text)) {
+                creid = g.FIDO2.Common.HexStringToBytes(textBoxCreID.Text);
+            }
 
             var param = new g.FIDO2.CTAP.CTAPCommandGetAssertionParam(rpid, challenge,creid);
             param.Option_up = true;
@@ -120,6 +124,8 @@ namespace HIDTest01
             var userid = System.Text.Encoding.ASCII.GetBytes("12345");
 
             var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid,challenge,userid);
+            param.Option_rk = false;
+            param.Option_uv = true;
 
             var res = await con.MakeCredentialAsync(param, "1234");
             LogResponse(res.DeviceStatus,res.CTAPResponse);
@@ -142,6 +148,7 @@ namespace HIDTest01
 
                         var creid = g.FIDO2.Common.BytesToHexString(res.CTAPResponse.Attestation.CredentialId);
                         addLog($"- CredentialID = {creid}\r\n");
+                        textBoxCreID.Text = creid;
                     }
                 }
             }
@@ -193,6 +200,11 @@ namespace HIDTest01
                 addLog(info);
             }
             addLog("<List HID - END>");
+        }
+
+        private void ButtonClear_Click(object sender, RoutedEventArgs e)
+        {
+            textLog.Text = "";
         }
     }
 }

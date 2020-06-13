@@ -47,8 +47,8 @@ namespace g.FIDO2.CTAP
             // 0x03 : allowList
             if (param.AllowList_CredentialId != null) {
                 var pubKeyCredParams = CBORObject.NewMap();
-                pubKeyCredParams.Add("type", "public-key");
                 pubKeyCredParams.Add("id", param.AllowList_CredentialId);
+                pubKeyCredParams.Add("type", "public-key");
                 cbor.Add(0x03, CBORObject.NewArray().Add(pubKeyCredParams));
             }
 
