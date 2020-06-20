@@ -5,12 +5,10 @@ public class BLEAuthenticatorScanner
 ```
 
 BLEAuthenticatorScanner は BLEアドバタイズパケットをスキャンするクラスです。
+**Start()** でスキャンを開始し、発見すると **FindDevice** イベントが発生します。
+**Stop()** でスキャン停止します。
 
-**Start()**でスキャンを開始し、発見すると**FindDevice**イベントが発生します。
-
-**Stop()でスキャン停止します。**
-
-FindDeviceイベントで取得した**BluetoothAddress**をBLEAuthenticatorConnector.**ConnectAsync()**に指定してデバイスに接続します。
+FindDeviceイベントで取得した **BluetoothAddress** をBLEAuthenticatorConnector.**ConnectAsync()** に指定してデバイスに接続します。
 
 
 
