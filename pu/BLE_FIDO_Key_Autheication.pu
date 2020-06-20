@@ -1,0 +1,81 @@
+@startuml
+title USB FIDO Key Autheication (Non Resident Key)
+hide footbox
+
+box "Client" #FloralWhite
+    participant "BLE FIDO Device" as Key
+    actor  "User" as User
+    control "g.FIDO2.CTAP.BLE.dll\ng.FIDO2.CTAP.dll\ng.FIDO2.dll" as CTAPBLE
+    participant "ClientApp" as Client
+end box
+
+box "Server" #GhostWhite
+    participant "ServerApp" as Server
+    control "g.FIDO2.Util.dll\ng.FIDO2.dll" as Util
+end box
+
+User -> Client : Start
+Client -> Server : Request\n- UserID
+note over Server : Check DB\n- UserID\n  - CredentialID
+
+Server --> Util : **AttestationVerifier**\n**.CreateChallenge()**
+Server <-- Util : - Challenge
+Client <- Server : Response\n- RpId\n- Challenge\n- CredentialID
+
+CTAPBLE <-- Client : **BLEAuthenticatorScanner**\n**.Start()**
+CTAPBLE --> Client
+
+note over Client : Message\n- Active BLE Device
+Key <- User : Active
+Key --> CTAPBLE : Advertising
+
+CTAPBLE --> Client : **BLEAuthenticatorScanner**\n**.FindDevice()**
+activate Client
+    CTAPBLE <-- Client : **BLEAuthenticatorScanner**\n**.Stop()**
+    CTAPBLE --> Client
+    note over Client : Get bluetoothAddress
+    CTAPBLE <-- Client
+deactivate
+
+
+CTAPBLE <-- Client : **BLEAuthenticatorConnector**\n**.ConnectAsync()**
+activate CTAPBLE
+    Key <-- CTAPBLE : Connect
+    Key --> CTAPBLE
+    CTAPBLE --> Client
+deactivate
+
+note over Client : Create \CTAPCommandGetAssertionParam\n- RPID\n- Challenge\n- CredentialID
+
+CTAPBLE <-- Client : **BLEAuthenticatorConnector**\n**.GetAssertionAsync()**\n- CTAPCommandGetAssertionParam
+
+activate CTAPBLE
+    Key <-- CTAPBLE : authenticatorGetAssertion
+    note over Key : Flashing
+    Key --> CTAPBLE : KEEP ALIVE
+    CTAPBLE --> Client : **BLEAuthenticatorConnector**\n**.KeepAlive**
+
+    note over Client : Message\n- Touch BLE Fingerprint Sensor
+
+    Key <- User : Touch Fingerprint Sensor
+    Key --> CTAPBLE : Assertion
+    CTAPBLE -> Client : **ResponseGetAssertion**
+deactivate CTAPBLE
+
+CTAPBLE <-- Client : **Serializer.Serialize()**\n**- ResponseGetAssertion**\n**  .Assertion**
+CTAPBLE --> Client :- Serialized Assertion
+
+Client -> Server :- Serialized Assertion
+
+Server --> Util : **Serializer.DeserializeAttestation()**\n**- Serialized Assertion**
+Server <-- Util : - Assertion
+
+note over Server : Check DB\n- UserID\n  - PublicKeyPem
+Server --> Util : **AssertionVerifier**\n**.Verify()**\n- RpId\n- PublicKeyPem\n- Challenge\n- Assertion
+Server <-- Util 
+
+Client <-- Server : OK
+
+note over Client : Message\n- Autheication Success
+
+@enduml

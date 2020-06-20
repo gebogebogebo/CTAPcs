@@ -1,0 +1,80 @@
+@startuml
+title BLE FIDO Device Registration (Non Resident Key)
+hide footbox
+
+
+box "Client" #FloralWhite
+    participant "BLE FIDO Device" as Key
+    actor  "User" as User
+    control "g.FIDO2.CTAP.BLE.dll\ng.FIDO2.CTAP.dll\ng.FIDO2.dll" as CTAPBLE
+    participant "ClientApp" as Client
+end box
+
+box "Server" #GhostWhite
+    participant "ServerApp" as Server
+    control "g.FIDO2.Util.dll\ng.FIDO2.dll" as Util
+end box
+
+User -> Client : Start
+Client -> Server : Request\n- UserID
+note over Server : Check - UserID
+Server --> Util : **AttestationVerifier**\n**.CreateChallenge()**
+Server <-- Util : - Challenge
+Client <- Server : Response\n- RpId\n- Challenge
+
+CTAPBLE <-- Client : **BLEAuthenticatorScanner**\n**.Start()**
+CTAPBLE --> Client
+
+note over Client : Message\n- Active BLE Device
+Key <- User : Active
+Key --> CTAPBLE : Advertising
+
+CTAPBLE --> Client : **BLEAuthenticatorScanner**\n**.FindDevice()**
+activate Client
+    CTAPBLE <-- Client : **BLEAuthenticatorScanner**\n**.Stop()**
+    CTAPBLE --> Client
+    note over Client : Get bluetoothAddress
+    CTAPBLE <-- Client
+deactivate
+
+
+CTAPBLE <-- Client : **BLEAuthenticatorConnector**\n**.ConnectAsync()**
+activate CTAPBLE
+    Key <-- CTAPBLE : Connect
+    Key --> CTAPBLE
+    CTAPBLE --> Client
+deactivate
+
+note over Client : Create \nCTAPCommandMakeCredentialParam\n- RPID\n- Challenge\n- UserID
+
+CTAPBLE <-- Client : **BLEAuthenticatorConnector**\n**.MakeCredentialAsync()**\n- CTAPCommandMakeCredentialParam
+
+activate CTAPBLE
+    Key <-- CTAPBLE : authenticatorMakeCredential
+    note over Key : Flashing
+    Key --> CTAPBLE : KEEP ALIVE
+    CTAPBLE --> Client : **BLEAuthenticatorConnector**\n**.KeepAlive**
+
+    note over Client : Message\n- Touch BLE Fingerprint Sensor
+
+    Key <- User : Touch Fingerprint Sensor
+    Key --> CTAPBLE : Attestation
+    CTAPBLE -> Client : **ResponseMakeCredential**
+deactivate CTAPBLE
+
+CTAPBLE <-- Client : **Serializer.Serialize()**\n**- ResponseMakeCredential**\n**  .Attestation**
+CTAPBLE --> Client :- Serialized Attestation
+
+Client -> Server :- Serialized Attestation
+
+Server --> Util : **Serializer.DeserializeAttestation()**\n**- Serialized Attestation**
+Server <-- Util : - Attestation
+Server --> Util : **AttestationVerifier**\n**.Verify()**\n- RpId\n- Challenge\n- Attestation
+Server <-- Util : - **CredentialID**\n- **PublicKeyPem**
+
+note over Server : **register DB**\n- UserID\n  - CredentialID\n  - PublicKeyPem
+Client <-- Server : OK
+
+note over Client : Message\n- Registration Success
+
+@enduml
