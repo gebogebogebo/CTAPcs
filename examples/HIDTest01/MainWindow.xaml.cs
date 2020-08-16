@@ -69,6 +69,7 @@ namespace HIDTest01
 
         private async void ButtonClientPINgetRetries_Click(object sender, RoutedEventArgs e)
         {
+
             {
                 addLog("<ClientPIN getRetries>");
                 var res = await con.ClientPINgetRetriesAsync();
@@ -79,18 +80,21 @@ namespace HIDTest01
                 }
             }
 
+            /*
             {
+                string pin = this.textBoxPIN.Text;
                 addLog("<ClientPIN getPINToken>");
-                var res2 = await con.ClientPINgetPINTokenAsync("1234");
+                var res2 = await con.ClientPINgetPINTokenAsync(pin);
                 LogResponse(res2.DeviceStatus,res2.CTAPResponse);
             }
+            */
         }
 
         private async void ButtonGetAssertion_Click(object sender, RoutedEventArgs e)
         {
             addLog("<getAssertion>");
 
-            var rpid = "test.com";
+            var rpid = this.textBoxRPID.Text;
             var challenge = System.Text.Encoding.ASCII.GetBytes("this is challenge");
             //var creid = g.FIDO2.Common.HexStringToBytes("99F946F5EAC7F8F9D56FF1F791626143DCBB9450AAA102F4EDBFF6D9913E44E9161B7AE113EFC482DA6C22A9037840757D8DA9922233BCB99F0473528E6DD7E8");
             byte[] creid = null;
@@ -102,7 +106,7 @@ namespace HIDTest01
             param.Option_up = true;
             param.Option_uv = false;
 
-            string pin = "1234";
+            string pin = this.textBoxPIN.Text;
 
             var res = await con.GetAssertionAsync(param, pin);
             LogResponse(res.DeviceStatus,res.CTAPResponse);
@@ -119,15 +123,18 @@ namespace HIDTest01
         {
             addLog("<makeCredential>");
 
-            var rpid = "test.com";
+            var rpid = this.textBoxRPID.Text;
             var challenge = System.Text.Encoding.ASCII.GetBytes("this is challenge");
             var userid = System.Text.Encoding.ASCII.GetBytes("12345");
 
             var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid,challenge,userid);
-            param.Option_rk = false;
+            param.Option_rk = (bool)this.checkBoxRK.IsChecked;
             param.Option_uv = true;
+            param.UserName = "user";
+            param.UserDisplayName = "DispUser";
 
-            var res = await con.MakeCredentialAsync(param, "1234");
+            string pin = this.textBoxPIN.Text;
+            var res = await con.MakeCredentialAsync(param, pin);
             LogResponse(res.DeviceStatus,res.CTAPResponse);
 
             if (res.DeviceStatus == g.FIDO2.CTAP.DeviceStatus.NotConnected) {
@@ -163,7 +170,8 @@ namespace HIDTest01
 
         private async void ButtonClientPINsetPIN_Click(object sender, RoutedEventArgs e)
         {
-            var res = await con.ClientPINsetPINAsync("1234");
+            string pin = this.textBoxPIN.Text;
+            var res = await con.ClientPINsetPINAsync(pin);
             LogResponse(res.DeviceStatus,res.CTAPResponse);
         }
 
