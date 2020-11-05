@@ -18,7 +18,7 @@ using g.FIDO2.CTAP.BLE;
 namespace Test01
 {
     /// <summary>
-    /// MainWindow.xaml の相互作用ロジック
+    /// MainWindow.xaml の相互作用ロジック | Interaction logic
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -30,7 +30,8 @@ namespace Test01
         {
             string log = DateTime.Now.ToString() + " " + message;
             Console.WriteLine($"{log}");
-            // UIスレッドで実行するおまじない
+
+            // UIスレッドで実行するおまじない | Magic to run in UI thread
             var ignored = this.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Action)(() => {
                 textLog.Text += log + Environment.NewLine;
             }));
@@ -58,7 +59,7 @@ namespace Test01
 
                 bleAddress = e.BluetoothAddress;
 
-                // そのままコネクトすることをやめる
+                // そのままコネクトすることをやめる | Stop connecting as it is
                 //ButtonConnect_Click(null, null);
                 addLog($"Scan OK ! : Next Click [Connect]Button");
 
@@ -79,7 +80,7 @@ namespace Test01
 
         private void OnKeepAlive(object sender, EventArgs e)
         {
-            addLog($"<OnKeppAlive>");
+            addLog($"<OnKeepAlive>");
             addLog($"- touch authenticator!");
         }
 
@@ -94,7 +95,7 @@ namespace Test01
                 scanner = new BLEAuthenticatorScanner();
                 scanner.FindDevice += OnFindDevice;
                 if (scanner.Start()) {
-                    addLog("Scan Start.BLE FIDOキーをONにしてください");
+                    addLog("Scan Start.BLE FIDOキーをONにしてください | Please turn on the FIDO key");
                     addLog("");
                 } else {
                     addLog("Scan Start Error");

@@ -9,7 +9,7 @@ using System.Windows;
 namespace Test01
 {
     /// <summary>
-    /// App.xaml の相互作用ロジック
+    /// App.xaml の相互作用ロジック | Interaction logic
     /// </summary>
     public partial class App : Application
     {
