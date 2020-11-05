@@ -170,8 +170,13 @@ namespace Test01
 
             var rpid = "BLEtest.com";
             var challenge = Encoding.ASCII.GetBytes("this is challenge");
-            var creid = g.FIDO2.Common.HexStringToBytes("158134A7F56968833FD7FE85A8408E9DACD59FC3EB65A3F71390EBFA56E79C64AB7C841236D58FF6A5B1A03B31923923FA624332C61C51044F9738F0D5A9E6CDC3598236CA95D17D123B461B96CE38F68912E3F55B7D49A09ABCF40BA487B99B");
+            byte[] creid = null;
 
+            //Get the credential id entered in the text box (or stored from make credential)
+            if (!string.IsNullOrEmpty(textBoxCreID.Text))
+            {
+                creid = g.FIDO2.Common.HexStringToBytes(textBoxCreID.Text);
+            }
             var param = new g.FIDO2.CTAP.CTAPCommandGetAssertionParam(rpid,challenge,creid);
 
             param.Option_up = false;
@@ -211,8 +216,14 @@ namespace Test01
             if (res?.CTAPResponse?.Attestation != null) {
                 var creid = g.FIDO2.Common.BytesToHexString(res.CTAPResponse.Attestation.CredentialId);
                 addLog($"- CredentialID = {creid}");
+                textBoxCreID.Text = creid;
             }
 
+        }
+
+        private void ButtonClear_Click(object sender, RoutedEventArgs e)
+        {
+            textLog.Text = "";
         }
     }
 }

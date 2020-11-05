@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="900">
     <Grid>
-        <TextBox x:Name="textLog" Margin="10,50,10,10" TextWrapping="Wrap" Text="" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" FontFamily="MS Gothic"/>
+        <TextBox x:Name="textLog" Margin="10,80,10,10" TextWrapping="Wrap" Text="" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" FontFamily="MS Gothic"/>
         <Button x:Name="ButtonStartScan" Content="StartScan" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="86" Height="28" Click="ButtonStartScan_Click" />
         <Button x:Name="ButtonStopScan" Content="StopScan" HorizontalAlignment="Left" Margin="101,10,0,0" VerticalAlignment="Top" Width="75" Height="28" Click="ButtonStopScan_Click" />
         <Button x:Name="ButtonConnect" Content="Connect" HorizontalAlignment="Left" Margin="181,10,0,0" VerticalAlignment="Top" Width="93" Height="28" Click="ButtonConnect_Click" />
@@ -16,6 +16,9 @@
         <Button x:Name="ButtonClientPINgetRetries" Content="ClientPINgetRetries" HorizontalAlignment="Left" Margin="461,10,0,0" VerticalAlignment="Top" Width="119" Height="28" Click="ButtonClientPINgetRetries_Click" />
         <Button x:Name="ButtonGetAssertion" Content="GetAssertion" HorizontalAlignment="Left" Margin="585,10,0,0" VerticalAlignment="Top" Width="75" Height="28" Click="ButtonGetAssertion_Click" />
         <Button x:Name="ButtonMakeCredential" Content="MakeCredential" HorizontalAlignment="Left" Margin="665,10,0,0" VerticalAlignment="Top" Width="102" Height="28" Click="ButtonMakeCredential_Click" />
+        <Label  Content="Credential ID" HorizontalAlignment="Left" Margin="97,43,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBoxCreID" Height="23" Margin="181,46,30,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" FontSize="9"/>
+        <Button x:Name="buttonClear" Content="clear log" HorizontalAlignment="Left" Height="23" Margin="10,43,0,0" VerticalAlignment="Top" Width="60" FontSize="9" Click="ButtonClear_Click"/>
 
     </Grid>
 </Window>
