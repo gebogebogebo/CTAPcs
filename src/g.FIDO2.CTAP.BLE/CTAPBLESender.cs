@@ -85,7 +85,7 @@ namespace g.FIDO2.CTAP.BLE
                     return (DeviceStatus.Timeout, null);
                 }
 
-                // 応答受信
+                // 応答受信 | Receive response
                 byteresponse = receiver.GetBuffer();
             }
 

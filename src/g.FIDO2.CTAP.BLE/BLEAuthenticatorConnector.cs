@@ -43,34 +43,35 @@ namespace g.FIDO2.CTAP.BLE
             bleDevice = await BluetoothLEDevice.FromBluetoothAddressAsync(bluetoothAddress);
 
             if (checkDeviceInformation) {
-                // Debug DeviceInformationチェック
+                // Debug DeviceInformationチェック | check
                 var devinfo = new FidoDeviceInformation();
                 if (await devinfo.IsFidoDevice(bleDevice, "") == false) {
                     return false;
                 }
             }
 
-            // イベントハンドラ追加
+            // イベントハンドラ追加 | Added event handler
             bleDevice.ConnectionStatusChanged += onConnectionStateChange;
 
             {
-                // FIDOのサービスをGET
+                // FIDOのサービスをGET | GET FIDO Service
                 service_Fido = await this.getFIDOService(bleDevice);
                 if (service_Fido == null) {
-                    // サービス無し
+                    // サービス無し | No service
                     Logger.Err("Error Connect FIDO Service");
                     return false;
                 }
 
-                // Characteristicアクセス
-                // - コマンド送信ハンドラ設定
-                // - 応答受信ハンドラ設定
+                // Characteristicアクセス | Characteristic access
+                // - コマンド送信ハンドラ設定 | Command transmission handler setting
+                // - 応答受信ハンドラ設定 | Response reception handler setting
                 {
                     if (PacketSizeByte <= 0) {
                         // FIDO Control Point Length(Read-2byte)
                         var readVal = await readCharacteristicValue(service_Fido, Common.Gatt_Characteristic_FIDO_Control_Point_Length_GUID);
                         if (readVal != null) {
                             this.PacketSizeByte = g.FIDO2.Common.ToUInt16(readVal, 0, true);
+                            Logger.Log($"Got PacketSize: {this.PacketSizeByte}");
                         }
                     }
 
@@ -82,7 +83,7 @@ namespace g.FIDO2.CTAP.BLE
                     await DebugMethods.OutputLog(Service_Fido, new Guid("F1D0FFF4-DEAA-ECEE-B42F-C9BA7ED623BB"));
                     */
 
-                    // FIDO Status(Notify) 受信データ
+                    // FIDO Status(Notify) 受信データ | received data
                     {
                         var characteristics = await service_Fido.GetCharacteristicsForUuidAsync(Common.GATT_CHARACTERISTIC_FIDO_STATUS_GUID);
                         if (characteristics.Characteristics.Count <= 0) {
@@ -98,15 +99,15 @@ namespace g.FIDO2.CTAP.BLE
                         receiver = new CTAPBLEReceiver();
                         receiver.KeepAlive += this.KeepAlive;
                         if (this.characteristic_Receive.CharacteristicProperties.HasFlag(GattCharacteristicProperties.Notify)) {
-                            // イベントハンドラ追加
+                            // イベントハンドラ追加 | Added event handler
                             this.characteristic_Receive.ValueChanged += receiver.OnReceiveFromDevice;
 
-                            // これで有効になる
+                            // これで有効になる | This will enable
                             await this.characteristic_Receive.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Notify);
                         }
                     }
 
-                    // FIDO Control Point(Write) 送信データ
+                    // FIDO Control Point(Write) 送信データ | Transmission data
                     {
                         var characteristics = await service_Fido.GetCharacteristicsForUuidAsync(Common.GATT_CHARACTERISTIC_FIDO_CONTROL_POINT_GUID);
                         if (characteristics.Characteristics.Count <= 0) {
@@ -142,7 +143,7 @@ namespace g.FIDO2.CTAP.BLE
                 bleDevice.Dispose();
                 Logger.Log("BLE Device Disposed");
             }
-            Logger.Log("BLE FIDOキーと切断しました");
+            Logger.Log("BLE FIDOキーと切断しました | Disconnected with FIDO key");
 
             return true;
         }
@@ -158,14 +159,14 @@ namespace g.FIDO2.CTAP.BLE
         protected override async Task<(DeviceStatus devSt, CTAPResponse ctapRes)> sendCommandandResponseAsync(CTAPCommand cmd, CTAPResponse res)
         {
             try {
-                // 送信コマンドを作成(byte[])
+                // 送信コマンドを作成(byte[]) | Create send command
                 var payload = cmd.CreatePayload();
 
-                // 送信して、応答受信(byte[])
+                // 送信して、応答受信(byte[]) | Send and receive response (byte [])
                 var sender = new CTAPBLESender(PacketSizeByte,receiver);
                 var response = await sender.SendCommandandResponseAsync(characteristic_Send, payload, 10000);
 
-                // 応答をパース
+                // 応答をパース | Parse response
                 res.Parse(response.ctapRes);
                 res.SendPayloadJson = cmd.PayloadJson;
 
@@ -189,7 +190,7 @@ namespace g.FIDO2.CTAP.BLE
                 Logger.Log($"Disconnected!");
                 this.Disconnect();
 
-                // イベント発生させる
+                // イベント発生させる | Generate an event
                 DisconnectedDevice?.Invoke(this, EventArgs.Empty);
             }
         }
@@ -217,7 +218,7 @@ namespace g.FIDO2.CTAP.BLE
 
                         //hex = Common.BytesToHexString(input);
 
-                        // nullまで
+                        // nullまで | Up to null
                         //int index = input.ToList().FindIndex(x => x == 0x00);
                         //if (index > 0) {
                         //    retval = input.Skip(0).Take(index).ToArray();
@@ -242,7 +243,7 @@ namespace g.FIDO2.CTAP.BLE
             GattDeviceService ret=null;
             Logger.Log("Connect FIDO Service");
 
-            //serviceを取得
+            //serviceを取得 | get service
             GattDeviceServicesResult servicesResult = await device.GetGattServicesAsync(BluetoothCacheMode.Uncached);
             if (servicesResult.Status == GattCommunicationStatus.Success) {
                 var services = servicesResult.Services;
@@ -253,7 +254,7 @@ namespace g.FIDO2.CTAP.BLE
                         break;
                     }
                     /*
-                    //characteristicを取得
+                    //characteristicを取得 | Get characteristic
                     GattCharacteristicsResult characteristicsResult = await service.GetCharacteristicsAsync();
                     if (characteristicsResult.Status == GattCommunicationStatus.Success) {
                         var characteristics = characteristicsResult.Characteristics;
@@ -265,16 +266,16 @@ namespace g.FIDO2.CTAP.BLE
                 }
             }
 
-            // こっちはダメ
+            // こっちはダメ | This is no good
             //var services = await bleDevice.GetGattServicesForUuidAsync(Common.Gatt_Service_FIDO_GUID);
             //if (services.Services.Count <= 0) {
-            //    // サービス無し
+            //    // サービス無し | No service
             //    Logger.Err("Error Connect FIDO Service");
             //    return false;
             //}
             //ret = services.Services.First();
 
-            // この時点で接続状態になっているはず
+            // この時点で接続状態になっているはず | Should be connected at this point
             if (device.ConnectionStatus != BluetoothConnectionStatus.Connected) {
                 Logger.Err("Error getFIDOService");
                 return null;
