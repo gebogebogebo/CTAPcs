@@ -80,15 +80,15 @@ namespace g.FIDO2.CTAP.HID
         protected override async Task<(DeviceStatus devSt, CTAPResponse ctapRes)> sendCommandandResponseAsync(CTAPCommand cmd, CTAPResponse res)
         {
             try {
-                // 送信コマンドを作成(byte[])
+                // 送信コマンドを作成(byte[]) | Create send command
                 var payload = cmd.CreatePayload();
 
-                // 送信して、応答受信(byte[])
+                // 送信して、応答受信(byte[]) | Send and receive response
                 var sender = new CTAPHIDSender();
                 sender.KeepAlive += this.KeepAlive;
                 var response = await sender.SendCommandandResponseAsync(hidParams, payload, ReceiveResponseTimeoutmillisecond);
 
-                // 応答をパース
+                // 応答をパース | Parse response
                 if (response.ctapRes != null) {
                     res.Parse(response.ctapRes);
                 }

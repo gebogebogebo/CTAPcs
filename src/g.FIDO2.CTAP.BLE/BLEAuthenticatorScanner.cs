@@ -83,6 +83,8 @@ namespace g.FIDO2.CTAP.BLE
             this.advWatcher = new BluetoothLEAdvertisementWatcher();
 
             // インターバルがゼロのままだと、CPU負荷が高くなりますので、適切な間隔(SDK サンプルでは 1秒)に指定しないと、アプリの動作に支障をきたすことになります。
+            // If the interval remains zero, the CPU load will be high, so if you do not specify an appropriate interval (1 second in the SDK sample),
+            // it will interfere with the operation of the application.
             this.advWatcher.SignalStrengthFilter.SamplingInterval = TimeSpan.FromMilliseconds(SamplingIntervalMilliseconds);
 
             // rssi >= -60のときスキャンする
@@ -92,13 +94,19 @@ namespace g.FIDO2.CTAP.BLE
             // スキャン応答のアドバタイズを併せて受信する場合＝BluetoothLEScanningMode.Active
             // ActiveにするとBluetoothLEAdvertisementType.ScanResponseが取れるようになる。（スキャンレスポンスとは追加情報のこと）
             // ※電力消費量が大きくなり、またバックグラウンド モードでは使用できなくなるらしい
+
+            // Passive scan / active scan
+            // When receiving the advertisement of the scan response together = BluetoothLEScanningMode.Active
+            // When set to Active, BluetoothLEAdvertisementType.ScanResponse can be obtained. (Scan response is additional information)
+            // * It seems that power consumption will increase and it will not be available in background mode.
+
             //this.advWatcher.ScanningMode = BluetoothLEScanningMode.Active;
             this.advWatcher.ScanningMode = BluetoothLEScanningMode.Passive;
 
-            // アドバタイズパケットの受信イベント
+            // アドバタイズパケットの受信イベント | Advertisement packet reception event
             this.advWatcher.Received += this.watcherReceived;
 
-            // スキャン開始
+            // スキャン開始 | Start scanning
             this.advWatcher.Start();
 
             IsStarted = true;
@@ -136,7 +144,7 @@ namespace g.FIDO2.CTAP.BLE
                             byte[] readBytes = new byte[d.Data.Length];
                             using (DataReader reader = DataReader.FromBuffer(d.Data)) {
                                 reader.ReadBytes(readBytes);
-                                //ASCII エンコード
+                                //ASCII エンコード | ASCII encoding
                                 string text = System.Text.Encoding.ASCII.GetString(readBytes);
                             }
                         }

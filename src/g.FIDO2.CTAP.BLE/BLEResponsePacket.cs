@@ -37,16 +37,19 @@ namespace g.FIDO2.CTAP.BLE
             // [3-] DATA
             var buff = data.Skip(3).Take(data.Length).ToArray();
             // 最初の1byteは応答ステータスで2byteからCBORデータ
+            //// The first 1 byte is the response status from 2 bytes to CBOR data
             var tmp = buff.Take(buff.Length).ToArray();
-            // 受信バッファに追加
+            // 受信バッファに追加 | Add to receive buffer
             cborbyte.AddRange(tmp.ToList());
         }
 
         public void Add(byte[] data)
         {
             // 最初の1byteは応答ステータスで2byteからCBORデータ
+            // The first 1 byte is the response status from 2 bytes to CBOR data
             var tmp = data.Skip(1).Take(data.Length).ToArray();
-            // 受信バッファに追加
+
+            // 受信バッファに追加 | Add to receive buffer
             cborbyte.AddRange(tmp.ToList());
         }
 

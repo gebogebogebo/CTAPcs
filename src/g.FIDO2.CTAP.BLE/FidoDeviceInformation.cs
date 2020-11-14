@@ -18,6 +18,7 @@ namespace g.FIDO2.CTAP.BLE
                 Logger.Log("IsFidoDevice");
 
                 // GetGattServicesForUuidAsyc などはCreaters Update(15063)から追加されたAPI。 Anniversary Edition(14393)まで対応する場合 はGetGattServiceを使う
+                // GetGattServicesForUuidAsyc etc. are APIs added from Creaters Update (15063). Use GetGattService to support up to Anniversary Edition (14393)
                 //var service = dev.GetGattService(GattServiceUuids.DeviceInformation);
                 var services = await dev.GetGattServicesForUuidAsync(GattServiceUuids.DeviceInformation, BluetoothCacheMode.Cached);
                 if (services.Services.Count <= 0) {
