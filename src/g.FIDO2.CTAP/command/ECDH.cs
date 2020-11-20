@@ -10,15 +10,21 @@ namespace g.FIDO2.CTAP
 {
     internal class ECDH
     {
-        public static int CreateSharedSecret(
-                    string aG_x, string aG_y,               // (I )64文字
-                    StringBuilder bG_x, StringBuilder bG_y, // ( O)64文字
-                    StringBuilder sharedSecret              // ( O)64文字
+        public static byte[] CreateSharedSecret(
+                    byte[] aG_x,
+                    byte[] aG_y,
+                    out byte[] bG_x,
+                    out byte[] bG_y
             )
         {
+            string aG_x_str = BitConverter.ToString(aG_x).Replace("-", string.Empty);
+            string aG_y_str = BitConverter.ToString(aG_y).Replace("-", string.Empty);
+            bG_x = null;
+            bG_y = null;
+
             Logger.Log($"CreateSharedSecretNew-START");
-            Logger.Log($"in aG_x={aG_x}");
-            Logger.Log($"in aG_y={aG_y}");
+            Logger.Log($"in aG_x={aG_x_str}");
+            Logger.Log($"in aG_y={aG_y_str}");
 
             // COSE ES256 (ECDSA over P-256 with SHA-256)
             // P-256
@@ -31,18 +37,18 @@ namespace g.FIDO2.CTAP
                 var myPublicKey = ecdh.PublicKey.ToByteArray();
 
                 if(myPublicKey.Length != 72) {
-                    return -1;
+                    return null;
                 }
 
                 // delete head
                 var pkey = myPublicKey.ToList().Skip(8).Take(64).ToList();
-                var pkeyx = pkey.Take(32);
-                var pkeyy = pkey.Skip(32).Take(32);
 
-                bG_x.Append(Common.BytesToHexString(pkeyx.ToArray()));
-                bG_y.Append(Common.BytesToHexString(pkeyy.ToArray()));
+                // get
+                bG_x = pkey.Take(32).ToArray();
+                bG_y = pkey.Skip(32).Take(32).ToArray();
             }
 
+            byte[] sharedSecret = null;
             {
                 // CngKeyには追加の8バイトが含まれ、最初の4バイトは使用される曲線の
                 // 名前（ECS1、ECS3、またはECS5）に使用され、
@@ -74,7 +80,7 @@ namespace g.FIDO2.CTAP
                 // 0
 
                 // 64byte
-                string aGpublicKey = aG_x + aG_y;
+                string aGpublicKey = aG_x_str + aG_y_str;
                 // 8+64=72byte
                 //string publicKeyforChgKey = "4543533120000000" + aGpublicKey;
                 string publicKeyforChgKey = "45434B3120000000" + aGpublicKey;
@@ -83,19 +89,18 @@ namespace g.FIDO2.CTAP
                 CngKey.Import(array, CngKeyBlobFormat.EccPublicBlob);
 
                 // 32byte
-                byte[] key = ecdh.DeriveKeyMaterial(CngKey.Import(array, CngKeyBlobFormat.EccPublicBlob));
-                if( key.Length != 32) {
-                    return -2;
+                sharedSecret = ecdh.DeriveKeyMaterial(CngKey.Import(array, CngKeyBlobFormat.EccPublicBlob));
+                if(sharedSecret.Length != 32) {
+                    return null;
                 }
-                sharedSecret.Append(Common.BytesToHexString(key));
             }
 
-            Logger.Log($"out bG_x={bG_x}");
-            Logger.Log($"out bG_y={bG_y}");
-            Logger.Log($"out sharedSecret={sharedSecret}");
+            Logger.Log($"out bG_x={Common.BytesToHexString(bG_x)}");
+            Logger.Log($"out bG_y={Common.BytesToHexString(bG_y)}");
+            Logger.Log($"out sharedSecret={Common.BytesToHexString(sharedSecret)}");
             Logger.Log($"CreateSharedSecretNew-END");
 
-            return 0;
+            return sharedSecret;
         }
 
     }

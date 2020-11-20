@@ -55,19 +55,11 @@ namespace g.FIDO2.CTAP
 
         public static byte[] CreateSharedSecret(COSE_Key keyAgreement,out COSE_Key myKeyAgreement)
         {
-            string aG_x = BitConverter.ToString(keyAgreement.X).Replace("-", string.Empty);
-            string aG_y = BitConverter.ToString(keyAgreement.Y).Replace("-", string.Empty);
+            // sharedSecretを生成する(32byte)
+            byte[] bG_x, bG_y;
+            var sharedSecret = ECDH.CreateSharedSecret(keyAgreement.X, keyAgreement.Y, out bG_x, out bG_y);
 
-            var bG_x = new StringBuilder(256);
-            var bG_y = new StringBuilder(256);
-            var strSharedSecret = new StringBuilder(256);
-
-            int st = ECDH.CreateSharedSecret(aG_x, aG_y, bG_x, bG_y, strSharedSecret);
-
-            // byte配列(32)にする
-            var sharedSecret = Common.HexStringToBytes(strSharedSecret.ToString());
-
-            myKeyAgreement = new COSE_Key(2, -7, 1, bG_x.ToString(), bG_y.ToString());
+            myKeyAgreement = new COSE_Key(2, -7, 1, bG_x, bG_y);
 
             return (sharedSecret);
         }

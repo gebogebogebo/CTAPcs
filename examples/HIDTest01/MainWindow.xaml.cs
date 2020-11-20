@@ -129,7 +129,7 @@ namespace HIDTest01
 
             var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid,challenge,userid);
             param.Option_rk = (bool)this.checkBoxRK.IsChecked;
-            param.Option_uv = true;
+            param.Option_uv = false;
             param.UserName = "user";
             param.UserDisplayName = "DispUser";
 

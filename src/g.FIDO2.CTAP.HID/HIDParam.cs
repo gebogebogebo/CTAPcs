@@ -51,6 +51,9 @@ namespace g.FIDO2.CTAP.HID
             // OpenSK
             ret.Add(new HidParam(0x1915));
 
+            // Nitrokey FIDO2
+            ret.Add(new HidParam(0x20a0, 0x42b1));
+
             return (ret);
         }
     }
