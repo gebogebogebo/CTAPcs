@@ -211,10 +211,10 @@ namespace g.FIDO2.CTAP
         {
             var cbor = CBORObject.NewMap();
 
-            // 0x01:pinProtocol = 1固定
+            // 0x01:pinProtocol = 1固定 | 1 fixed
             cbor.Add(0x01, 1);
 
-            // 0x02:subCommand = 0x03:setPIN
+            // 0x02:subCommand = 0x05:getPINToken
             cbor.Add(0x02, 0x05);
 
             // 0x03:keyAgreement : COSE_Key
@@ -255,7 +255,7 @@ namespace g.FIDO2.CTAP
         {
             var cbor = CBORObject.NewMap();
 
-            // 0x01:pinProtocol = 1固定
+            // 0x01:pinProtocol = 1固定 | 1 fixed
             cbor.Add(0x01, 1);
 
             // 0x02:subCommand = 0x04:changePIN
@@ -303,7 +303,7 @@ namespace g.FIDO2.CTAP
         {
             var cbor = CBORObject.NewMap();
 
-            // 0x01:pinProtocol = 1固定
+            // 0x01:pinProtocol = 1固定 | 1 fixed
             cbor.Add(0x01, 1);
 
             // 0x02:subCommand = 0x03:setPIN
