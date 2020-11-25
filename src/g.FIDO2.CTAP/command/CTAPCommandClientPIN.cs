@@ -70,15 +70,19 @@ namespace g.FIDO2.CTAP
 
             // pinsha = SHA-256(PIN) ->32byte
             byte[] pinbyte = Encoding.ASCII.GetBytes(pin);
-            SHA256 sha = new SHA256CryptoServiceProvider();
-            byte[] pinsha = sha.ComputeHash(pinbyte);
+            byte[] pinsha = null;
+
+            using (var sha = new SHA256CryptoServiceProvider())
+            {
+                pinsha = sha.ComputeHash(pinbyte);
+            }
 
             // pinsha16 = LEFT 16(pinsha)
             byte[] pinsha16 = pinsha.ToList().Skip(0).Take(16).ToArray();
 
             // pinHashEnc = AES256-CBC(sharedSecret, IV=0, pinsha16)
-            string key = Common.BytesToHexString(sharedSecret);
-            string data = Common.BytesToHexString(pinsha16);
+            //string key = Common.BytesToHexString(sharedSecret);
+            //string data = Common.BytesToHexString(pinsha16);
 
             var pinHashEnc = AES256CBC.Encrypt(sharedSecret, pinsha16);
 

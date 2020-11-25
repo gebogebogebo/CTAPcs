@@ -156,6 +156,11 @@ namespace Test01
                 addLog("<ClientPIN getRetries>");
                 var res = await con.ClientPINgetRetriesAsync();
                 LogResponse(res.DeviceStatus, res.CTAPResponse);
+
+                if (res?.CTAPResponse != null)
+                {
+                    addLog($"- RetryCount = {res.CTAPResponse.RetryCount}\r\n");
+                }
             }
 
             {
@@ -225,6 +230,18 @@ namespace Test01
         private void ButtonClear_Click(object sender, RoutedEventArgs e)
         {
             textLog.Text = "";
+        }
+
+        private async void ButtonClientPINchangePIN_Click(object sender, RoutedEventArgs e)
+        {
+            var res = await con.ClientPINchangePINAsync("9999", "1234");
+            LogResponse(res.DeviceStatus, res.CTAPResponse);
+        }
+
+        private async void ButtonClientPINsetPIN_Click(object sender, RoutedEventArgs e)
+        {
+            var res = await con.ClientPINsetPINAsync("1234");
+            LogResponse(res.DeviceStatus, res.CTAPResponse);
         }
     }
 }
