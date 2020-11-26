@@ -63,6 +63,9 @@ namespace Test01
                 //ButtonConnect_Click(null, null);
                 addLog($"Scan OK ! : Next Click [Connect]Button");
 
+                //Auto Connecting
+                DoConnect().GetAwaiter().GetResult();
+
             } catch (Exception ex) {
                 addLog($"- OnFindDevice Error Exception{ex.Message}");
             }
@@ -82,6 +85,36 @@ namespace Test01
         {
             addLog($"<OnKeepAlive>");
             addLog($"- touch authenticator!");
+        }
+
+        private async Task DoConnect()
+        {
+            try
+            {
+                addLog($"<Connect> BLE Address = {this.bleAddress.ToString("X")}");
+
+                if (this.bleAddress == 0)
+                {
+                    addLog($"- Connect Error BLE Address");
+                    return;
+                }
+
+                con = new BLEAuthenticatorConnector();
+                //con.PacketSizeByte = 155;       // AllinPass
+                con.ConnectedDevice += OnConnectedDevice;
+                con.DisconnectedDevice += OnDisconnectedDevice;
+                con.KeepAlive += OnKeepAlive;
+                var result = await con.ConnectAsync(this.bleAddress);
+                if (result == false)
+                {
+                    addLog("- Connect Error");
+                }
+                addLog($"Connect OK");
+            }
+            catch (Exception ex)
+            {
+                addLog($"- Connect Error Exception{ex.Message}");
+            }
         }
 
         public MainWindow()
@@ -114,27 +147,7 @@ namespace Test01
 
         private async void ButtonConnect_Click(object sender, RoutedEventArgs e)
         {
-            try {
-                addLog($"<Connect> BLE Address = {this.bleAddress.ToString("X")}");
-
-                if( this.bleAddress == 0) {
-                    addLog($"- Connect Error BLE Address");
-                    return;
-                }
-
-                con = new BLEAuthenticatorConnector();
-                //con.PacketSizeByte = 155;       // AllinPass
-                con.ConnectedDevice += OnConnectedDevice;
-                con.DisconnectedDevice += OnDisconnectedDevice;
-                con.KeepAlive += OnKeepAlive;
-                var result = await con.ConnectAsync(this.bleAddress);
-                if (result == false) {
-                    addLog("- Connect Error");
-                }
-                addLog($"Connect OK");
-            } catch (Exception ex) {
-                addLog($"- Connect Error Exception{ex.Message}");
-            }
+            await DoConnect();
         }
 
         private void ButtonDiscon_Click(object sender, RoutedEventArgs e)
