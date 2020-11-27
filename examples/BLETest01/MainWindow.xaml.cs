@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using g.FIDO2.CTAP.BLE;
+using g.FIDO2.Util;
 
 namespace Test01
 {
@@ -232,10 +233,19 @@ namespace Test01
             var res = await con.MakeCredentialAsync(param, pin);
             LogResponse(res.DeviceStatus, res.CTAPResponse);
 
-            if (res?.CTAPResponse?.Attestation != null) {
-                var creid = g.FIDO2.Common.BytesToHexString(res.CTAPResponse.Attestation.CredentialId);
-                addLog($"- CredentialID = {creid}");
-                textBoxCreID.Text = creid;
+            if (res?.CTAPResponse.Status == 0)
+            {
+                if (res.CTAPResponse?.Attestation != null)
+                {
+                    //Verify
+                    var v = new AttestationVerifier();
+                    var verify = v.Verify(rpid, challenge, res.CTAPResponse.Attestation);
+                    addLog($"- Verify = {verify.IsSuccess}\r\n- - PublicKey = {verify.PublicKeyPem}");
+
+                    var creid = g.FIDO2.Common.BytesToHexString(res.CTAPResponse.Attestation.CredentialId);
+                    addLog($"- CredentialID = {creid}");
+                    textBoxCreID.Text = creid;
+                }
             }
 
         }
