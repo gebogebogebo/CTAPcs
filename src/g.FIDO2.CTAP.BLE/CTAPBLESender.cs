@@ -29,13 +29,15 @@ namespace g.FIDO2.CTAP.BLE
             var sendData = new List<byte>();
 
             // Command identifier - MSG
-            sendData.Add(0x83);      
+            sendData.Add(0x83);
 
-            // High part of data length
-            sendData.Add(0x00);
+            //Calculate the payload length as a two-byte big endian and add to data
+            //https://docs.microsoft.com/en-us/dotnet/api/system.bitconverter
+            var length = (short)payload.Length;
+            var lengthBytes = BitConverter.GetBytes(length);
+            if (BitConverter.IsLittleEndian) Array.Reverse(lengthBytes);
 
-            // Low part of data length
-            sendData.Add((byte)payload.Length);
+            sendData.AddRange(lengthBytes);
 
             // Data (s is equal to the length)
             sendData.AddRange(payload);

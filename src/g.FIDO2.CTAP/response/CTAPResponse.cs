@@ -34,6 +34,9 @@ namespace g.FIDO2.CTAP
         {
             CBORObject cbor=null;
 
+            //Bad authenticator response such as communication error
+            if (byteresponse == null) return null;
+
             // Status
             Status = byteresponse[0];
             StatusMsg = CTAPResponse.GetMessage(Status);

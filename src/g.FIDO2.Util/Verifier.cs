@@ -40,6 +40,9 @@ namespace g.FIDO2.Util
 
         protected bool VerifyRpId(string rpid,byte[] rpidHash)
         {
+            //Authenticator did not return a valid rpidHash
+            if (rpidHash == null) return false;
+
             // SHA-256(rpid) == attestation.RpIdHash
             byte[] rpidbyte = System.Text.Encoding.ASCII.GetBytes(rpid);
             SHA256 sha = new SHA256CryptoServiceProvider();
