@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 
 namespace g.FIDO2
 {
-    public class Common
+    public static class Common
     {
         // 16進数文字列 => Byte配列
         public static byte[] HexStringToBytes(string str)
@@ -27,6 +27,11 @@ namespace g.FIDO2
             // "-"がいらないなら消しておく
             str = str.Replace("-", string.Empty);
             return str;
+        }
+
+        public static string ToHexString(this byte[] bs)
+        {
+            return BytesToHexString(bs);
         }
 
         public static int ToInt32(byte[] value, int startIndex, bool changeEndian = false)

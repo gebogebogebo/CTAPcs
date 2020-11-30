@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using g.FIDO2;
 using g.FIDO2.CTAP.BLE;
 using g.FIDO2.Util;
 
@@ -56,7 +57,7 @@ namespace Test01
 
                 addLog($"- BluetoothAddress = {e.BluetoothAddress.ToString("X")}");
                 addLog($"- CompanyId = 0x{e.CompanyId.ToString("X")}");
-                addLog($"- ManufacturerData = 0x{g.FIDO2.Common.BytesToHexString(e.ManufacturerData)}");
+                addLog($"- ManufacturerData = 0x{e.ManufacturerData.ToHexString()}");
 
                 bleAddress = e.BluetoothAddress;
 
@@ -242,7 +243,7 @@ namespace Test01
                     var verify = v.Verify(rpid, challenge, res.CTAPResponse.Attestation);
                     addLog($"- Verify = {verify.IsSuccess}\r\n- - PublicKey = {verify.PublicKeyPem}");
 
-                    var creid = g.FIDO2.Common.BytesToHexString(res.CTAPResponse.Attestation.CredentialId);
+                    var creid = res.CTAPResponse.Attestation.CredentialId.ToHexString();
                     addLog($"- CredentialID = {creid}");
                     textBoxCreID.Text = creid;
                 }
