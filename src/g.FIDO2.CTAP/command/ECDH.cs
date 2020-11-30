@@ -100,9 +100,9 @@ namespace g.FIDO2.CTAP
                 }
             
 
-                Logger.Log($"out bG_x={Common.BytesToHexString(bG_x)}");
-                Logger.Log($"out bG_y={Common.BytesToHexString(bG_y)}");
-                Logger.Log($"out sharedSecret={Common.BytesToHexString(sharedSecret)}");
+                Logger.Log($"out bG_x={bG_x.ToHexString()}");
+                Logger.Log($"out bG_y={bG_y.ToHexString()}");
+                Logger.Log($"out sharedSecret={sharedSecret.ToHexString()}");
                 Logger.Log($"CreateSharedSecretNew-END");
 
                 return sharedSecret;
