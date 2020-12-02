@@ -13,6 +13,7 @@ namespace g.FIDO2.Util
             byte[] random = new byte[32];
             using (var rng = new RNGCryptoServiceProvider()) {
                 //バイト配列に暗号化に使用する厳密な0以外の値のランダムシーケンス
+                //Random sequence of exact nonzero values used for encryption on a byte array
                 rng.GetNonZeroBytes(random);
             }
             return random;
@@ -20,22 +21,17 @@ namespace g.FIDO2.Util
 
         protected bool VerifyPublicKey(string publickey, byte[] challenge, byte[] authData, byte[] sig)
         {
-            // VerifyTarget = authData + SHA256(challenge)
-            byte[] verifyTarget;
+            var sigBase = new List<byte>();
+            sigBase.AddRange(authData.ToList());
+
+            using (var sha256 = new SHA256CryptoServiceProvider())
             {
-                var sigBase = new List<byte>();
-                sigBase.AddRange(authData.ToList());
-
-                var cdh = new SHA256CryptoServiceProvider().ComputeHash(challenge);
+                var cdh = sha256.ComputeHash(challenge);
                 sigBase.AddRange(cdh.ToList());
-
-                verifyTarget = sigBase.ToArray();
             }
 
             // Verify
-            var result = new CryptoBC(sig, verifyTarget).VerifybyPublicKey(publickey);
-
-            return result;
+            return new CryptoBC(sig, sigBase.ToArray()).VerifybyPublicKey(publickey);
         }
 
         protected bool VerifyRpId(string rpid,byte[] rpidHash)
@@ -62,7 +58,7 @@ namespace g.FIDO2.Util
             public string PublicKeyPem { get; internal set; } = "";
         }
 
-        public Result Verify(string rpid,byte[] challenge, Attestation att)
+        public Result Verify(string rpid, byte[] challenge, Attestation att)
         {
             if (VerifyRpId(rpid, att.RpIdHash) == false) return new Result();
             return (Verify(challenge, att));
@@ -71,19 +67,36 @@ namespace g.FIDO2.Util
         protected Result Verify(byte[] challenge, Attestation att)
         {
             var result = new Result();
-            var cert = DerConverter.ToPemCertificate(att.AttStmtX5c);
-            var publicKeyforVerify = CryptoBC.GetPublicKeyPEMfromCert(cert);
-            if (!string.IsNullOrEmpty(publicKeyforVerify)) {
-                result.IsSuccess = VerifyPublicKey(publicKeyforVerify, challenge, att.AuthData, att.AttStmtSig);
-            }
 
-            // Verifyの結果によらず
+            // Verifyの結果によらず | Regardless of the result of Verify
             {
                 var decAuthdata = new DecodedAuthData();
                 decAuthdata.Decode(att.AuthData);
                 result.CredentialID = decAuthdata.CredentialId;
                 result.PublicKeyPem = decAuthdata.PublicKeyPem;
             }
+
+            //If an x5c certificate is used for attestation (attCA)
+            if (att.AttStmtX5c != null)
+            {
+                var cert = DerConverter.ToPemCertificate(att.AttStmtX5c);
+                var publicKeyforVerify = CryptoBC.GetPublicKeyPEMfromCert(cert);
+                if (!string.IsNullOrEmpty(publicKeyforVerify))
+                {
+                    result.IsSuccess = VerifyPublicKey(publicKeyforVerify, challenge, att.AuthData, att.AttStmtSig);
+                }
+            }
+            //Self attestation (signature uses credential keypair instead of attestation keypair)
+            else if (att.AttStmtAlg != 0 && att.AttStmtSig != null)
+            {
+                if (!string.IsNullOrEmpty(result.PublicKeyPem))
+                {
+                    result.IsSuccess = VerifyPublicKey(result.PublicKeyPem, challenge, att.AuthData, att.AttStmtSig);
+                }
+            }
+
+            //TODO: Implement check for ECDAA attestation
+            //8.2 https://www.w3.org/TR/webauthn/#packed-attestation
 
             return result;
         }
