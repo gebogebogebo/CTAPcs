@@ -28,6 +28,8 @@ namespace Test01
         ulong bleAddress = 0;
         BLEAuthenticatorConnector con;
 
+        private string pubkey;
+
         private void addLog(string message)
         {
             string log = DateTime.Now.ToString() + " " + message;
@@ -213,6 +215,17 @@ namespace Test01
                     LogResponse(next.DeviceStatus,next.CTAPResponse);
                 }
             }
+
+            if (res.DeviceStatus == g.FIDO2.CTAP.DeviceStatus.Ok)
+            {
+                if (res.CTAPResponse.Assertion != null)
+                {
+                    // verify
+                    var v = new AssertionVerifier();
+                    var verify = v.Verify(rpid, pubkey, challenge, res.CTAPResponse.Assertion);
+                    addLog($"- Verify = {verify.IsSuccess}");
+                }
+            }
         }
 
         private async void ButtonMakeCredential_Click(object sender, RoutedEventArgs e)
@@ -246,6 +259,7 @@ namespace Test01
                     var creid = res.CTAPResponse.Attestation.CredentialId.ToHexString();
                     addLog($"- CredentialID = {creid}");
                     textBoxCreID.Text = creid;
+                    pubkey = verify.PublicKeyPem;
                 }
             }
 
