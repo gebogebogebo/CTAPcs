@@ -68,7 +68,7 @@ namespace Test01
                 addLog($"Scan OK ! : Next Click [Connect]Button");
 
                 //Auto Connecting
-                DoConnect().GetAwaiter().GetResult();
+                //DoConnect().GetAwaiter().GetResult();
 
             } catch (Exception ex) {
                 addLog($"- OnFindDevice Error Exception{ex.Message}");
