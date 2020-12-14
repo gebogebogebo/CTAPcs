@@ -117,7 +117,7 @@ namespace Test01
             }
             catch (Exception ex)
             {
-                addLog($"- Connect Error Exception{ex.Message}");
+                addLog($"- Connect Error Exception: {ex.Message}");
             }
         }
 
