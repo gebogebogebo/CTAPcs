@@ -22,7 +22,7 @@ namespace g.FIDO2.CTAP.BLE
                 //var service = dev.GetGattService(GattServiceUuids.DeviceInformation);
                 var services = await dev.GetGattServicesForUuidAsync(GattServiceUuids.DeviceInformation, BluetoothCacheMode.Cached);
                 if (services.Services.Count <= 0) {
-                    Logger.Log("サービス無し");
+                    Logger.Log("サービス無し | No service");
                     return (false);
                 }
                 foreach (var service in services.Services) {

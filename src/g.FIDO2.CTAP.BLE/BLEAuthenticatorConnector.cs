@@ -103,6 +103,7 @@ namespace g.FIDO2.CTAP.BLE
                             this.characteristic_Receive.ValueChanged += receiver.OnReceiveFromDevice;
 
                             // これで有効になる | This will enable
+                            //A read permission error can also be the result of the authenticator sending incorrect response data
                             await this.characteristic_Receive.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Notify);
                         }
                     }
@@ -154,7 +155,7 @@ namespace g.FIDO2.CTAP.BLE
         private GattCharacteristic characteristic_Send;
         private GattCharacteristic characteristic_Receive;
         private CTAPBLEReceiver receiver;
-        private bool checkDeviceInformation = false;
+        private bool checkDeviceInformation = true;
 
         protected override async Task<(DeviceStatus devSt, CTAPResponse ctapRes)> sendCommandandResponseAsync(CTAPCommand cmd, CTAPResponse res)
         {
