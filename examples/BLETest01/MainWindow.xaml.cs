@@ -25,10 +25,11 @@ namespace Test01
     public partial class MainWindow : Window
     {
         BLEAuthenticatorScanner scanner;
-        ulong bleAddress = 0;
+        ulong lastBleAddress = 0;
         BLEAuthenticatorConnector con;
 
         private string pubkey;
+        private HashSet<ulong> devices;
 
         private void addLog(string message)
         {
@@ -53,22 +54,40 @@ namespace Test01
 
         private void OnFindDevice(object sender, g.FIDO2.CTAP.BLE.BLEAuthenticatorScanner.FindDeviceEventArgs e)
         {
+            //First see if we have already found this device
+            if (this.devices == null)
+            {
+                this.devices = new HashSet<ulong>();
+            }
+            else
+            {
+                if (this.devices.Contains(e.BluetoothAddress)) return;
+            }
+
             try {
                 addLog($"<OnFindDevice>");
-                scanner.Stop();
+
+                //We want to see if there are multiple devices, so only stop the scanner when we try connect
+                //scanner.Stop();
 
                 addLog($"- BluetoothAddress = {e.BluetoothAddress.ToString("X")}");
                 addLog($"- CompanyId = 0x{e.CompanyId.ToString("X")}");
                 addLog($"- ManufacturerData = 0x{e.ManufacturerData.ToHexString()}");
+                addLog($"- AdvertisementType = {e.AdvertisementType}");
+                addLog($"- LocalName = {e.LocalName}");
 
-                bleAddress = e.BluetoothAddress;
+                lastBleAddress = e.BluetoothAddress;
 
                 // そのままコネクトすることをやめる | Stop connecting as it is
                 //ButtonConnect_Click(null, null);
                 addLog($"Scan OK ! : Next Click [Connect]Button");
+                addLog("");
 
                 //Auto Connecting
                 //DoConnect().GetAwaiter().GetResult();
+
+                //Add to found devices list
+                this.devices.Add(e.BluetoothAddress);
 
             } catch (Exception ex) {
                 addLog($"- OnFindDevice Error Exception{ex.Message}");
@@ -95,9 +114,12 @@ namespace Test01
         {
             try
             {
-                addLog($"<Connect> BLE Address = {this.bleAddress.ToString("X")}");
+                //Always stop scanning before trying to connect to a device
+                scanner.Stop();
 
-                if (this.bleAddress == 0)
+                addLog($"<Connect> Last BLE Address = {this.lastBleAddress.ToString("X")}");
+
+                if (this.lastBleAddress == 0)
                 {
                     addLog($"- Connect Error BLE Address");
                     return;
@@ -108,7 +130,7 @@ namespace Test01
                 con.ConnectedDevice += OnConnectedDevice;
                 con.DisconnectedDevice += OnDisconnectedDevice;
                 con.KeepAlive += OnKeepAlive;
-                var result = await con.ConnectAsync(this.bleAddress);
+                var result = await con.ConnectAsync(this.lastBleAddress);
                 if (result == false)
                 {
                     addLog("- Connect Error");
@@ -147,6 +169,8 @@ namespace Test01
         {
             addLog("<Scan Stop>");
             scanner.Stop();
+
+            this.devices.Clear();
         }
 
         private async void ButtonConnect_Click(object sender, RoutedEventArgs e)

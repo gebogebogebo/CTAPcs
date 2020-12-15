@@ -46,10 +46,22 @@ namespace g.FIDO2.CTAP.BLE
             /// </summary>
             public byte[] ManufacturerData { get; private set; }
 
+            /// <summary>
+            /// AdvertisementType 
+            /// </summary
+            public string AdvertisementType { get; private set; }
+
+            /// <summary>
+            /// LocalName 
+            /// </summary
+            public string LocalName { get; private set; }
+
             internal FindDeviceEventArgs(BluetoothLEAdvertisementReceivedEventArgs args)
             {
                 CompanyId = 0;
                 ManufacturerData = new byte[0];
+                AdvertisementType = args.AdvertisementType.ToString();
+                LocalName = args.Advertisement.LocalName;
 
                 this.BluetoothAddress = args.BluetoothAddress;
                 foreach (var mdata in args.Advertisement.ManufacturerData.ToList()) {
@@ -136,7 +148,7 @@ namespace g.FIDO2.CTAP.BLE
             bool find = false;
             {
                 // search FIDO service
-                if (args.Advertisement.ServiceUuids.Contains(Common.Gatt_Service_FIDO_GUID) == true) {
+                if (args.Advertisement.ServiceUuids.Contains(Common.Gatt_Service_FIDO_GUID)) {
                     /*
                     foreach(var d in args.Advertisement.DataSections) {
                         // Local Name
