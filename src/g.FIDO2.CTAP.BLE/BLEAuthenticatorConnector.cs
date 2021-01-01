@@ -48,6 +48,10 @@ namespace g.FIDO2.CTAP.BLE
                 if (await devinfo.IsFidoDevice(bleDevice, "") == false) {
                     return false;
                 }
+
+                Logger.Log($"Device Information ManufacturerName: {devinfo.ManufacturerNameString}");
+                Logger.Log($"Device Information ModelNumberString: {devinfo.ModelNumberString}");
+                Logger.Log($"Device Information SerialNumberString: {devinfo.SerialNumberString}");
             }
 
             // イベントハンドラ追加 | Added event handler

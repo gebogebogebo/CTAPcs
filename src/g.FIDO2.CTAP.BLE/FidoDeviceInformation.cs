@@ -12,6 +12,10 @@ namespace g.FIDO2.CTAP.BLE
 {
     internal class FidoDeviceInformation
     {
+        public string ManufacturerNameString { get; private set; }
+        public string ModelNumberString { get; private set; }
+        public string SerialNumberString { get; private set; }
+        
         public async Task<bool> IsFidoDevice(BluetoothLEDevice dev,string key)
         {
             try {
@@ -29,16 +33,13 @@ namespace g.FIDO2.CTAP.BLE
                     // forlog
                     //await logService(service);
 
-                    var manufacturerNameString = await checkDeviceInformationService_Characteristics(service, GattCharacteristicUuids.ManufacturerNameString);
-                    Logger.Log($"ManufacturerName = {manufacturerNameString}");
+                    ManufacturerNameString = await checkDeviceInformationService_Characteristics(service, GattCharacteristicUuids.ManufacturerNameString);
 
-                    var modelNumberString = await checkDeviceInformationService_Characteristics(service, GattCharacteristicUuids.ModelNumberString);
-                    Logger.Log($"ModelNumber = {modelNumberString}");
+                    ModelNumberString = await checkDeviceInformationService_Characteristics(service, GattCharacteristicUuids.ModelNumberString);
 
-                    var serialNumberString = await checkDeviceInformationService_Characteristics(service, GattCharacteristicUuids.SerialNumberString);
-                    Logger.Log($"SerialNumber = {serialNumberString}");
+                    SerialNumberString = await checkDeviceInformationService_Characteristics(service, GattCharacteristicUuids.SerialNumberString);
 
-                    if(manufacturerNameString== key) {
+                    if(ManufacturerNameString== key) {
                         // OK
                         return (true);
                     }

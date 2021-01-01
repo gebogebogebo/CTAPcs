@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLEAuthenticatorConnector.cs" />
+    <Compile Include="BLEAuthenticatorPair.cs" />
     <Compile Include="BLEAuthenticatorScanner.cs" />
     <Compile Include="BLEResponsePacket.cs" />
     <Compile Include="Common.cs" />
