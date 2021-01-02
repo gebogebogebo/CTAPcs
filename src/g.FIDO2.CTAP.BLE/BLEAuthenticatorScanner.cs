@@ -56,15 +56,28 @@ namespace g.FIDO2.CTAP.BLE
             /// </summary
             public string LocalName { get; private set; }
 
+            /// <summary>
+            /// LocalName 
+            /// </summary
+            public bool HasManufacturerData { get; private set; }
+
+            /// <summary>
+            /// LocalName 
+            /// </summary
+            public List<Guid> ServiceUuids { get; private set; }
+
             internal FindDeviceEventArgs(BluetoothLEAdvertisementReceivedEventArgs args)
             {
                 CompanyId = 0;
                 ManufacturerData = new byte[0];
                 AdvertisementType = args.AdvertisementType.ToString();
                 LocalName = args.Advertisement.LocalName;
+                ServiceUuids = new List<Guid>(args.Advertisement.ServiceUuids);
 
                 this.BluetoothAddress = args.BluetoothAddress;
                 foreach (var mdata in args.Advertisement.ManufacturerData.ToList()) {
+                    HasManufacturerData = true;
+
                     this.CompanyId = mdata.CompanyId;
                     var data = new byte[mdata.Data.Length];
                     using (var reader = DataReader.FromBuffer(mdata.Data)) {
@@ -92,7 +105,13 @@ namespace g.FIDO2.CTAP.BLE
         {
             Logger.Log("Start");
 
-            this.advWatcher = new BluetoothLEAdvertisementWatcher();
+            //this.advWatcher = new BluetoothLEAdvertisementWatcher();
+            
+            //Experiment with using a filter directly in the watcher to try emulate Windows more closely
+            var filter = new BluetoothLEAdvertisementFilter();
+            filter.Advertisement.ServiceUuids.Add(Common.Gatt_Service_FIDO_GUID);
+
+            this.advWatcher = new BluetoothLEAdvertisementWatcher(filter);
 
             // インターバルがゼロのままだと、CPU負荷が高くなりますので、適切な間隔(SDK サンプルでは 1秒)に指定しないと、アプリの動作に支障をきたすことになります。
             // If the interval remains zero, the CPU load will be high, so if you do not specify an appropriate interval (1 second in the SDK sample),
@@ -116,7 +135,8 @@ namespace g.FIDO2.CTAP.BLE
             this.advWatcher.ScanningMode = BluetoothLEScanningMode.Passive;
 
             // アドバタイズパケットの受信イベント | Advertisement packet reception event
-            this.advWatcher.Received += this.watcherReceived;
+            //this.advWatcher.Received += this.watcherReceived;
+            this.advWatcher.Received += filteredWatcherReceived;
 
             // スキャン開始 | Start scanning
             this.advWatcher.Start();
@@ -179,5 +199,20 @@ namespace g.FIDO2.CTAP.BLE
             return;
         }
 
+        private void filteredWatcherReceived(BluetoothLEAdvertisementWatcher sender, BluetoothLEAdvertisementReceivedEventArgs args)
+        {
+            try
+            {
+                // Event
+                var e = new FindDeviceEventArgs(args);
+                FindDevice?.Invoke(this, e);
+
+                
+            }
+            catch (Exception ex)
+            {
+                Logger.Err($"Exception...{ex.Message})");
+            }
+        }
     }
 }

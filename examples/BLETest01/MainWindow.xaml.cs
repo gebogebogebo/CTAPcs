@@ -24,9 +24,17 @@ namespace Test01
     /// </summary>
     public partial class MainWindow : Window
     {
+        private enum PairingAction
+        {
+            Pair = 0,
+            Unpair = 1
+        }
+
         BLEAuthenticatorScanner scanner;
         ulong lastBleAddress = 0;
         BLEAuthenticatorConnector con;
+        BLEAuthenticatorPair authenticatorPair;
+        PairingAction pairAction;
 
         private string pubkey;
         private HashSet<ulong> devices;
@@ -71,10 +79,15 @@ namespace Test01
                 //scanner.Stop();
 
                 addLog($"- BluetoothAddress = {e.BluetoothAddress.ToString("X")}");
-                addLog($"- CompanyId = 0x{e.CompanyId.ToString("X")}");
-                addLog($"- ManufacturerData = 0x{e.ManufacturerData.ToHexString()}");
+                addLog($"- HasManufacturerData: {e.HasManufacturerData}");
+                if (e.HasManufacturerData)
+                {
+                    addLog($"- CompanyId = 0x{e.CompanyId.ToString("X")}");
+                    addLog($"- ManufacturerData = 0x{e.ManufacturerData.ToHexString()}");
+                }
                 addLog($"- AdvertisementType = {e.AdvertisementType}");
                 addLog($"- LocalName = {e.LocalName}");
+                addLog($"- ServiceUuids = {String.Join(",", e.ServiceUuids)}");
 
                 lastBleAddress = e.BluetoothAddress;
 
@@ -170,7 +183,58 @@ namespace Test01
             addLog("<Scan Stop>");
             scanner.Stop();
 
-            this.devices.Clear();
+            this.devices?.Clear();
+        }
+
+        private void ButtonPairUnpair_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                //Always stop scanning before trying to connect or pair to a device
+                scanner?.Stop();
+
+                var addressBytes = BitConverter.GetBytes(this.lastBleAddress).Reverse();
+                var filter = new byte[] { 0x00};
+                var address = string.Join(":", addressBytes.Except(filter).Select(x => x.ToString("x2")));
+
+                addLog($"<Pair> Last BLE Address = {address}");
+
+                //Store if we are pairing or unpairing
+                pairAction = (sender == ButtonPair) ? PairingAction.Pair : PairingAction.Unpair;
+
+                this.authenticatorPair = new BLEAuthenticatorPair();
+                this.authenticatorPair.GetDevice += Pair_GetDevice;
+                this.authenticatorPair.Start(address);
+            }
+            catch (Exception ex)
+            {
+                addLog($"- Pair Error Exception: {ex.Message}");
+            }
+        }
+
+        private void Pair_GetDevice(object sender, BLEAuthenticatorPair.GetDeviceEventArgs e)
+        {
+            addLog($"<OnGetDevice>");
+            addLog($"- Paired = {e.IsPaired}");
+
+            //Now try pair / unpair
+            if (pairAction == PairingAction.Pair && !e.IsPaired)
+            {
+                foreach (var de in e.Properties)
+                {
+                    addLog($"- Property {de.Key}:{de.Value}");
+                }
+
+                addLog($"Attempting to pair device ...");
+                var result = this.authenticatorPair.Pair().GetAwaiter().GetResult();
+                addLog($"Device was paired successfully: {result}.");
+            }
+            else if (pairAction == PairingAction.Unpair && e.IsPaired)
+            {
+                addLog($"Attempting to unpair device ...");
+                var result = this.authenticatorPair.UnPair().GetAwaiter().GetResult();
+                addLog($"Device was unpaired successfully: {result}.");
+            }
         }
 
         private async void ButtonConnect_Click(object sender, RoutedEventArgs e)
@@ -181,7 +245,7 @@ namespace Test01
         private void ButtonDiscon_Click(object sender, RoutedEventArgs e)
         {
             addLog("<Disconnect>");
-            con.Disconnect();
+            if (con != null) con.Disconnect();
         }
 
         private async void ButtonGetInfo_Click(object sender, RoutedEventArgs e)
