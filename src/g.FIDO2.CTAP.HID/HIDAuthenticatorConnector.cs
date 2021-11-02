@@ -9,7 +9,7 @@ namespace g.FIDO2.CTAP.HID
     /// <summary>
     /// Communication class with HID authenticator
     /// </summary>
-    public class HIDAuthenticatorConnector:AuthenticatorConnector
+    public class HIDAuthenticatorConnector : AuthenticatorConnector
     {
         public int ReceiveResponseTimeoutmillisecond = 5000;
 
@@ -18,30 +18,20 @@ namespace g.FIDO2.CTAP.HID
         /// </summary>
         public event EventHandler KeepAlive;
 
-        /// <summary>
-        /// constructor
-        /// </summary>
-        public HIDAuthenticatorConnector()
+        public HIDAuthenticatorConnector(string devicePath)
         {
-            this.hidParams = HidParam.GetDefaultParams();
-        }
-        public HIDAuthenticatorConnector(HidParam hidParam)
-        {
-            this.hidParams = new List<HidParam>();
-            this.hidParams.Add(hidParam);
-        }
-
-        public HIDAuthenticatorConnector(List<HidParam> hidParams)
-        {
-            this.hidParams = hidParams;
+            this.DevicePath = devicePath;
         }
 
         public bool IsConnected()
         {
-            if (CTAPHID.find(this.hidParams)!=null) {
-                return true;
-            } else {
+            if (CTAPHID.Find(this.DevicePath) == null)
+            {
                 return false;
+            }
+            else
+            {
+                return true;
             }
         }
 
@@ -49,57 +39,88 @@ namespace g.FIDO2.CTAP.HID
         {
             HidLibrary.IHidDevice hidDevice = null;
 
-            try {
-                hidDevice = CTAPHID.find(hidParams);
+            try
+            {
+                hidDevice = CTAPHID.Find(DevicePath);
                 if (hidDevice == null) return false;
 
-                using (var openedDevice = await CTAPHID.OpenAsync(hidDevice)) {
+                using (var openedDevice = await CTAPHID.OpenAsync(hidDevice))
+                {
                     var ret = await openedDevice.WinkAsync(null);
                 }
-            } catch (Exception) {
+            }
+            catch (Exception)
+            {
                 return false;
-            } finally {
+            }
+            finally
+            {
                 hidDevice?.Dispose();
             }
             return true;
         }
 
-        public static List<string> GetAllHIDDeviceInfo()
+        public string GetDevicePath()
         {
-            var ret = new List<string>();
-            var hids = CTAPHID.finds();
-            foreach(var hid in hids) {
-                ret.Add($"VendorId = {hid.Attributes.VendorHexId} , ProductId = {hid.Attributes.ProductHexId} , DevicePath = {hid.DevicePath} , Description = {hid.Description}");
-            }
-            return ret;
+            var hid = CTAPHID.Find(DevicePath);
+            if (hid is null) return string.Empty;
+
+            return $"{hid.DevicePath}";
+        }
+
+        public string GetDeviceProductName()
+        {
+            var hid = CTAPHID.Find(DevicePath);
+            if (hid is null) return string.Empty;
+            var productBytes = new byte[(126 + 1) * 2];
+            hid.ReadProduct(out productBytes);
+            string productName = System.Text.Encoding.Unicode.GetString(productBytes);
+            return productName;
+        }
+
+        public override string ToString()
+        {
+            var hid = CTAPHID.Find(DevicePath);
+            if(hid is null) return string.Empty;
+            return  $"{hid.DevicePath} - VendorId: {hid.Attributes.VendorHexId}, ProductId: {hid.Attributes.ProductHexId}, Description: '{hid.Description}'";
         }
 
         // private
-        private List<HidParam> hidParams;
+        private string DevicePath;
 
         protected override async Task<(DeviceStatus devSt, CTAPResponse ctapRes)> sendCommandandResponseAsync(CTAPCommand cmd, CTAPResponse res)
         {
-            try {
+            try
+            {
                 // 送信コマンドを作成(byte[]) | Create send command
                 var payload = cmd.CreatePayload();
 
                 // 送信して、応答受信(byte[]) | Send and receive response
                 var sender = new CTAPHIDSender();
                 sender.KeepAlive += this.KeepAlive;
-                var response = await sender.SendCommandandResponseAsync(hidParams, payload, ReceiveResponseTimeoutmillisecond);
+                var response = await sender.SendCommandandResponseAsync(DevicePath, payload, ReceiveResponseTimeoutmillisecond);
 
                 // 応答をパース | Parse response
-                if (response.ctapRes != null) {
+                if (response.ctapRes != null)
+                {
                     res.Parse(response.ctapRes);
                 }
                 res.SendPayloadJson = cmd.PayloadJson;
 
-                return (response.devSt,res);
-            } catch (Exception ex) {
+                return (response.devSt, res);
+            }
+            catch (Exception ex)
+            {
                 Logger.Log($"Exception...{ex.Message})");
-                return (DeviceStatus.Unknown,null);
+                return (DeviceStatus.Unknown, null);
             }
         }
 
+        public static List<string> GetAllFIDODevicePaths()
+        {
+            List<string> devices = new List<string>();
+            devices.AddRange(CTAPHID.GetAllFIDODevices().Select(d => d.DevicePath).ToList());
+            return devices;
+        }
     }
 }

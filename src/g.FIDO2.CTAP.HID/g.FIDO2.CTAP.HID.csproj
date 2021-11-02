@@ -44,7 +44,6 @@
     <Compile Include="CTAPHID.cs" />
     <Compile Include="CTAPHIDSender.cs" />
     <Compile Include="HIDAuthenticatorConnector.cs" />
-    <Compile Include="HIDParam.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -59,7 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="hidlibrary">
-      <Version>3.3.24</Version>
+      <Version>3.3.40</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

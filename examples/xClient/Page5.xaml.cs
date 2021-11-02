@@ -31,7 +31,7 @@ namespace xClient
         private async void MakeCredential_Click(object sender, RoutedEventArgs e)
         {
             var app = (MainWindow)Application.Current.MainWindow;
-            var att = await app.Register(new HIDAuthenticatorConnector(), app.RPID, app.Challenge, null);
+            var att = await app.Register(app.GetFirstUSBConnector(), app.RPID, app.Challenge, null);
             if (att == null) return;
 
             if (page == null) page = new Page11(att);

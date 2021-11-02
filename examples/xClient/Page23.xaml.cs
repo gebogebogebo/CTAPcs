@@ -24,7 +24,7 @@ namespace xClient
         private async void GetAssertion_Click(object sender, RoutedEventArgs e)
         {
             var app = (MainWindow)Application.Current.MainWindow;
-            var ass = await app.Authenticate(new HIDAuthenticatorConnector(), app.RPID, app.Challenge, app.CredentialID,this.TextPIN.Text);
+            var ass = await app.Authenticate(app.GetFirstUSBConnector(), app.RPID, app.Challenge, app.CredentialID,this.TextPIN.Text);
             if (ass == null) return;
 
             if (page == null) page = new Page31(ass);

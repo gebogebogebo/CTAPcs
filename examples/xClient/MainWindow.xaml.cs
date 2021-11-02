@@ -31,6 +31,15 @@ namespace xClient
             InitializeComponent();
         }
 
+        public g.FIDO2.CTAP.HID.HIDAuthenticatorConnector GetFirstUSBConnector()
+        {
+            var devs = g.FIDO2.CTAP.HID.HIDAuthenticatorConnector.GetAllFIDODevicePaths();
+            if(devs.Count==0)
+                return null;
+
+            return new g.FIDO2.CTAP.HID.HIDAuthenticatorConnector(devs[0]);
+        }
+
         public async Task<g.FIDO2.Attestation> Register(g.FIDO2.CTAP.AuthenticatorConnector con, string rpid, byte[] challenge, string pin)
         {
             return await Task<g.FIDO2.Attestation>.Run(async () => {
