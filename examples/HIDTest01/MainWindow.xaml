@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="HIDTest01" Height="450" Width="877.334">
     <Grid>
-        <TextBox x:Name="textLog" Margin="10,107,0,10" TextWrapping="Wrap" Text="" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" FontFamily="MS Gothic" HorizontalAlignment="Left" Width="530"/>
+        <TextBox x:Name="textLog" Margin="10,107,322,10" TextWrapping="Wrap" Text="" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" FontFamily="MS Gothic"/>
         <Button x:Name="ButtonGetInfo" Content="GetInfo" HorizontalAlignment="Left" Margin="10,46,0,0" VerticalAlignment="Top" Width="80" Height="28" Click="ButtonGetInfo_Click" />
         <Button x:Name="ButtonClientPINgetRetries" Content="ClientPINgetRetries" HorizontalAlignment="Left" Margin="280,46,0,0" VerticalAlignment="Top" Width="120" Height="28" Click="ButtonClientPINgetRetries_Click"/>
         <Button x:Name="ButtonGetAssertion" Content="GetAssertion" HorizontalAlignment="Left" Margin="200,46,0,0" VerticalAlignment="Top" Width="75" Height="28" Click="ButtonGetAssertion_Click"/>
@@ -26,7 +26,7 @@
         <Label Content="PIN" HorizontalAlignment="Left" Margin="200,10,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="textBoxPIN" HorizontalAlignment="Left" Height="23" Margin="235,13,0,0" TextWrapping="Wrap" Text="1234" VerticalAlignment="Top" Width="120"/>
         <CheckBox x:Name="checkBoxRK" Content="Resident Key" HorizontalAlignment="Left" Margin="378,17,0,0" VerticalAlignment="Top"/>
-        <ListBox x:Name="lstDevices" Margin="545,107,10,10" />
+        <ListBox x:Name="lstDevices" Margin="0,107,10,10" Width="307" HorizontalAlignment="Right" />
 
     </Grid>
 </Window>
