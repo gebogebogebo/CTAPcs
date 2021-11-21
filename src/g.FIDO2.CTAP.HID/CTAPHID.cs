@@ -14,6 +14,9 @@ namespace g.FIDO2.CTAP.HID
         public int ReceiveResponseTotalTimeoutMs = 0;
         public bool isReceiveResponseTotalTimeout = false;
 
+        private const short FIDO_USAGE_PAGE = unchecked((short)0xF1D0);
+        private const short FIDO_USAGE = unchecked((short)0x01);
+
         private const byte CTAP_FRAME_INIT = 0x80;
 		private const int CTAP_RPT_SIZE = 64;
 		private const byte STAT_ERR = 0xbf;
@@ -239,13 +242,13 @@ namespace g.FIDO2.CTAP.HID
             }
         }
 
-        public static async Task<SendCommandandResponseResult> SendCommandandResponse(List<HidParam> hidParams, byte[] send,int timeoutms,EventHandler keepalive)
+        public static async Task<SendCommandandResponseResult> SendCommandandResponse(string devicePath, byte[] send,int timeoutms,EventHandler keepalive)
         {
             var result = new SendCommandandResponseResult();
             IHidDevice hidDevice = null;
 
             try {
-                hidDevice = CTAPHID.find(hidParams);
+                hidDevice = CTAPHID.Find(devicePath);
                 if (hidDevice == null) {
                     return null;
                 }
@@ -266,35 +269,18 @@ namespace g.FIDO2.CTAP.HID
             return (result);
         }
 
-        public static List<HidDevice> finds()
+        public static List<HidDevice> GetAllFIDODevices()
         {
-            return HidDevices.Enumerate().OrderBy(x => x.DevicePath).ToList();
+            return HidDevices.Enumerate()
+                    .Where(d => d.Capabilities?.UsagePage == FIDO_USAGE_PAGE && d.Capabilities?.Usage == FIDO_USAGE)
+                    .OrderBy(d => d.DevicePath)
+                    .ToList();
         }
 
-        public static HidDevice find(List<HidParam> hidparams)
+        public static HidDevice Find(string devicePath)
         {
-            HidDevice device = null;
-            foreach (var hidparam in hidparams) {
-                List<HidDevice> devs;
-                if (hidparam.ProductId == 0x00) {
-                    devs = HidDevices.Enumerate(hidparam.VendorId).OrderBy(x => x.DevicePath).ToList();
-                } else {
-                    devs = HidDevices.Enumerate(hidparam.VendorId, hidparam.ProductId).OrderBy(x => x.DevicePath).ToList();
-                }
-                foreach (var dev in devs) {
-                    if (string.IsNullOrEmpty(hidparam.Something)) {
-                        device = dev;
-                    } else if (dev.DevicePath?.IndexOf(hidparam.Something, StringComparison.OrdinalIgnoreCase) >= 0) {
-                        device = dev;
-                    } else if (dev.Description?.IndexOf(hidparam.Something, StringComparison.OrdinalIgnoreCase) >= 0) {
-                        device = dev;
-                    }
-                    if (device != null) return device;
-                }
-            }
-            return (device);
+            return GetAllFIDODevices().FirstOrDefault(d => d.DevicePath.Equals(devicePath, StringComparison.InvariantCultureIgnoreCase));
         }
-
 
     }
 }

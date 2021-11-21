@@ -40,22 +40,26 @@ namespace UtilTest01
             var userName = "testUserName";
             var att = new g.FIDO2.Attestation();
             {
-                var con = new g.FIDO2.CTAP.HID.HIDAuthenticatorConnector();
+                var fidoDevs = g.FIDO2.CTAP.HID.HIDAuthenticatorConnector.GetAllFIDODevicePaths();
+                if (fidoDevs.Count > 0)
+                {
+                    var con = new g.FIDO2.CTAP.HID.HIDAuthenticatorConnector(fidoDevs[0]);  //we assume that the first USB FIDO device found is the one we should use
 
-                var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid, challenge, new byte[1] { 0x01 });
-                param.RpName = rpid;
-                param.UserName = userName;
-                param.UserDisplayName = "testUserDisplayName";
-                param.Option_rk = false;
-                param.Option_uv = false;
+                    var param = new g.FIDO2.CTAP.CTAPCommandMakeCredentialParam(rpid, challenge, new byte[1] { 0x01 });
+                    param.RpName = rpid;
+                    param.UserName = userName;
+                    param.UserDisplayName = "testUserDisplayName";
+                    param.Option_rk = false;
+                    param.Option_uv = false;
 
-                string pin = "1234";
+                    string pin = "1234";
 
-                var res = await con.MakeCredentialAsync(param, pin);
-                if (res?.CTAPResponse?.Attestation != null) {
-                    att = res.CTAPResponse.Attestation;
+                    var res = await con.MakeCredentialAsync(param, pin);
+                    if (res?.CTAPResponse?.Attestation != null)
+                    {
+                        att = res.CTAPResponse.Attestation;
+                    }
                 }
-
             }
 
             // server
@@ -101,24 +105,30 @@ namespace UtilTest01
             // client
             var assertion = new g.FIDO2.Assertion();
             {
-                var con = new g.FIDO2.CTAP.HID.HIDAuthenticatorConnector();
+                var fidoDevs = g.FIDO2.CTAP.HID.HIDAuthenticatorConnector.GetAllFIDODevicePaths();
+                if (fidoDevs.Count > 0)
+                {
+                    var con = new g.FIDO2.CTAP.HID.HIDAuthenticatorConnector(fidoDevs[0]);  //we assume that the first USB FIDO device found is the one we should use
 
-                var param = new g.FIDO2.CTAP.CTAPCommandGetAssertionParam(rpid,challenge, this.credentialID);
-                param.Option_up = true;
-                param.Option_uv = false;
+                    var param = new g.FIDO2.CTAP.CTAPCommandGetAssertionParam(rpid, challenge, this.credentialID);
+                    param.Option_up = true;
+                    param.Option_uv = false;
 
-                var res = await con.GetAssertionAsync(param, "1234");
+                    var res = await con.GetAssertionAsync(param, "1234");
 
-                if (res?.CTAPResponse?.Assertion!=null) {
-                    assertion = res.CTAPResponse.Assertion;
-                }
+                    if (res?.CTAPResponse?.Assertion != null)
+                    {
+                        assertion = res.CTAPResponse.Assertion;
+                    }
 
-                if (res?.CTAPResponse?.Assertion?.NumberOfCredentials > 0) {
-                    for (int intIc = 0; intIc < res.CTAPResponse.Assertion.NumberOfCredentials - 1; intIc++) {
-                        var next = await con.GetNextAssertionAsync();
+                    if (res?.CTAPResponse?.Assertion?.NumberOfCredentials > 0)
+                    {
+                        for (int intIc = 0; intIc < res.CTAPResponse.Assertion.NumberOfCredentials - 1; intIc++)
+                        {
+                            var next = await con.GetNextAssertionAsync();
+                        }
                     }
                 }
-
             }
 
             //server

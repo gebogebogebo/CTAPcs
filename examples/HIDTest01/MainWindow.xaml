@@ -7,11 +7,11 @@
         mc:Ignorable="d"
         Title="HIDTest01" Height="450" Width="877.334">
     <Grid>
-        <TextBox x:Name="textLog" Margin="10,107,9.667,9.667" TextWrapping="Wrap" Text="" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" FontFamily="MS Gothic"/>
+        <TextBox x:Name="textLog" Margin="10,107,0,10" TextWrapping="Wrap" Text="" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" FontFamily="MS Gothic" HorizontalAlignment="Left" Width="530"/>
         <Button x:Name="ButtonGetInfo" Content="GetInfo" HorizontalAlignment="Left" Margin="10,46,0,0" VerticalAlignment="Top" Width="80" Height="28" Click="ButtonGetInfo_Click" />
-        <Button x:Name="ButtonClientPINgetRetries" Content="ClientPINgetRetries" HorizontalAlignment="Left" Margin="280,46,0,0" VerticalAlignment="Top" Width="120" Height="28" Click="ButtonClientPINgetRetries_Click" />
-        <Button x:Name="ButtonGetAssertion" Content="GetAssertion" HorizontalAlignment="Left" Margin="200,46,0,0" VerticalAlignment="Top" Width="75" Height="28" Click="ButtonGetAssertion_Click" />
-        <Button x:Name="ButtonMakeCredential" Content="MakeCredential" HorizontalAlignment="Left" Margin="95,46,0,0" VerticalAlignment="Top" Width="100" Height="28" Click="ButtonMakeCredential_Click" />
+        <Button x:Name="ButtonClientPINgetRetries" Content="ClientPINgetRetries" HorizontalAlignment="Left" Margin="280,46,0,0" VerticalAlignment="Top" Width="120" Height="28" Click="ButtonClientPINgetRetries_Click"/>
+        <Button x:Name="ButtonGetAssertion" Content="GetAssertion" HorizontalAlignment="Left" Margin="200,46,0,0" VerticalAlignment="Top" Width="75" Height="28" Click="ButtonGetAssertion_Click"/>
+        <Button x:Name="ButtonMakeCredential" Content="MakeCredential" HorizontalAlignment="Left" Margin="95,46,0,0" VerticalAlignment="Top" Width="100" Height="28" Click="ButtonMakeCredential_Click"/>
         <Button x:Name="ButtonClientPINchangePIN" Content="changePIN" HorizontalAlignment="Left" Margin="405,46,0,0" VerticalAlignment="Top" Width="70" Height="28" Click="ButtonClientPINchangePIN_Click"/>
         <Button x:Name="ButtonClientPINsetPIN" Content="setPIN" HorizontalAlignment="Left" Margin="480,46,0,0" VerticalAlignment="Top" Width="60" Height="28" Click="ButtonClientPINsetPIN_Click"/>
         <Button x:Name="ButtonIsConnected" Content="IsConnected" HorizontalAlignment="Left" Margin="543,46,0,0" VerticalAlignment="Top" Width="83" Height="28" Click="ButtonIsConnected_Click"/>
@@ -26,6 +26,7 @@
         <Label Content="PIN" HorizontalAlignment="Left" Margin="200,10,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="textBoxPIN" HorizontalAlignment="Left" Height="23" Margin="235,13,0,0" TextWrapping="Wrap" Text="1234" VerticalAlignment="Top" Width="120"/>
         <CheckBox x:Name="checkBoxRK" Content="Resident Key" HorizontalAlignment="Left" Margin="378,17,0,0" VerticalAlignment="Top"/>
+        <ListBox x:Name="lstDevices" Margin="545,107,10,10" />
 
     </Grid>
 </Window>
